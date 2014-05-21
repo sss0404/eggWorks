@@ -47,10 +47,13 @@
     [easyCardActivationBtn addTarget:self action:@selector(easyCardActivationBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:easyCardActivationBtn];
     
-    UIImageView * indexImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mobile_phone_index"]] autorelease];
+//    phone_easy_iphone4s@2x
+    UIImageView * indexImg ;
     if (IPhone5) {
+        indexImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mobile_phone_index"]] autorelease];
         indexImg.frame = CGRectMake(0, 0+ios7_d_height, 320, 398);
     } else{
+        indexImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"phone_easy_iphone4s"]] autorelease];
         indexImg.frame = CGRectMake(0, 0+ios7_d_height, 320, 310);
     }
     [self.view addSubview:indexImg];

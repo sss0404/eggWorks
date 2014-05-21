@@ -54,4 +54,53 @@
     NSString * currPaymentPage = [userDefault objectForKey:@"currPaymentPage"];
     return currPaymentPage;
 }
+
+//获取当前的地区id
++(NSString*)getCurrRegionId
+{
+    //地区id  目前不知道地区id，默认查询全部
+    return @"all";
+}
+
+//保存用户当前选择的城市
++(void)saveCurrCity:(NSDictionary*)city
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:city forKey:CURR_SELECTED_CITY_KEY];
+    [userDefault synchronize];
+}
+
+//获取当前选择的城市
++(NSDictionary*)getCurrSelectedCity
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    NSDictionary * currSelectedCity = [userDefault objectForKey:CURR_SELECTED_CITY_KEY];
+    return currSelectedCity;
+}
+
++(NSString *)newFloat:(float)value withNumber:(int)numberOfPlace
+{
+    NSString *formatStr = @"%0.";
+    formatStr = [formatStr stringByAppendingFormat:@"%df", numberOfPlace];
+    formatStr = [NSString stringWithFormat:formatStr, value];
+    printf("formatStr %s\n", [formatStr UTF8String]);
+    return formatStr;
+}
+
+
++(NSString*)array2String:(NSArray*)array with:(NSString*)str
+{
+    NSString * result = @"";
+    for (int i=0; i<array.count; i++) {
+        id data = [array objectAtIndex:i];
+        if ([data isKindOfClass:[NSString class]]) {
+            result = [NSString stringWithFormat:@"%@%@",data ,str];
+        } else {
+            result = [NSString stringWithFormat:@"%@%@%@", result,[data objectForKey:@"name"],str];
+        }
+        
+    }
+    
+    return result;
+}
 @end

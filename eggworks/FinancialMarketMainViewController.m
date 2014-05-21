@@ -12,6 +12,8 @@
 #import "AsynRuner.h"
 #import "FinancialProductDetailsViewController.h"
 #import "financialProduct.h"
+#import "Utils.h"
+#import "ScreeningMainPageViewController.h"
 
 @interface FinancialMarketMainViewController ()
 
@@ -46,13 +48,22 @@
     _asynrunner = [[AsynRuner alloc] init];
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"理财集市";
+    
+    UIButton * menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuBtn setBackgroundImage:[UIImage imageNamed:@"search_right_btn"] forState:UIControlStateNormal];
+    menuBtn.frame = CGRectMake(0, 0, 52, 44.5);
+    [menuBtn addTarget:self action:@selector(menuButton:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBtn = [[[UIBarButtonItem alloc] initWithCustomView:menuBtn] autorelease];
+    rightBtn.style = UIBarButtonItemStylePlain;
+    self.navigationItem.rightBarButtonItem = rightBtn;
+    
     float ios7_d_height = 0;
     if (IOS7) {
         ios7_d_height = IOS7_HEIGHT;
     }
     _array = [[NSMutableArray alloc] init];
     float appHeight = [[UIScreen mainScreen] applicationFrame].size.height;
-    _tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 0+ios7_d_height, 320, appHeight-85)] autorelease];
+    _tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, appHeight+20)] autorelease];
     [self.view addSubview:_tableView];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -61,6 +72,12 @@
     
     
     [self getfinancialMarkets:1];
+}
+
+-(void)menuButton:(id)sender
+{
+    ScreeningMainPageViewController * screeningMainPageVC = [[[ScreeningMainPageViewController alloc] init] autorelease];
+    [self.navigationController pushViewController:screeningMainPageVC animated:YES];
 }
 
 -(void) getfinancialMarkets:(int)page
@@ -118,13 +135,24 @@
     FinancialMarketTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (nil == cell) {
         cell = [[[FinancialMarketTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-//        [cell createView];
     }
-    financialProduct * finProduct = [_array objectAtIndex:indexPath.row];
-    cell.ExpectedReturnTitle.text = @"预期收益";
-    cell.ExpectedReturn.text = finProduct.interest;//@"5.61%";
-    cell.financialProductsName.text = finProduct.name;
-    cell.financialProductsDescribtion.text = [NSString stringWithFormat:@"起购金额%@  理财期限%@",finProduct.threshold,finProduct.period];
+    @try {
+        financialProduct * finProduct = [_array objectAtIndex:indexPath.row];
+        cell.ExpectedReturnTitle.text = @"预期收益";
+        if (finProduct.interest != [NSNull null]) {
+            cell.ExpectedReturn.text = [NSString stringWithFormat:@"%@%@",[Utils newFloat:[finProduct.interest floatValue]*100 withNumber:2],@"%"];
+        }
+        //@"5.61%";
+        cell.financialProductsName.text = finProduct.name;
+        cell.financialProductsDescribtion.text = [NSString stringWithFormat:@"起购金额%@  理财期限%@",finProduct.threshold,finProduct.period];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"exception:%@",exception);
+    }
+    @finally {
+        
+    }
+    
     return cell;
 }
 
@@ -138,6 +166,7 @@
     NSLog(@"点击:%i", indexPath.row);
     financialProduct * finProduct = [_array objectAtIndex:indexPath.row];
     FinancialProductDetailsViewController * financialProductDetailsVC = [[[FinancialProductDetailsViewController alloc] init] autorelease];
+    NSLog(@"finProduct::::%@",finProduct.type);
     financialProductDetailsVC.financialProduct = finProduct;
     [self.navigationController pushViewController:financialProductDetailsVC animated:YES];
 }
@@ -156,7 +185,6 @@
             [self getfinancialMarkets:current_page+1];//加载下一页
             NSLog(@"加载");
         }
-        
     }
 }
 

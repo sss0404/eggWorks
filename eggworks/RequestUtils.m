@@ -92,6 +92,7 @@
                                           returningResponse:&response
                                                       error:&error];
     NSString * str = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+    NSLog(@"str:%@",str);
     return str;
 }
 
@@ -228,6 +229,89 @@
     SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
     NSDictionary* dic = [jsonParser objectWithString:str];
     return dic;
+}
+
+//查询基础利率
++(NSDictionary*)getBaseInterestRates
+{
+    NSString * api = base_interest_rates;
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP, api];
+    NSString * str = [self requestWithGet:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    
+    return dic;
+}
+
+//添加收藏
++(NSDictionary*)addFavoritesWithObjectType:(NSString *) object_type withObjectId:(NSString *)object_id
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    NSString * userId = [userDefault objectForKey:USER_ID];
+    NSString * password = [userDefault objectForKey:PASSWORD];
+    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+    [requestUtils saveWithUid:userId andPassword:password];
+    
+    NSString * api = profile_favorites;
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP, api];
+    NSString * parameter = [NSString stringWithFormat:@"?object_type=%@&object_id=%@", object_type, object_id];
+    NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    return dic;
+}
+
+//查询所有城市 areas_cities
++(NSDictionary*)getCitys
+{
+    NSString * api = areas_cities;
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP, api];
+    NSString * str = [self requestWithGet:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    return dic;
+}
+
+//获取用户所在的城市
++(NSDictionary*)getMyCity
+{
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP, city_of_ip];
+    NSString * str = [self requestWithGet:url];
+    SBJsonParser * jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary * dic = [jsonParser objectWithString:str];
+    
+    NSMutableDictionary * cityCity;
+    if ([[dic objectForKey:@"success"] boolValue]) {
+        cityCity = [[[NSMutableDictionary alloc] init] autorelease];
+        [cityCity setValue:[dic objectForKey:@"city_name"] forKey:@"name"];//当前测试城市
+        [cityCity setValue:[dic objectForKey:@"city_id"] forKey:@"id"];
+    }
+    return cityCity;
+}
+
+//查询机构
++(NSDictionary*)getInstitutionsWithInstitutions:(NSArray*)array
+{
+    
+    NSString * arrayParameter = [self array2StringParameter:array withKey:@"types[]"];
+    NSString * api = institutions_parties;
+    NSString * parameter = [NSString stringWithFormat:@"%@?per_page=1000%@",api,arrayParameter];
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP, parameter];
+    NSString * str = [self requestWithGet:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    return dic;
+}
+
+//参数拼接
++(NSString*)array2StringParameter:(NSArray*)array withKey:(NSString *)parameterName
+{
+    NSString * str = @"";
+    
+    for (int i=0; i<array.count; i++) {
+        str = [NSString stringWithFormat:@"%@&%@=%@",str,parameterName,[array objectAtIndex:i]];
+    }
+    return str;
 }
 
 @end

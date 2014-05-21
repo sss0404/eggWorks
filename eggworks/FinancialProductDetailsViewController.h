@@ -9,8 +9,9 @@
 
 #import "BaseViewController.h"
 #import "financialProduct.h"
+#import "AsynRuner.h"
 
-@interface FinancialProductDetailsViewController : BaseViewController
+@interface FinancialProductDetailsViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
 
 @property(nonatomic, retain) financialProduct * financialProduct;
 @property(nonatomic, retain) UITableView * productInfoTableView;
@@ -24,6 +25,14 @@
 @property(nonatomic, retain) UILabel * yearLastContent;//近一年的收益率
 @property(nonatomic, retain) UIView * calculateEarningsView;//计算收益页面
 @property(nonatomic, retain) UITableView * aboutProductsView;//相关产品页面
+@property(nonatomic, retain) NSDictionary * productInfo;//产品详情
+@property(nonatomic, retain) NSArray * aboutProducts;
+@property(nonatomic, retain) UITextField * investmentAmount;
+@property(nonatomic, retain) NSDictionary * baseInterestRates;//基础利率内容
+@property(nonatomic, retain) UILabel * earningsLabel;
+@property(nonatomic, retain) UILabel * purchaseAmount;//立即申购上面的 起购金额
+
+@property(nonatomic, retain) AsynRuner * asynRunner;
 
 
 @end

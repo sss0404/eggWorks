@@ -9,7 +9,7 @@
 #import "BottomNavigotionViewController.h"
 #import "AsynRuner.h"
 
-@interface FinancialMarketMainViewController : BottomNavigotionViewController<UITableViewDataSource,UITableViewDelegate>
+@interface FinancialMarketMainViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
 {
     BOOL isLoadState;
     

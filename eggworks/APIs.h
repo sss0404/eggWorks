@@ -32,4 +32,16 @@
 //获取理财产品
 #define financial_market_products       @"/products.json"
 //理财产品详情
-#define financial_products_info         @"/products/{%@}.json"
+#define financial_products_info         @"/products/%@.json"
+//查询基础利率
+#define base_interest_rates             @"/master_data/base_interest_rates.json"
+//收藏
+#define profile_favorites               @"/profile/favorites.json"
+//======================================基础数据接口=====
+//获取所有城市
+#define areas_cities                    @"/areas/cities.json"
+//获取当前用户所在城市
+#define city_of_ip                      @"/areas/city_of_ip.json"
+//查询机构
+#define  institutions_parties                        @"/parties.json"
+

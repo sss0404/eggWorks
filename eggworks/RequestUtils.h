@@ -62,4 +62,19 @@
 
 //获取理财产品详情
 -(NSDictionary*)getfinancialInfoWithProductId:(NSString*)productId;
+
+//查询基础利率
++(NSDictionary*)getBaseInterestRates;
+
+//添加收藏
++(NSDictionary*)addFavoritesWithObjectType:(NSString *) object_type withObjectId:(NSString *)object_id;
+
+//-----------------------------------基础数据-------------------------------------------
+//查询所有城市 areas_cities
++(NSDictionary*)getCitys;
+
+//获取用户所在的城市
++(NSDictionary*)getMyCity;
+
++(NSDictionary*)getInstitutionsWithInstitutions:(NSArray*)array;
 @end

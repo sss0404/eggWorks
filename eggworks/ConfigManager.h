@@ -41,7 +41,7 @@
 #define RootNav                                     [(AppDelegate*)[[UIApplication sharedApplication] delegate] rootNav]
 #define Window                                  [[[UIApplication sharedApplication] delegate] window]
 
-#define IndexBottomFuncArray                    @"IndexIndex",@"IndexNote",@"IndexCollection",@"IndexAccount"
+#define IndexBottomFuncArray                    @"IndexNote",@"IndexCollection",@"IndexAccount"
 #define BOTTOM_HEIGHT                           45
 #define IOS7_HEIGHT                             60
 
@@ -58,4 +58,8 @@
 #define USER_ID                                 @"user_id"  //用户id
 #define PHONE_NUMBER                            @"phoneNumber"//用户手机号
 #define PASSWORD                                @"password"   //用户密码
+#define HOT_CITY                                @"热门"//热门城市
+#define GPS                                     @"GPS"
+#define CURR_SELECTED_CITY_KEY                  @"currSelectedCity"//用户当前选择的城市
+#define CURR_SELECTED_INSTITUTIONAL_KEY         @"currSelectedInstitutionalKey"//当前用户选择的机构key
 

@@ -37,9 +37,9 @@
     NSArray * bottomBtnStrArray = @[IndexBottomFuncArray];
     
     float offset_x = 0;
-    float btnWidth = kApplicationWidth/4;
+    float btnWidth = kApplicationWidth/3;
     for (int i=0; i<bottomBtnStrArray.count; i++) {
-//        [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"<#string#>"]];
+//        [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"string"]];
         
         UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(offset_x, 0, btnWidth, 45)];
         btn.tag = i;

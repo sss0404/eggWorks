@@ -15,7 +15,6 @@
 
 -(void)runOnBackground:(id (^)())handler onUpdateUI:(void(^)(id obj))UpdateUIHandler
 {
-    
     self.runBackgroundHandler = handler;
     self.updateUIHandler = UpdateUIHandler;
     [self performSelectorInBackground:@selector(background) withObject:nil];
