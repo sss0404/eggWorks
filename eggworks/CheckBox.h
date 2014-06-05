@@ -13,6 +13,7 @@
 @property(nonatomic, assign) BOOL selected;//是否选择
 @property(nonatomic, retain) UILabel * title;
 @property(nonatomic, retain) UIImageView * btn;
+@property (nonatomic, retain) NSIndexPath * indexPath;
 
 //@property(nonatomic, retain) id target;
 //@property(nonatomic, assign) SEL action;

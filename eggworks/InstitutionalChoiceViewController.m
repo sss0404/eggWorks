@@ -28,7 +28,7 @@
 @synthesize searchTableView = _searchTableView;
 @synthesize searchArray = _searchArray;
 @synthesize dataFromServer = _dataFromServer;
-
+@synthesize isLoading = _isLoading;
 
 static NSMutableArray * currSelectedInstitutions;//当前选择的机构
 
@@ -57,6 +57,7 @@ static NSMutableArray * currSelectedInstitutions;//当前选择的机构
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _isLoading = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"机构选择";
     
@@ -188,6 +189,10 @@ static NSMutableArray * currSelectedInstitutions;//当前选择的机构
 //用户选中银行
 -(void)bankSelected:(id)sender
 {
+    if (_isLoading) {
+        [_bank setCheck:!_bank.selected];
+        return;
+    }
     [self getInstitutions];
     
 }
@@ -195,6 +200,10 @@ static NSMutableArray * currSelectedInstitutions;//当前选择的机构
 //用户选中基金
 -(void)fundSelected:(id)sender
 {
+    if (_isLoading) {
+        [_bank setCheck:!_fund.selected];
+        return;
+    }
     [self getInstitutions];
     
 }
@@ -202,6 +211,10 @@ static NSMutableArray * currSelectedInstitutions;//当前选择的机构
 //用户选中保险
 -(void)insuranceSelected:(id)sender
 {
+    if (_isLoading) {
+        [_bank setCheck:!_insurance.selected];
+        return;
+    }
     [self getInstitutions];
     
 }
@@ -226,12 +239,19 @@ static NSMutableArray * currSelectedInstitutions;//当前选择的机构
 //获取机构
 -(void)getInstitutions
 {
-    [_institutionsArrayWithKey removeAllObjects];
-    [_institutionsKeys removeAllObjects];
+    if (_isLoading) {
+        return;
+    }
+    _isLoading = YES;
+    
     [_asynRunner runOnBackground:^{
+        
         NSArray * institutionsArray = [self getUserSelectedInstitutions];
         //如果用户没有选中任何机构则返回
         if (institutionsArray.count == 0) {
+            //清除目前的数据
+            [_institutionsArrayWithKey removeAllObjects];
+            [_institutionsKeys removeAllObjects];
             return @"";
         }
         
@@ -239,6 +259,9 @@ static NSMutableArray * currSelectedInstitutions;//当前选择的机构
         if ([[dic objectForKey:@"success"] boolValue]) {
             NSArray * citys = [dic objectForKey:@"parties"];
             self.dataFromServer = citys;
+            //清除目前的数据
+            [_institutionsArrayWithKey removeAllObjects];
+            [_institutionsKeys removeAllObjects];
             //对机构进行分类
             for (int i=0; i<citys.count; i++) {
                 NSDictionary * cityDic = [citys objectAtIndex:i];
@@ -261,7 +284,7 @@ static NSMutableArray * currSelectedInstitutions;//当前选择的机构
                       onUpdateUI:^(id obj)
      {
          [_institutionsTableView reloadData];
-         
+         _isLoading = NO;
      }];
 }
 

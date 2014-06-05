@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BaseViewController : UIViewController<UITextFieldDelegate>
+@protocol PassingParameters <NSObject>
+
+//页面返回上一页时候触发
+-(void)completeParameters:(id)obj withTag:(NSString*)tag;
+
+@end
+
+@interface BaseViewController : UIViewController<UITextFieldDelegate,PassingParameters>
+
+@property (nonatomic, assign) id<PassingParameters> passingParameters;
+@property (nonatomic, assign) NSString * resultCode;
 
 @end

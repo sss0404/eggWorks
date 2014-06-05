@@ -25,6 +25,7 @@
 @synthesize array = _array;
 @synthesize currData = _currData;
 @synthesize asynrunner = _asynrunner;
+@synthesize obj = _obj;
 
 - (void)dealloc
 {
@@ -32,6 +33,7 @@
     [_array release]; _array = nil;
     [_currData release]; _currData = nil;
     [_asynrunner release]; _asynrunner = nil;
+    [_obj release]; _obj = nil;
     [super dealloc];
 }
 
@@ -44,6 +46,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.obj = [[[NSMutableDictionary alloc] init] autorelease];
     isLoadState = NO;//表示没有加载
     _asynrunner = [[AsynRuner alloc] init];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -63,33 +67,47 @@
     }
     _array = [[NSMutableArray alloc] init];
     float appHeight = [[UIScreen mainScreen] applicationFrame].size.height;
-    _tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, appHeight+20)] autorelease];
+    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, appHeight+20)] autorelease];
     [self.view addSubview:_tableView];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
-    
-    
-    [self getfinancialMarkets:1];
+    [self getfinancialMarkets:1
+                   withAreaID:@"all"
+                      partyID:nil
+                       period:@"all"
+                    threshold:@"all"
+                      keywork:@""];
 }
 
 -(void)menuButton:(id)sender
 {
     ScreeningMainPageViewController * screeningMainPageVC = [[[ScreeningMainPageViewController alloc] init] autorelease];
+    screeningMainPageVC.passingParameters = self;
     [self.navigationController pushViewController:screeningMainPageVC animated:YES];
 }
 
--(void) getfinancialMarkets:(int)page
+-(void)completeParameters:(id)obj withTag:(NSString *)tag
+{
+    NSLog(@"接收到参数:%@",obj);
+    self.obj = obj;
+    [_array removeAllObjects];
+    [self getOtherPage:1];
+}
+
+//获取理财产品
+-(void) getfinancialMarkets:(int)page withAreaID:(NSString*)areaID partyID:(NSArray *)partyID period:(NSString*)period threshold:(NSString*)threshold keywork:(NSString*)keyword
 {
     NSLog(@"加载页面:%i",page);
     isLoadState = YES;
     [_asynrunner runOnBackground:^{
-        NSDictionary * dic = [RequestUtils getfinancialMarketsWithAreaID:@"all"
-                                                                 partyId:@""
-                                                                  period:@"all"
-                                                               threshold:@"all"
-                                                                    page:page];
+        NSDictionary * dic = [RequestUtils getfinancialMarketsWithAreaID:areaID
+                                                                 partyId:partyID
+                                                                  period:period
+                                                               threshold:threshold
+                                                                    page:page
+                                                                 keywork:keyword];
         self.currData = dic;
         NSArray * array = [[dic objectForKey:@"data"] objectForKey:@"json"];
         NSMutableArray * financialProductss = [[[NSMutableArray alloc] init] autorelease];
@@ -110,6 +128,7 @@
         }
         return financialProductss;
     } onUpdateUI:^(id obj){
+//        current_page = 1;
         [_array addObjectsFromArray:obj];
         [self.tableView reloadData];
         isLoadState = NO;
@@ -182,10 +201,66 @@
             return;
         }
         if (!isLoadState) {
-            [self getfinancialMarkets:current_page+1];//加载下一页
+            [self getOtherPage:current_page+1];
             NSLog(@"加载");
         }
     }
+}
+
+-(void)getOtherPage:(int)page
+{
+    NSString * areaID = [[_obj objectForKey:@"cityDic"] objectForKey:@"id"];//地区id
+    if (areaID.length == 0) {
+        areaID = @"all";
+    }
+    NSArray * institutionalsArray = [_obj objectForKey:@"institutionalsArray"];
+    NSDictionary * investmentHorizonDic = [_obj objectForKey:@"investmentHorizonDic"];
+    
+    //投资期限
+    NSString * period = @"3";
+    if (investmentHorizonDic != nil && ![investmentHorizonDic isKindOfClass:[NSString class]]) {
+        BOOL t30 = [[investmentHorizonDic objectForKey:@"30t"] boolValue];
+        BOOL t30t90 = [[investmentHorizonDic objectForKey:@"30t90t"] boolValue];
+        BOOL t90 = [[investmentHorizonDic objectForKey:@"90t"] boolValue];
+        if (t30) {
+            period = @"0";
+        }
+        if (t30t90) {
+            period = @"1";
+        }
+        if (t90) {
+            period = @"2";
+        }
+    } else {
+        period = @"all";
+    }
+    
+    //投资金额
+    NSString * threshold = @"all";
+    NSDictionary * investmentAmountDic = [_obj objectForKey:@"investmentAmountDic"];
+    if (investmentAmountDic != nil && ![investmentAmountDic isKindOfClass:[NSString class]]) {
+        BOOL w10 = [[investmentAmountDic objectForKey:@"10w"] boolValue];
+        BOOL w10w50 = [[investmentAmountDic objectForKey:@"10w50w"] boolValue];
+        BOOL w50 = [[investmentAmountDic objectForKey:@"50w"] boolValue];
+        if (w10) {
+            threshold = @"under10";
+        }
+        if (w10w50) {
+            threshold = @"under50";
+        }
+        if (w50) {
+            threshold = @"above50";
+        }
+    }
+    
+    NSString * keyword = [_obj objectForKey:@"keyword"];
+    //查询筛选过的数据
+    [self getfinancialMarkets:page
+                   withAreaID:areaID
+                      partyID:institutionalsArray
+                       period:period//期限
+                    threshold:threshold
+                      keywork:keyword == nil ? @"" : [keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
 @end

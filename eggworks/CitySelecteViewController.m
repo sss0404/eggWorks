@@ -119,6 +119,7 @@
     //保存用户选择的城市
     [Utils saveCurrCity:currSelectedCity];
     NSLog(@"确定按钮被点击=%@",currSelectedCity);
+    [self.passingParameters completeParameters:currSelectedCity withTag:self.resultCode];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

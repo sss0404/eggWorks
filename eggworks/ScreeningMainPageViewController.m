@@ -28,6 +28,12 @@
 @synthesize investmentAmount = _investmentAmount;
 @synthesize investmentHorizon = _investmentHorizon;
 @synthesize asynRunner = _asynRunner;
+@synthesize dataDic = _dataDic;
+@synthesize institutionalsArray = _institutionalsArray;
+@synthesize investmentsDic = _investmentsDic;
+@synthesize investmentAmountDic = _investmentAmountDic;
+@synthesize investmentHorizonDic = _investmentHorizonDic;
+@synthesize cityDic = _cityDic;
 
 - (void)dealloc
 {
@@ -38,6 +44,12 @@
     [_investmentAmount release]; _investmentAmount = nil;
     [_investmentHorizon release]; _investmentHorizon = nil;
     [_asynRunner release]; _asynRunner = nil;
+    [_dataDic release]; _dataDic = nil;
+    [_institutionalsArray release]; _institutionalsArray = nil;
+    [_investmentsDic release]; _investmentsDic = nil;
+    [_investmentAmountDic release]; _investmentAmountDic = nil;
+    [_investmentHorizonDic release]; _investmentHorizonDic = nil;
+    [_cityDic release]; _cityDic = nil;
     [super dealloc];
 }
 
@@ -53,6 +65,7 @@
         ios7_d_height = IOS7_HEIGHT;
     }
     
+    self.dataDic = [[[NSMutableDictionary alloc] init] autorelease];
     _asynRunner = [[ AsynRuner alloc] init];
     
     UIImageView * inputBg = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 4+ios7_d_height, 320, 44)] autorelease];
@@ -73,8 +86,6 @@
     _city.delegate = self;
     _city.label.text = @"所在城市";
     [_city setImageRight:NO];
-//    NSDictionary * currSelectedCity = [Utils getCurrSelectedCity];
-//    [_city.btn setTitle:[currSelectedCity objectForKey:@"name"] forState:UIControlStateNormal];
     [self.view addSubview:_city];
     
     UIView * view = [[[UIView alloc] initWithFrame:CGRectMake(205, 49+ios7_d_height, 120, 60)] autorelease];
@@ -139,22 +150,22 @@
     [super viewWillAppear:animated];
     [self setCurrSelectedCity];
     //机构筛选结果
-    NSArray * institutionals = [InstitutionalChoiceViewController getCurrSelectedInstitutional];
-    if (institutionals == nil) {
+    self.institutionalsArray = [InstitutionalChoiceViewController getCurrSelectedInstitutional];
+    if (_institutionalsArray == nil || _institutionalsArray.count == 0) {
         [_institutionName.btn setTitle:@"不限" forState:UIControlStateNormal];
     } else {
-        NSString * str = [Utils array2String:institutionals with:@","];
+        NSString * str = [Utils array2String:_institutionalsArray with:@","];
         [_institutionName.btn setTitle:str forState:UIControlStateNormal];
     }
     
     //投资品种筛选
-    NSMutableDictionary * investments = [InvestmentsViewController getCurrSelectedInvestments];
-    if (investments == nil) {
+    self.investmentsDic = [InvestmentsViewController getCurrSelectedInvestments];
+    if (_investmentsDic == nil) {
         [_investments.btn setTitle:@"不限" forState:UIControlStateNormal];
     } else {
-        BOOL bank = [[investments objectForKey:@"bank"] boolValue];
-        BOOL fund = [[investments objectForKey:@"fund"] boolValue];
-        BOOL insurance = [[investments objectForKey:@"insurance"] boolValue];
+        BOOL bank = [[_investmentsDic objectForKey:@"bank"] boolValue];
+        BOOL fund = [[_investmentsDic objectForKey:@"fund"] boolValue];
+        BOOL insurance = [[_investmentsDic objectForKey:@"insurance"] boolValue];
         NSString * str = @"";
         if (bank) {
             str = @"银行理财产品,";
@@ -165,42 +176,55 @@
         if (insurance) {
             str = [NSString stringWithFormat:@"%@保险产品（万能险）",str];
         }
-        
+        if ([str isEqualToString:@""]) {
+            str = @"不限";
+        }
         [_investments.btn setTitle:str forState:UIControlStateNormal];
     }
     
     //投资金额选择
-    NSMutableDictionary * investmentAmount = [InvestmentAmountViewController getCurrSelecteInvestmentAmount];
-    if (investments != nil) {
-        BOOL w10 = [[investmentAmount objectForKey:@"10w"] boolValue];
-        BOOL w10w50 = [[investmentAmount objectForKey:@"10w50w"] boolValue];
-        BOOL w50 = [[investmentAmount objectForKey:@"50w"] boolValue];
+    self.investmentAmountDic = [InvestmentAmountViewController getCurrSelecteInvestmentAmount];
+    if (_investmentAmountDic != nil) {
+        BOOL w10 = [[_investmentAmountDic objectForKey:@"10w"] boolValue];
+        BOOL w10w50 = [[_investmentAmountDic objectForKey:@"10w50w"] boolValue];
+        BOOL w50 = [[_investmentAmountDic objectForKey:@"50w"] boolValue];
+        NSString * str = @"";
         if (w10) {
-            [_investmentAmount.btn setTitle:@"10万以下" forState:UIControlStateNormal];
+            str = @"10万以下";
         }
         if (w10w50) {
-            [_investmentAmount.btn setTitle:@"10万~50万" forState:UIControlStateNormal];
+            str = @"10万~50万";
         }
         if (w50) {
-            [_investmentAmount.btn setTitle:@"50万以上" forState:UIControlStateNormal];
+            str = @"50万以上";
         }
+        if ([str isEqualToString:@""]) {
+            str = @"不限";
+        }
+        [_investmentAmount.btn setTitle:str forState:UIControlStateNormal];
     }
     
-    //
-    NSMutableDictionary * investmentHorizon = [InvestmentHorizonViewController getCurrSelectedInvestmentHorizon];
-    if (investments != nil) {
-        BOOL t30 = [[investmentHorizon objectForKey:@"30t"] boolValue];
-        BOOL t30t90 = [[investmentHorizon objectForKey:@"30t90t"] boolValue];
-        BOOL t90 = [[investmentHorizon objectForKey:@"90t"] boolValue];
+    //投资期限
+    self.investmentHorizonDic = [InvestmentHorizonViewController getCurrSelectedInvestmentHorizon];
+    if (_investmentHorizonDic != nil) {
+        BOOL t30 = [[_investmentHorizonDic objectForKey:@"30t"] boolValue];
+        BOOL t30t90 = [[_investmentHorizonDic objectForKey:@"30t90t"] boolValue];
+        BOOL t90 = [[_investmentHorizonDic objectForKey:@"90t"] boolValue];
+        NSString * str = @"";
         if (t30) {
-            [_investmentHorizon.btn setTitle:@"30天以下" forState:UIControlStateNormal];
+            str = @"30天以下";
         }
         if (t30t90) {
-            [_investmentHorizon.btn setTitle:@"30天~90天" forState:UIControlStateNormal];
+            str = @"30天~90天";
         }
         if (t90) {
-            [_investmentHorizon.btn setTitle:@"90天以上" forState:UIControlStateNormal];
+            str = @"90天以上";
         }
+        if ([str isEqualToString:@""]) {
+            str = @"不限";
+        }
+        
+        [_investmentHorizon.btn setTitle:str forState:UIControlStateNormal];
     }
 }
 
@@ -224,9 +248,20 @@
     }];
 }
 
+//立即查看按钮点击事件
 -(void) submitClick:(id)sender
 {
     NSLog(@"提交");
+    self.cityDic = [Utils getCurrSelectedCity] ;
+    [_dataDic setObject:_cityDic == nil ? @"" : _cityDic forKey:@"cityDic"];//用户选择的城市
+    [_dataDic setObject:_institutionalsArray == nil ? @"" : _institutionalsArray forKey:@"institutionalsArray"];//机构名称
+    [_dataDic setObject:_investmentsDic == nil ? @"" : _investmentsDic forKey:@"investmentsDic"];//投资品种
+    [_dataDic setObject:_investmentAmountDic == nil ? @"" : _investmentAmountDic forKey:@"investmentAmountDic"];//投资金额
+    [_dataDic setObject:_investmentHorizonDic == nil ? @"" : _investmentHorizonDic forKey:@"investmentHorizonDic"];//投资期限
+    [_dataDic setObject:_searchInputTextField.text forKey:@"keyword"];//搜索关键字
+    
+    [self.passingParameters completeParameters:_dataDic withTag:self.resultCode];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - ScreeningItemDelegate

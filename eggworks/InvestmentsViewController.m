@@ -149,7 +149,7 @@ static NSMutableDictionary * currSelected;//当前选择的
     [currSelected setValue:[NSNumber numberWithBool:_bankProduct.selected] forKey:@"bank"];
     [currSelected setValue:[NSNumber numberWithBool:_fundProduct.selected] forKey:@"fund"];
     [currSelected setValue:[NSNumber numberWithBool:_insuranceProduct.selected] forKey:@"insurance"];
-    
+    [self.passingParameters completeParameters:currSelected withTag:self.resultCode];
     [self.navigationController popViewControllerAnimated:YES];
     
 }

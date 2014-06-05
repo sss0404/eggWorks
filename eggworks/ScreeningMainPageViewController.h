@@ -21,4 +21,12 @@
 
 @property(nonatomic, retain) AsynRuner * asynRunner;
 
+@property (nonatomic, retain) NSMutableDictionary * dataDic;//用户选择的内容
+@property (nonatomic, retain) NSArray * institutionalsArray;//用户选择的机构
+@property (nonatomic, retain) NSMutableDictionary * investmentsDic;//投资品种
+@property (nonatomic, retain) NSMutableDictionary * investmentAmountDic;//投资金额
+@property (nonatomic, retain) NSMutableDictionary * investmentHorizonDic;//投资期限
+@property (nonatomic, retain) NSDictionary * cityDic;//当前选择的城市
+//@property (nonatomic, retain) 
+
 @end

@@ -26,6 +26,7 @@
 
 @property(nonatomic,retain)NSMutableDictionary * institutionsArrayWithKey;
 @property(nonatomic,retain)NSMutableArray * institutionsKeys;
+@property (nonatomic, assign) BOOL isLoading;
 
 +(NSArray*)getCurrSelectedInstitutional;
 

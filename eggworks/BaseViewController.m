@@ -14,12 +14,26 @@
 
 @implementation BaseViewController
 
+@synthesize passingParameters = _passingParameters;
+@synthesize resultCode = _resultCode;
 
+- (void)dealloc
+{
+    [_resultCode release]; _resultCode = nil;
+    [super dealloc];
+}
+
+//接收参数
+-(void)completeParameters:(id)obj withTag:(NSString*)tag
+{
+    
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     //返回按钮
+    self.view.backgroundColor = [UIColor whiteColor];
     UIButton* backbutton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backbutton setBackgroundImage:[UIImage imageNamed:@"return_pre_btn_bg"] forState:UIControlStateNormal];
     backbutton.frame = CGRectMake(0, 0, 12, 22.5);

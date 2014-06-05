@@ -34,4 +34,25 @@
 
 //将字符串转化成字符串
 +(NSString*)array2String:(NSArray*)array with:(NSString*)str;
+
+//将array中的数据转成string 只取其中一个key
++(NSString*)array2String:(NSArray*)array withKey:(NSString*)key andStr:(NSString*)str;
+
+//获取用户登录名
++(NSString*)getAccount;
+
+//保存用户id
++(void)saveAccount:(NSString *) account;
+
+//保存用户id
++(void)saveIdForUser:(NSString*)uid;
+
+//获取用户id
++(NSString*)getUid;
+
+//获取用户密码
++(NSString*)getPassword;
+
+//保存用户密码
++(void)savePassword:(NSString *) password;
 @end

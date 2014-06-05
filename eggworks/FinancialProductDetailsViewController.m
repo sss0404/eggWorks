@@ -40,6 +40,7 @@
 @synthesize baseInterestRates = _baseInterestRates;
 @synthesize earningsLabel = _earningsLabel;
 @synthesize purchaseAmount = _purchaseAmount;
+@synthesize collectionBtn = _collectionBtn;
 
 - (void)dealloc
 {
@@ -62,6 +63,7 @@
     [_baseInterestRates release]; _baseInterestRates = nil;
     [_earningsLabel release]; _earningsLabel = nil;
     [_purchaseAmount release]; _purchaseAmount = nil;
+    [_collectionBtn release]; _collectionBtn = nil;
     [super dealloc];
 }
 
@@ -118,13 +120,13 @@
     [self.view addSubview:day7];
     
     //加入收藏
-    UIButton * collectionBtn = [[[UIButton alloc] initWithFrame:CGRectMake(320-88, 80+ios7_d_height, 70, 25)] autorelease];
-    collectionBtn.backgroundColor = [UIColor colorWithRed:.19 green:.52 blue:.98 alpha:1];
-    [collectionBtn setTitle:@"加入收藏" forState:UIControlStateNormal];
-    [collectionBtn addTarget:self action:@selector(collectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [collectionBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    collectionBtn.font = [UIFont systemFontOfSize:12];;
-    [self.view addSubview:collectionBtn];
+    self.collectionBtn = [[[UIButton alloc] initWithFrame:CGRectMake(320-88, 80+ios7_d_height, 70, 25)] autorelease];
+    _collectionBtn.backgroundColor = [UIColor colorWithRed:.19 green:.52 blue:.98 alpha:1];
+    [_collectionBtn setTitle:@"加入收藏" forState:UIControlStateNormal];
+    [_collectionBtn addTarget:self action:@selector(collectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_collectionBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _collectionBtn.font = [UIFont systemFontOfSize:12];;
+    [self.view addSubview:_collectionBtn];
     
     //最近一个月的收益率
     UIView * monthLast = [[[UIView alloc] initWithFrame:CGRectMake(20, 115+ios7_d_height, 137.5, 27)] autorelease];
@@ -227,8 +229,17 @@
 -(void)buyBtnClick:(id)sender
 {
     //如果用户点击“立即购买”，但是彩蛋财富不能提供在线购买功能的产品跳转到下一页
-    PaymentPageViewController * paymentPageVC = [[[PaymentPageViewController alloc] init] autorelease];
-    [self.navigationController pushViewController:paymentPageVC animated:YES];
+    //如果是货币基金的话接数米基金的sdk支付，如果不是的话则使用电话和银行
+    NSLog(@"_productInfo:%@",_financialProduct);
+    NSLog(@"productInfo:%@",_productInfo);
+    NSString * type =  _financialProduct.type;
+    if ([type isEqualToString:@"CashFund"]) {//采用数米基金sdk支付
+        
+    } else {
+        PaymentPageViewController * paymentPageVC = [[[PaymentPageViewController alloc] init] autorelease];
+        [self.navigationController pushViewController:paymentPageVC animated:YES];
+    }
+    
 }
 
 //创建计算收益页面
@@ -414,7 +425,8 @@
                                                                  partyId:[self.productInfo objectForKey:@"party_id"]
                                                                   period:@"all"
                                                                threshold:@"all"
-                                                                    page:page];
+                                                                    page:page
+                                                                 keywork:@""];
         NSArray * array = [[dic objectForKey:@"data"] objectForKey:@"json"];
         NSMutableArray * financialProductss = [[[NSMutableArray alloc] init] autorelease];
         NSDictionary * dicItem;
@@ -463,6 +475,13 @@
         _yield.text = interestForSort;
         _earningsLabel.text = interestForSort;
         NSString * qgje = [dic objectForKey:@"threshold"];
+        NSString * favorite_id = [dic objectForKey:@"favorite_id"];//收藏记录的id
+        if (favorite_id.length == 0) {
+            [_collectionBtn setTitle:@"加入收藏" forState:UIControlStateNormal];
+        } else {
+            [_collectionBtn setTitle:@"取消收藏" forState:UIControlStateNormal];
+        }
+        
         NSLog(@"qgje:%@",qgje);
         
         _purchaseAmount.text = qgje == [NSNull null] ? @"": [NSString stringWithFormat:@"%@元起购",qgje];
@@ -494,14 +513,28 @@
 {
     NSLog(@"加入收藏");
     
-    [_asynRunner runOnBackground:^{
-        NSDictionary * dic = [RequestUtils addFavoritesWithObjectType:_financialProduct.type withObjectId:[_productInfo objectForKey:@"id"]];
-        return dic;
-    } onUpdateUI:^(id obj){
-        if ([[obj objectForKey:@"success"] boolValue]) {
-            Show_msg(@"提示", @"收藏成功");
-        }
-    }];
+    if ([_collectionBtn.currentTitle isEqualToString:@"加入收藏"]) {
+        [_asynRunner runOnBackground:^{
+            NSDictionary * dic = [RequestUtils addFavoritesWithObjectType:_financialProduct.type withObjectId:[_productInfo objectForKey:@"id"]];
+            return dic;
+        } onUpdateUI:^(id obj){
+            if ([[obj objectForKey:@"success"] boolValue]) {
+                Show_msg(@"提示", @"收藏成功");
+                [self getProductInfoWithProductId:_financialProduct.id_];
+            }
+        }];
+    } else {
+        //取消收藏
+        [_asynRunner runOnBackground:^{
+            return [RequestUtils deleteFavoritesWithObjectType:[_productInfo objectForKey:@"type"] andObjectId:[_productInfo objectForKey:@"id"]];
+        } onUpdateUI:^(id obj){
+            if ([[obj objectForKey:@"success"] boolValue]) {
+                Show_msg(@"提示", @"取消收藏成功");
+                [self getProductInfoWithProductId:_financialProduct.id_];
+            }
+        }];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning

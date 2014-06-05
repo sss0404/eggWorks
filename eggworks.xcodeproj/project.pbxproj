@@ -81,6 +81,15 @@
 		5F5394E819160C2800351AFC /* MyAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5394E619160C2800351AFC /* MyAlertView.m */; };
 		5F5394EA1916377400351AFC /* copy_imei_note_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F5394E91916377400351AFC /* copy_imei_note_img@2x.png */; };
 		5F5394ED191639BA00351AFC /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5394EC191639BA00351AFC /* Utils.m */; };
+		5F5C1303192DE9CC0075ED6E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5C1302192DE9CC0075ED6E /* LoginViewController.m */; };
+		5F5C1306192DEBBC0075ED6E /* MyAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5C1305192DEBBC0075ED6E /* MyAccountViewController.m */; };
+		5F5C130A192DECCB0075ED6E /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5C1309192DECCB0075ED6E /* CollectionViewController.m */; };
+		5F5C130E192DED8E0075ED6E /* RemindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5C130D192DED8E0075ED6E /* RemindViewController.m */; };
+		5F5C1311192DFB540075ED6E /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5C1310192DFB540075ED6E /* RegisterViewController.m */; };
+		5F5C1361192EEA920075ED6E /* CountdownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5C1360192EEA920075ED6E /* CountdownButton.m */; };
+		5F5C1364192F2EB50075ED6E /* user_head_pic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F5C1363192F2EB50075ED6E /* user_head_pic@2x.png */; };
+		5F5C1366192F31270075ED6E /* right_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F5C1365192F31270075ED6E /* right_white@2x.png */; };
+		5F5C1369192F32420075ED6E /* PersonalDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5C1368192F32420075ED6E /* PersonalDataViewController.m */; };
 		5F63CF7919248323005B38FE /* search_right_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F63CF7819248323005B38FE /* search_right_btn@2x.png */; };
 		5F63CF7D19248462005B38FE /* ScreeningMainPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F63CF7C19248462005B38FE /* ScreeningMainPageViewController.m */; };
 		5F63CF81192485F7005B38FE /* search_input_confi.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F63CF7F192485F7005B38FE /* search_input_confi.png */; };
@@ -93,12 +102,17 @@
 		5F92374C192C3F8B00170DDB /* InvestmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F92374B192C3F8B00170DDB /* InvestmentsViewController.m */; };
 		5F92374F192C4E1000170DDB /* InvestmentAmountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F92374E192C4E1000170DDB /* InvestmentAmountViewController.m */; };
 		5F923752192C55D300170DDB /* InvestmentHorizonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F923751192C55D300170DDB /* InvestmentHorizonViewController.m */; };
+		5F9D385519370D04000F6147 /* BankChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9D385419370D04000F6147 /* BankChoiceViewController.m */; };
+		5F9D385919371ABD000F6147 /* BankSelectedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9D385819371ABD000F6147 /* BankSelectedTableViewCell.m */; };
 		5F9EF41C192B062400A2D98A /* InstitutionalChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9EF41B192B062400A2D98A /* InstitutionalChoiceViewController.m */; };
 		5F9EF423192B47C300A2D98A /* CheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9EF422192B47C300A2D98A /* CheckBox.m */; };
 		5F9EF426192B481A00A2D98A /* screening_checkbox_s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F9EF424192B481A00A2D98A /* screening_checkbox_s@2x.png */; };
 		5F9EF427192B481A00A2D98A /* screening_checkbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F9EF425192B481A00A2D98A /* screening_checkbox@2x.png */; };
 		5F9EF42A192B50F500A2D98A /* okBtnSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F9EF428192B50F500A2D98A /* okBtnSmall@2x.png */; };
 		5F9EF42B192B50F500A2D98A /* result@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F9EF429192B50F500A2D98A /* result@2x.png */; };
+		5FC3191F1932DC5000EB3D5C /* CollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC3191E1932DC5000EB3D5C /* CollectionTableViewCell.m */; };
+		5FC319231933111700EB3D5C /* EnjoyPrivateFinanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC319221933111700EB3D5C /* EnjoyPrivateFinanceViewController.m */; };
+		5FC31926193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC31925193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.m */; };
 		5FCC43431919F9D200027C7E /* ClaimsConfirmInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCC43421919F9D200027C7E /* ClaimsConfirmInfoViewController.m */; };
 		5FCC4346191A0AE200027C7E /* SubmitSuccViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCC4345191A0AE200027C7E /* SubmitSuccViewController.m */; };
 		5FDC8E9319172A7500B36EE9 /* check_box_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDC8E9119172A7500B36EE9 /* check_box_cancel@2x.png */; };
@@ -251,6 +265,22 @@
 		5F5394E91916377400351AFC /* copy_imei_note_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "copy_imei_note_img@2x.png"; sourceTree = "<group>"; };
 		5F5394EB191639BA00351AFC /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		5F5394EC191639BA00351AFC /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		5F5C1301192DE9CC0075ED6E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		5F5C1302192DE9CC0075ED6E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		5F5C1304192DEBBC0075ED6E /* MyAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAccountViewController.h; sourceTree = "<group>"; };
+		5F5C1305192DEBBC0075ED6E /* MyAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAccountViewController.m; sourceTree = "<group>"; };
+		5F5C1308192DECCB0075ED6E /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
+		5F5C1309192DECCB0075ED6E /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
+		5F5C130C192DED8E0075ED6E /* RemindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemindViewController.h; sourceTree = "<group>"; };
+		5F5C130D192DED8E0075ED6E /* RemindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemindViewController.m; sourceTree = "<group>"; };
+		5F5C130F192DFB540075ED6E /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		5F5C1310192DFB540075ED6E /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		5F5C135F192EEA920075ED6E /* CountdownButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownButton.h; sourceTree = "<group>"; };
+		5F5C1360192EEA920075ED6E /* CountdownButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownButton.m; sourceTree = "<group>"; };
+		5F5C1363192F2EB50075ED6E /* user_head_pic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_head_pic@2x.png"; sourceTree = "<group>"; };
+		5F5C1365192F31270075ED6E /* right_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right_white@2x.png"; sourceTree = "<group>"; };
+		5F5C1367192F32420075ED6E /* PersonalDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalDataViewController.h; sourceTree = "<group>"; };
+		5F5C1368192F32420075ED6E /* PersonalDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalDataViewController.m; sourceTree = "<group>"; };
 		5F63CF7819248323005B38FE /* search_right_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_right_btn@2x.png"; sourceTree = "<group>"; };
 		5F63CF7B19248462005B38FE /* ScreeningMainPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreeningMainPageViewController.h; sourceTree = "<group>"; };
 		5F63CF7C19248462005B38FE /* ScreeningMainPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreeningMainPageViewController.m; sourceTree = "<group>"; };
@@ -269,6 +299,10 @@
 		5F92374E192C4E1000170DDB /* InvestmentAmountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvestmentAmountViewController.m; sourceTree = "<group>"; };
 		5F923750192C55D300170DDB /* InvestmentHorizonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvestmentHorizonViewController.h; sourceTree = "<group>"; };
 		5F923751192C55D300170DDB /* InvestmentHorizonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvestmentHorizonViewController.m; sourceTree = "<group>"; };
+		5F9D385319370D04000F6147 /* BankChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankChoiceViewController.h; sourceTree = "<group>"; };
+		5F9D385419370D04000F6147 /* BankChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankChoiceViewController.m; sourceTree = "<group>"; };
+		5F9D385719371ABD000F6147 /* BankSelectedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankSelectedTableViewCell.h; sourceTree = "<group>"; };
+		5F9D385819371ABD000F6147 /* BankSelectedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankSelectedTableViewCell.m; sourceTree = "<group>"; };
 		5F9EF41A192B062400A2D98A /* InstitutionalChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstitutionalChoiceViewController.h; sourceTree = "<group>"; };
 		5F9EF41B192B062400A2D98A /* InstitutionalChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstitutionalChoiceViewController.m; sourceTree = "<group>"; };
 		5F9EF421192B47C300A2D98A /* CheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBox.h; sourceTree = "<group>"; };
@@ -277,6 +311,12 @@
 		5F9EF425192B481A00A2D98A /* screening_checkbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "screening_checkbox@2x.png"; sourceTree = "<group>"; };
 		5F9EF428192B50F500A2D98A /* okBtnSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "okBtnSmall@2x.png"; sourceTree = "<group>"; };
 		5F9EF429192B50F500A2D98A /* result@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "result@2x.png"; sourceTree = "<group>"; };
+		5FC3191D1932DC5000EB3D5C /* CollectionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionTableViewCell.h; sourceTree = "<group>"; };
+		5FC3191E1932DC5000EB3D5C /* CollectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionTableViewCell.m; sourceTree = "<group>"; };
+		5FC319211933111700EB3D5C /* EnjoyPrivateFinanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnjoyPrivateFinanceViewController.h; sourceTree = "<group>"; };
+		5FC319221933111700EB3D5C /* EnjoyPrivateFinanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnjoyPrivateFinanceViewController.m; sourceTree = "<group>"; };
+		5FC31924193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnjoyPrivateFinanceSettingViewController.h; sourceTree = "<group>"; };
+		5FC31925193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnjoyPrivateFinanceSettingViewController.m; sourceTree = "<group>"; };
 		5FCC43411919F9D200027C7E /* ClaimsConfirmInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClaimsConfirmInfoViewController.h; sourceTree = "<group>"; };
 		5FCC43421919F9D200027C7E /* ClaimsConfirmInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClaimsConfirmInfoViewController.m; sourceTree = "<group>"; };
 		5FCC4344191A0AE200027C7E /* SubmitSuccViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitSuccViewController.h; sourceTree = "<group>"; };
@@ -476,6 +516,8 @@
 				5F2EE1B61920914E00FBBF75 /* FinancialMarketTableViewCell.m */,
 				5FFACA7719220438006355CE /* MyselfTableViewCell.h */,
 				5FFACA7819220438006355CE /* MyselfTableViewCell.m */,
+				5F9D385719371ABD000F6147 /* BankSelectedTableViewCell.h */,
+				5F9D385819371ABD000F6147 /* BankSelectedTableViewCell.m */,
 			);
 			name = TableViewCell;
 			sourceTree = "<group>";
@@ -521,6 +563,10 @@
 		5F5394C81915FBC900351AFC /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				5FC31920193310F100EB3D5C /* EnjoyPrivateFinance */,
+				5F5C130B192DED7F0075ED6E /* Remind */,
+				5F5C1307192DECB30075ED6E /* Collection */,
+				5F5C1300192DE9880075ED6E /* Account */,
 				5F2EE1B019208E8300FBBF75 /* FinancialMarkets */,
 				5FF69F181910C2CC0010A6C2 /* PhoneEasy */,
 				5FF69F0519108D580010A6C2 /* MainViewController */,
@@ -565,6 +611,58 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		5F5C1300192DE9880075ED6E /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				5F5C1301192DE9CC0075ED6E /* LoginViewController.h */,
+				5F5C1302192DE9CC0075ED6E /* LoginViewController.m */,
+				5F5C1304192DEBBC0075ED6E /* MyAccountViewController.h */,
+				5F5C1305192DEBBC0075ED6E /* MyAccountViewController.m */,
+				5F5C130F192DFB540075ED6E /* RegisterViewController.h */,
+				5F5C1310192DFB540075ED6E /* RegisterViewController.m */,
+				5F5C1367192F32420075ED6E /* PersonalDataViewController.h */,
+				5F5C1368192F32420075ED6E /* PersonalDataViewController.m */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
+		5F5C1307192DECB30075ED6E /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				5FC3191C1932DC2C00EB3D5C /* TableViewCell */,
+				5F5C1308192DECCB0075ED6E /* CollectionViewController.h */,
+				5F5C1309192DECCB0075ED6E /* CollectionViewController.m */,
+			);
+			name = Collection;
+			sourceTree = "<group>";
+		};
+		5F5C130B192DED7F0075ED6E /* Remind */ = {
+			isa = PBXGroup;
+			children = (
+				5F5C130C192DED8E0075ED6E /* RemindViewController.h */,
+				5F5C130D192DED8E0075ED6E /* RemindViewController.m */,
+			);
+			name = Remind;
+			sourceTree = "<group>";
+		};
+		5F5C135A192EE93A0075ED6E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5F5C135F192EEA920075ED6E /* CountdownButton.h */,
+				5F5C1360192EEA920075ED6E /* CountdownButton.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		5F5C1362192F2E9B0075ED6E /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				5F5C1365192F31270075ED6E /* right_white@2x.png */,
+				5F5C1363192F2EB50075ED6E /* user_head_pic@2x.png */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
 		5F63CF7A1924842A005B38FE /* screening */ = {
 			isa = PBXGroup;
 			children = (
@@ -581,6 +679,8 @@
 				5F92374E192C4E1000170DDB /* InvestmentAmountViewController.m */,
 				5F923750192C55D300170DDB /* InvestmentHorizonViewController.h */,
 				5F923751192C55D300170DDB /* InvestmentHorizonViewController.m */,
+				5F9D385319370D04000F6147 /* BankChoiceViewController.h */,
+				5F9D385419370D04000F6147 /* BankChoiceViewController.m */,
 			);
 			name = screening;
 			sourceTree = "<group>";
@@ -610,6 +710,26 @@
 				5F9EF422192B47C300A2D98A /* CheckBox.m */,
 			);
 			name = views;
+			sourceTree = "<group>";
+		};
+		5FC3191C1932DC2C00EB3D5C /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				5FC3191D1932DC5000EB3D5C /* CollectionTableViewCell.h */,
+				5FC3191E1932DC5000EB3D5C /* CollectionTableViewCell.m */,
+			);
+			name = TableViewCell;
+			sourceTree = "<group>";
+		};
+		5FC31920193310F100EB3D5C /* EnjoyPrivateFinance */ = {
+			isa = PBXGroup;
+			children = (
+				5FC319211933111700EB3D5C /* EnjoyPrivateFinanceViewController.h */,
+				5FC319221933111700EB3D5C /* EnjoyPrivateFinanceViewController.m */,
+				5FC31924193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.h */,
+				5FC31925193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.m */,
+			);
+			name = EnjoyPrivateFinance;
 			sourceTree = "<group>";
 		};
 		5FDC8E95191735B300B36EE9 /* Entitys */ = {
@@ -662,6 +782,7 @@
 		5FF69ED819108CBB0010A6C2 /* eggworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F5C135A192EE93A0075ED6E /* Views */,
 				5FDC8E95191735B300B36EE9 /* Entitys */,
 				5F5394C91915FBE700351AFC /* Utils */,
 				5F5394C81915FBC900351AFC /* ViewController */,
@@ -723,6 +844,7 @@
 		5FF69F101910A2660010A6C2 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				5F5C1362192F2E9B0075ED6E /* Account */,
 				5F26DAE21923642C0004837F /* icon */,
 				5F2EE1BB19209FBA00FBBF75 /* FinancialMarket */,
 				5F5394B01915EADD00351AFC /* mobilePhoneEasy */,
@@ -870,6 +992,7 @@
 				5F26DAF0192364400004837F /* 152.png in Resources */,
 				5F9EF427192B481A00A2D98A /* screening_checkbox@2x.png in Resources */,
 				5F26DAF5192366110004837F /* IndexCollection@2x.png in Resources */,
+				5F5C1364192F2EB50075ED6E /* user_head_pic@2x.png in Resources */,
 				5F63CF8C19248D63005B38FE /* right@2x.png in Resources */,
 				5F26DADE192362DC0004837F /* index_lcjs_a.png in Resources */,
 				5F26DACB192360500004837F /* phone_easy_iphone4s@2x.png in Resources */,
@@ -883,6 +1006,7 @@
 				5FFED4C31921BAF500698DA7 /* about_products_normal@2x.png in Resources */,
 				5F26DAEB192364400004837F /* 72.png in Resources */,
 				5F26DAD21923617F0004837F /* index_lcjs@2x.png in Resources */,
+				5F5C1366192F31270075ED6E /* right_white@2x.png in Resources */,
 				5FFED4BF1921BA7300698DA7 /* calculate_earnings_normal@2x.png in Resources */,
 				5F5394BE1915EAFD00351AFC /* my_location@2x.png in Resources */,
 				5F26DADF192362DC0004837F /* index_sjwy_a.png in Resources */,
@@ -931,23 +1055,31 @@
 				5F9EF41C192B062400A2D98A /* InstitutionalChoiceViewController.m in Sources */,
 				5F2673EE191B7930003A27F4 /* Payment.m in Sources */,
 				5F5394C71915F62A00351AFC /* BaseViewController.m in Sources */,
+				5F5C1303192DE9CC0075ED6E /* LoginViewController.m in Sources */,
+				5FC319231933111700EB3D5C /* EnjoyPrivateFinanceViewController.m in Sources */,
 				5F2A72CA1918D473004DEC61 /* HomeDeliveryWayViewController.m in Sources */,
 				5FF69EDF19108CBB0010A6C2 /* main.m in Sources */,
 				5FF69F0819108E1C0010A6C2 /* BottomNavigotionViewController.m in Sources */,
 				5FDC8E9B1917565500B36EE9 /* ConfirmInformationViewController.m in Sources */,
 				5F2A72C71918D439004DEC61 /* MyselfSendWayViewController.m in Sources */,
+				5F9D385519370D04000F6147 /* BankChoiceViewController.m in Sources */,
 				5F5394E819160C2800351AFC /* MyAlertView.m in Sources */,
 				5F2EE1C01920BD9100FBBF75 /* FinancialProductDetailsViewController.m in Sources */,
 				5F5394E0191608F900351AFC /* SBJsonParser.m in Sources */,
 				5F5394E1191608F900351AFC /* SBJsonStreamWriter.m in Sources */,
+				5F5C130A192DECCB0075ED6E /* CollectionViewController.m in Sources */,
 				5F5394AF1915DEFD00351AFC /* ActivationSuccessViewController.m in Sources */,
 				5F5394AC1915D69200351AFC /* ActivationFailViewController.m in Sources */,
+				5F9D385919371ABD000F6147 /* BankSelectedTableViewCell.m in Sources */,
 				5F5394DF191608F900351AFC /* SBJsonBase.m in Sources */,
+				5F5C1361192EEA920075ED6E /* CountdownButton.m in Sources */,
 				5FCC4346191A0AE200027C7E /* SubmitSuccViewController.m in Sources */,
 				5F26DABF1923477F0004837F /* PaymentPageViewController.m in Sources */,
 				5F2673DB191B2739003A27F4 /* AlixPayOrder.m in Sources */,
 				5F5394CC1915FC1D00351AFC /* RequestUtils.m in Sources */,
 				5F5394ED191639BA00351AFC /* Utils.m in Sources */,
+				5F5C1369192F32420075ED6E /* PersonalDataViewController.m in Sources */,
+				5FC31926193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.m in Sources */,
 				5FDC8E98191735E800B36EE9 /* PhoneEasyProduct.m in Sources */,
 				5FFACA7919220438006355CE /* MyselfTableViewCell.m in Sources */,
 				5FF69F1E1910CF660010A6C2 /* ActivateChannelViewController.m in Sources */,
@@ -956,13 +1088,17 @@
 				5F5394E2191608F900351AFC /* SBJsonWriter.m in Sources */,
 				5FF69F0B19108E3C0010A6C2 /* IndexPageViewController.m in Sources */,
 				5F92374F192C4E1000170DDB /* InvestmentAmountViewController.m in Sources */,
+				5F5C1311192DFB540075ED6E /* RegisterViewController.m in Sources */,
+				5F5C1306192DEBBC0075ED6E /* MyAccountViewController.m in Sources */,
 				5F5394E719160C2800351AFC /* AsynRuner.m in Sources */,
+				5FC3191F1932DC5000EB3D5C /* CollectionTableViewCell.m in Sources */,
 				5F923752192C55D300170DDB /* InvestmentHorizonViewController.m in Sources */,
 				5F2EE1BA192094D500FBBF75 /* financialProduct.m in Sources */,
 				5F2EE1B71920914E00FBBF75 /* FinancialMarketTableViewCell.m in Sources */,
 				5F2A72C21918C515004DEC61 /* ClaimsInfoInputViewController.m in Sources */,
 				5F63CF8619248B87005B38FE /* ScreeningItem.m in Sources */,
 				5F63CF7D19248462005B38FE /* ScreeningMainPageViewController.m in Sources */,
+				5F5C130E192DED8E0075ED6E /* RemindViewController.m in Sources */,
 				5F2A72BF1918763D004DEC61 /* UserInfoViewController.m in Sources */,
 				5FDC8E9F19177A4000B36EE9 /* MobilePhoneEasyPaySuccViewController.m in Sources */,
 				5F5394DD191608F900351AFC /* NSObject+SBJSON.m in Sources */,
@@ -1101,7 +1237,7 @@
 					"$(PROJECT_DIR)/alipay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1127,7 +1263,7 @@
 					"$(PROJECT_DIR)/alipay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};

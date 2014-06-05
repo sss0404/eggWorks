@@ -58,7 +58,7 @@
 //------------------------------------------------------------------------------
 
 //获取理财产品
-+(NSDictionary*)getfinancialMarketsWithAreaID:(NSString*)area_id partyId:(NSString*)party_id period:(NSString*)period threshold:(NSString*)threshold page:(int)page;
++(NSDictionary*)getfinancialMarketsWithAreaID:(NSString*)area_id partyId:(id)party_id period:(NSString*)period threshold:(NSString*)threshold page:(int)page keywork:(NSString*)keyword;
 
 //获取理财产品详情
 -(NSDictionary*)getfinancialInfoWithProductId:(NSString*)productId;
@@ -69,6 +69,12 @@
 //添加收藏
 +(NSDictionary*)addFavoritesWithObjectType:(NSString *) object_type withObjectId:(NSString *)object_id;
 
+//取消收藏
++(NSDictionary*)deleteFavoritesWithObjectType:(NSString*)objectType andObjectId:(NSString*)objectId;
+
+//我的收藏
++(NSDictionary*)getFavoritesProducts;
+
 //-----------------------------------基础数据-------------------------------------------
 //查询所有城市 areas_cities
 +(NSDictionary*)getCitys;
@@ -76,5 +82,21 @@
 //获取用户所在的城市
 +(NSDictionary*)getMyCity;
 
+//
 +(NSDictionary*)getInstitutionsWithInstitutions:(NSArray*)array;
+
+//发送短信验证
++(NSDictionary*)sendSMSVerifyWithNumber:(NSString*)number;
+
+//用户注册
++(NSDictionary*)registerWithName:(NSString*)name password:(NSString*)password smsVerify:(NSString*)smsVerify;
+
+//查询用户基本信息
++(NSDictionary*)getUserInfo;
+
+//-------------------------------------私享理财------------------------------------------
+//获取私享理财推荐产品
++(NSDictionary*)getEnjoyPrivateFinanceProductsWithPage:(int)page andForUser:(NSString*)for_user;
+//定制私享理财推荐条件
++(NSDictionary*)customEnjoyPrivateFinanceWithAreaId:(NSString*)area_id threshold:(NSString*)threshold partyIds:(NSArray*)partys productTypes:(NSString*)productTypes;
 @end

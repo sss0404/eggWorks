@@ -16,6 +16,11 @@
 #import "AlixPayResult.h"
 #import "Utils.h"
 #import "FinancialMarketMainViewController.h"
+#import "LoginViewController.h"
+#import "MyAccountViewController.h"
+#import "CollectionViewController.h"
+#import "RemindViewController.h"
+#import "EnjoyPrivateFinanceViewController.h"
 
 @interface IndexPageViewController ()
 
@@ -173,6 +178,8 @@
 -(void)privateFinanceBtnClick:()sender
 {
     NSLog(@"私享理财点击事件");
+    EnjoyPrivateFinanceViewController * enjoyPrivateFinanceVC = [[[EnjoyPrivateFinanceViewController alloc] init] autorelease];
+    [self.navigationController pushViewController:enjoyPrivateFinanceVC animated:YES];
 }
 
 //信用卡点击事件
@@ -265,6 +272,72 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+-(void)bottomClick:(id)sender
+{
+    int tag = ((UIButton*)sender).tag;
+    switch (tag) {
+        case 0:
+            [self remindBtnClick:sender];
+            break;
+        case 1:
+            [self collectionBtnClick:sender];
+            break;
+        case 2:
+            [self accountBtnClick:sender];
+            break;
+        default:
+            break;
+    }
+    
+}
+
+//提醒按钮点击
+-(void)remindBtnClick:(id)sender
+{
+    NSString * userId = [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID];
+    if (userId.length == 0) {
+        //进入登录页面
+        [self.navigationController pushViewController:[self getLoginVC] animated:YES];
+    } else {
+        RemindViewController * remindVC = [[[RemindViewController alloc] init] autorelease];
+        [self.navigationController pushViewController:remindVC animated:YES];
+    }
+}
+
+//收藏按钮点击
+-(void)collectionBtnClick:(id)sender
+{
+    NSString * userId = [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID];
+    if (userId.length == 0) {
+        //进入登录页面
+        [self.navigationController pushViewController:[self getLoginVC] animated:YES];
+    } else {
+        CollectionViewController * collectionVC = [[[CollectionViewController alloc] init] autorelease];
+        [self.navigationController pushViewController:collectionVC animated:YES];
+    }
+}
+
+//账户按钮
+-(void)accountBtnClick:(id)sender
+{
+    NSString * userId = [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID];
+    if (userId.length == 0) {
+        //进入登录页面
+        [self.navigationController pushViewController:[self getLoginVC] animated:YES];
+    } else {
+        //进入我的账户页面
+        MyAccountViewController * myAccountVC = [[[MyAccountViewController alloc] init] autorelease];
+        [self.navigationController pushViewController:myAccountVC animated:YES];
+    }
+    
+}
+
+-(UIViewController*) getLoginVC
+{
+    LoginViewController * loginVC = [[[LoginViewController alloc] init] autorelease];
+    return loginVC;
 }
 
 - (void)didReceiveMemoryWarning

@@ -9,6 +9,8 @@
 #import "BottomNavigotionViewController.h"
 #import "AsynRuner.h"
 
+
+
 @interface FinancialMarketMainViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
 {
     BOOL isLoadState;
@@ -19,4 +21,5 @@
 @property (nonatomic, retain) NSMutableArray * array;
 @property (nonatomic, retain) NSDictionary * currData;
 @property (nonatomic, retain) AsynRuner * asynrunner;
+@property (nonatomic, retain) NSDictionary * obj;//用户筛选的数据
 @end

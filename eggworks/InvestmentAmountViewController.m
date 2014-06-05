@@ -89,6 +89,7 @@ static NSMutableDictionary * investmentAmount;
     [investmentAmount setValue:[NSNumber numberWithBool:self.bankProduct.selected] forKey:@"10w"];
     [investmentAmount setValue:[NSNumber numberWithBool:self.fundProduct.selected] forKey:@"10w50w"];
     [investmentAmount setValue:[NSNumber numberWithBool:self.insuranceProduct.selected] forKey:@"50w"];
+    [self.passingParameters completeParameters:investmentAmount withTag:self.resultCode];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

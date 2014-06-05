@@ -13,6 +13,7 @@
 @synthesize selected = _selected;
 @synthesize title = _title;
 @synthesize btn = _btn;
+@synthesize indexPath = _indexPath;
 //@synthesize action = _action;
 //@synthesize target = _target;
 
@@ -21,6 +22,7 @@
     [_title release]; _title = nil;
     [_btn release]; _btn = nil;
 //    [_target release]; _target = nil;
+    [_indexPath release]; _indexPath = nil;
     [super dealloc];
 }
 
@@ -47,7 +49,7 @@
     [self addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_btn];
     
-    self.title = [[[UILabel alloc] initWithFrame:CGRectMake(20, 0, 320, 15)] autorelease];
+    self.title = [[[UILabel alloc] initWithFrame:CGRectMake(20, 0, self.frame.size.width-15, 15)] autorelease];
     [self addSubview:_title];
 }
 

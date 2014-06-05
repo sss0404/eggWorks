@@ -37,11 +37,27 @@
 #define base_interest_rates             @"/master_data/base_interest_rates.json"
 //收藏
 #define profile_favorites               @"/profile/favorites.json"
+//取消收藏
+#define cancel_favorites                @"/profile/favorites/%@/%@/delete.json"//@"/profile/favorites/%@/%@"
+//获取私享理财列表
+#define products_recommendation         @"/market/invest_products/recommendation.json"
+//定制私享理财推荐条件
+#define recommend_preferences           @"/profile/recommend_preferences.json"
+
 //======================================基础数据接口=====
 //获取所有城市
 #define areas_cities                    @"/areas/cities.json"
 //获取当前用户所在城市
 #define city_of_ip                      @"/areas/city_of_ip.json"
 //查询机构
-#define  institutions_parties                        @"/parties.json"
+#define  institutions_parties           @"/parties.json"
+//用户注册
+#define user_register                   @"/users.json"
+//发送短信验证
+#define send_sms_verify                 @"/sms_verify_code.json"
+//=======================================用户基本信息
+//查询用户基本信息
+#define user_info                       @"/my.json"
+//查询用户收藏的产品
+#define favorites                       @"/profile/favorites.json"
 

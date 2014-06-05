@@ -103,4 +103,65 @@
     
     return result;
 }
+
++(NSString*)array2String:(NSArray*)array withKey:(NSString*)key andStr:(NSString*)str
+{
+    NSString * result = @"";
+    for (int i=0; i<array.count; i++) {
+        id data = [array objectAtIndex:i];
+        result = [NSString stringWithFormat:@"%@%@%@", result,[data objectForKey:key],str];
+    }
+    
+    return result;
+}
+
+//获取用户登录名
++(NSString*)getAccount
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    NSString * uid = [userDefault objectForKey:USER_ID];
+    return uid;
+}
+
+//保持用户账号
++(void)saveAccount:(NSString *) account
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:account forKey:USER_ID];
+    [userDefault synchronize];
+}
+
+//获取用户密码
++(NSString*)getPassword
+{
+//PASSWORD
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    NSString * password = [userDefault objectForKey:PASSWORD];
+    return password;
+}
+
+//保存用户密码
++(void)savePassword:(NSString *) password
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:password forKey:PASSWORD];
+    [userDefault synchronize];
+}
+
+//保存用户id
++(void)saveIdForUser:(NSString*)uid
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:uid forKey:@"uid"];
+    [userDefault synchronize];
+}
+
+//获取用户id
++(NSString*)getUid
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    NSString * uid = [userDefault objectForKey:@"uid"];
+    return uid;
+}
+
 @end

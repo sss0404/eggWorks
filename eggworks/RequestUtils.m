@@ -9,6 +9,7 @@
 #import "RequestUtils.h"
 #import "JSON.h"
 #import "PhoneEasyProduct.h"
+#import "Utils.h"
 
 @implementation RequestUtils
 
@@ -124,8 +125,8 @@
 -(NSDictionary*)ordersJson
 {
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-    NSString * userId = [userDefault objectForKey:USER_ID];
-    NSString * password = [userDefault objectForKey:PASSWORD];
+    NSString * userId = [Utils getAccount];
+    NSString * password = [Utils getPassword];
     [self saveWithUid:userId andPassword:password];
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,orders_json];
     NSString * str = [RequestUtils requestWithGet:url];
@@ -149,9 +150,8 @@
     NSString * parameter = [NSString stringWithFormat:@"?order_id=%@&contact_mobil=%@&pick_method=%i&damage=%i&store_id=%@&pick_time=%i&pick_address=%@",order_id,contact_mobil,pick_method,damage,store_id,pick_time,pick_address];
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
     //发送请求
-    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-    NSString * userId = [userDefault objectForKey:USER_ID];
-    NSString * password = [userDefault objectForKey:PASSWORD];
+    NSString * userId = [Utils getAccount];
+    NSString * password = [Utils getPassword];
     [self saveWithUid:userId andPassword:password];
     parameter = [parameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString * str = [RequestUtils requestWithPostApiAndParameter:parameter withUrl:url];
@@ -169,9 +169,8 @@
                                          totalFee:(float)total_fee
                                            detail:(NSString*)detail
 {
-    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-    NSString * userId = [userDefault objectForKey:USER_ID];
-    NSString * password = [userDefault objectForKey:PASSWORD];
+    NSString * userId = [Utils getAccount];
+    NSString * password = [Utils getPassword];
     [self saveWithUid:userId andPassword:password];
     NSString * api = payment_transactions;
     NSString * parameter = [NSString stringWithFormat:@"?pay_gateway=%@&object_type=%@&object_id=%@",pay_gateway,object_type,object_id];
@@ -207,10 +206,19 @@
 
 
 //获取理财产品
-+(NSDictionary*)getfinancialMarketsWithAreaID:(NSString*)area_id partyId:(NSString*)party_id period:(NSString*)period threshold:(NSString*)threshold page:(int)page
++(NSDictionary*)getfinancialMarketsWithAreaID:(NSString*)area_id partyId:(id)party_id period:(NSString*)period threshold:(NSString*)threshold page:(int)page keywork:(NSString*)keyword
 {
+    NSString * party_id_str = @"&party_id=";
+    if (party_id != nil) {
+        if ([party_id isKindOfClass:[NSString class]]) {//事字符串
+            party_id_str = [NSString stringWithFormat:@"%@%@",party_id_str,party_id];
+        } else {
+            party_id_str = [self array2StringParameter:party_id withParameterName:@"party_ids[]" andKey:@"id"];
+        }
+    }
+        
     NSString * api = financial_market_products;
-    NSString * parameter = [NSString stringWithFormat:@"?area_id=%@&party_id=%@&period=%@&threshold=%@&page=%i",area_id,party_id,period,threshold,page];
+    NSString * parameter = [NSString stringWithFormat:@"?area_id=%@%@&period=%@&threshold=%@&page=%i&keyword=%@",area_id,party_id_str,period,threshold,page,keyword];
     NSString * url = [NSString stringWithFormat:@"%@%@%@",SERVER_ADDR_HTTP,api,parameter];
     NSString * str = [self requestWithGet:url];
 //    NSLog(@"获取理财产品:%@", str);
@@ -223,8 +231,9 @@
 //获取理财产品详情
 -(NSDictionary*)getfinancialInfoWithProductId:(NSString*)productId
 {
+    [RequestUtils setUserAndPsd];
     NSString * api = [NSString stringWithFormat:financial_products_info,productId];
-    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP, api];
+    NSString * url = [NSString stringWithFormat:@"%@%@?for_user=%@",SERVER_ADDR_HTTP, api,[Utils getAccount]];
     NSString * str = [RequestUtils requestWithGet:url];
     SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
     NSDictionary* dic = [jsonParser objectWithString:str];
@@ -246,16 +255,51 @@
 //添加收藏
 +(NSDictionary*)addFavoritesWithObjectType:(NSString *) object_type withObjectId:(NSString *)object_id
 {
-    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-    NSString * userId = [userDefault objectForKey:USER_ID];
-    NSString * password = [userDefault objectForKey:PASSWORD];
-    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
-    [requestUtils saveWithUid:userId andPassword:password];
+    [self setUserAndPsd];
     
     NSString * api = profile_favorites;
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP, api];
     NSString * parameter = [NSString stringWithFormat:@"?object_type=%@&object_id=%@", object_type, object_id];
     NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    return dic;
+}
+
+//取消收藏
++(NSDictionary*)deleteFavoritesWithObjectType:(NSString*)objectType andObjectId:(NSString*)objectId
+{
+    [self setUserAndPsd];
+    
+    NSString * api = [NSString stringWithFormat:cancel_favorites, objectType, objectId];
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP, api];
+    NSString * str = [self requestWithPostApiAndParameter:@"" withUrl:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    return dic;
+}
+
++(void)setUserAndPsd
+{
+    NSString * userId = [Utils getAccount];
+    NSString * password = [Utils getPassword];
+    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+    [requestUtils saveWithUid:userId andPassword:password];
+}
+
+
+//我的收藏
++(NSDictionary*)getFavoritesProducts
+{
+    //添加
+    NSString * userId = [Utils getAccount];
+    NSString * password = [Utils getPassword];
+    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+    [requestUtils saveWithUid:userId andPassword:password];
+    
+    NSString * api = favorites;
+    NSString * url = [NSString stringWithFormat:@"%@%@", SERVER_ADDR_HTTP, api];
+    NSString * str =  [self requestWithGet:url];
     SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
     NSDictionary* dic = [jsonParser objectWithString:str];
     return dic;
@@ -314,4 +358,84 @@
     return str;
 }
 
+
+
+//拼接参数
++(NSString*)array2StringParameter:(NSArray*)array withParameterName:(NSString *)parameterName andKey:(NSString*)key
+{
+    NSString * str = @"";
+    
+    for (int i=0; i<array.count; i++) {
+        
+        str = [NSString stringWithFormat:@"%@&%@=%@",str,parameterName,[[array objectAtIndex:i] objectForKey:key]];
+    }
+    return str;
+}
+
+//发送短信验证
++(NSDictionary*)sendSMSVerifyWithNumber:(NSString*)number
+{
+    NSString * api = send_sms_verify;
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
+    NSString * parameter = [NSString stringWithFormat:@"?mobile_phone=%@",number];
+    NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    return dic;
+}
+
+//用户注册
++(NSDictionary*)registerWithName:(NSString*)name password:(NSString*)password smsVerify:(NSString*)smsVerify
+{
+    NSString * api = user_register;
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
+    NSString * parameter = [NSString stringWithFormat:@"?mobile_phone=%@&user[password]=%@&verify_code=%@",name,password,smsVerify];
+    NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    return dic;
+}
+
+//查询用户基本信息
++(NSDictionary*)getUserInfo
+{
+    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+    
+    [requestUtils saveWithUid:[Utils getAccount] andPassword:[Utils getPassword]];
+    NSString * api = user_info;
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
+    NSString * str =  [self requestWithGet:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    return dic;
+}
+
+//获取私享理财推荐产品
++(NSDictionary*)getEnjoyPrivateFinanceProductsWithPage:(int)page andForUser:(NSString*)for_user
+{
+    [self setUserAndPsd];
+    
+    NSString * api = products_recommendation;
+    NSString * parameter = [NSString stringWithFormat:@"?page=%i&for_user=%@",page,for_user];
+    NSString * url = [NSString stringWithFormat:@"%@%@%@",SERVER_ADDR_HTTP,api,parameter];
+    NSString * str =  [self requestWithGet:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    
+    return dic;
+}
+
+//定制私享理财推荐条件
++(NSDictionary*)customEnjoyPrivateFinanceWithAreaId:(NSString*)area_id threshold:(NSString*)threshold partyIds:(NSArray*)partys productTypes:(NSString*)productTypes
+{
+    NSString * partysStr = [self array2StringParameter:partys withParameterName:@"party_ids[]" andKey:@"id"];
+    NSString * api = recommend_preferences;
+    NSString * url = [NSString stringWithFormat:@"%@%@", SERVER_ADDR_HTTP, api];
+    NSString * parameter = [NSString stringWithFormat:@"?area_id=%@&threshold=%@%@%@",area_id, threshold, partysStr,productTypes];
+    NSLog(@"私享理财 定制推荐:%@",parameter);
+    NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    return dic;
+}
 @end
