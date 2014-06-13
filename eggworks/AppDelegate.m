@@ -13,34 +13,50 @@
 #import "DataVerifier.h"
 #import "Utils.h"
 #import "RequestUtils.h"
+#import "FirstViewController.h"
 
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@synthesize rootView = _rootView;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [self checkFirstUseThisApp];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    IndexPageViewController * indexPageViewController = [[[IndexPageViewController alloc] init] autorelease];
-    UINavigationController * rootView = [[[UINavigationController alloc] initWithRootViewController:indexPageViewController] autorelease];
-    self.window.rootViewController = rootView;
+    
+    BOOL isFirstUse = [self checkFirstUseThisApp];
+//    isFirstUse = YES;//测试第一次使用  暂时设定是第一次使用
+    if (isFirstUse) {
+        FirstViewController * firstVC = [[[FirstViewController alloc] init] autorelease];
+         self.rootView = [[[UINavigationController alloc] initWithRootViewController:firstVC] autorelease];
+        self.window.rootViewController = _rootView;
+        
+    } else {
+        IndexPageViewController * indexPageViewController = [[[IndexPageViewController alloc] init] autorelease];
+        self.rootView = [[[UINavigationController alloc] initWithRootViewController:indexPageViewController] autorelease];
+        self.window.rootViewController = _rootView;
+    }
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
 
--(void)checkFirstUseThisApp
+//检测是否第一次使用app
+-(BOOL)checkFirstUseThisApp
 {
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
     NSString * firstUse = [userDefault objectForKey:@"firstUseThisApp"];
     if (firstUse.length == 0) {
         RequestUtils * requestUtil = [[[RequestUtils alloc] init] autorelease];
         [requestUtil saveWithUid:@"" andPassword:@""];
+        [userDefault setObject:@"nofirstuse" forKey:@"firstUseThisApp"];
+        [userDefault synchronize];
+        return YES;
     }
+    return NO;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

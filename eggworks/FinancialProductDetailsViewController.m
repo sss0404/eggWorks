@@ -14,6 +14,10 @@
 #import "SBJsonParser.h"
 #import "Utils.h"
 #import "PaymentPageViewController.h"
+#import "LoginViewController.h"
+
+//收藏产品
+#define COLLECTION_PRODUCT @"collection_product"
 
 @interface FinancialProductDetailsViewController ()
 
@@ -405,9 +409,9 @@
                         }
                     }
                 }
-            }];
+            } inView:self.view];
             
-        }];
+        } inView:self.view];
     }
     @catch (NSException *exception) {
         
@@ -448,7 +452,7 @@
     } onUpdateUI:^(id obj){
         self.aboutProducts = obj;
         [_aboutProductsView reloadData];
-    }];
+    } inView:self.view];
 }
 
 //-(NSString *)newFloat:(float)value withNumber:(int)numberOfPlace
@@ -513,6 +517,20 @@
 {
     NSLog(@"加入收藏");
     
+    if ([Utils getAccount].length == 0) {
+        LoginViewController * loginVC = [[[LoginViewController alloc] init] autorelease];
+        loginVC.action = action_return;
+        loginVC.passingParameters = self;
+        loginVC.resultCode = COLLECTION_PRODUCT;
+        [self.navigationController pushViewController:loginVC animated:YES];
+        return;
+    }
+    [self collectionProduct];
+}
+
+//收藏产品
+-(void)collectionProduct
+{
     if ([_collectionBtn.currentTitle isEqualToString:@"加入收藏"]) {
         [_asynRunner runOnBackground:^{
             NSDictionary * dic = [RequestUtils addFavoritesWithObjectType:_financialProduct.type withObjectId:[_productInfo objectForKey:@"id"]];
@@ -522,7 +540,7 @@
                 Show_msg(@"提示", @"收藏成功");
                 [self getProductInfoWithProductId:_financialProduct.id_];
             }
-        }];
+        } inView:self.view];
     } else {
         //取消收藏
         [_asynRunner runOnBackground:^{
@@ -532,9 +550,8 @@
                 Show_msg(@"提示", @"取消收藏成功");
                 [self getProductInfoWithProductId:_financialProduct.id_];
             }
-        }];
+        } inView:self.view];
     }
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -788,6 +805,15 @@
         self.financialProduct = aboutFinancialP;
         [self getProductInfoWithProductId:aboutFinancialP.id_];
         [self productInfoBtnClick:nil];
+    }
+}
+
+
+#pragma mark - 从其他页面返回
+-(void)completeParameters:(id)obj withTag:(NSString *)tag
+{
+    if ([tag isEqualToString:COLLECTION_PRODUCT]) {//收藏登录后的页面
+        [self collectionProduct];
     }
 }
 

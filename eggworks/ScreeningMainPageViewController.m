@@ -245,7 +245,7 @@
                       onUpdateUI:^(id obj) {
                           [Utils saveCurrCity:obj];
                           [_city.btn setTitle:[obj objectForKey:@"name"] forState:UIControlStateNormal];
-    }];
+    } inView:self.view];
 }
 
 //立即查看按钮点击事件

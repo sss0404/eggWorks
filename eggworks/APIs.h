@@ -16,7 +16,7 @@
 //手机保险接口
 
 //匿名用户激活服务
-#define anonymous_active                @"/mobile_service/orders/anonymous_active.json"
+#define anonymous_active                @"/mobile_service/orders/active.json"
 //查询手机无忧产品
 #define mobile_service_products         @"/mobile_service/products.json"
 //匿名用户自助申购服务
@@ -60,4 +60,9 @@
 #define user_info                       @"/my.json"
 //查询用户收藏的产品
 #define favorites                       @"/profile/favorites.json"
+//查询手机损坏原因
+#define damage_reason                   @"/codes.json"
+//修改密码
+#define update_password                 @"/profile/passwords.json"
+
 

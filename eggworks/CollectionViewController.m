@@ -71,7 +71,7 @@
             self.products =  [obj objectForKey:@"favorites"];
             [_tableView reloadData];
         }
-    }];
+    } inView:self.view];
     
 }
 

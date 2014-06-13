@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 #import "PhoneEasyProduct.h"
+#import "CountdownButton.h"
+#import "AsynRuner.h"
 
 @interface SelfHelpBuyViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
 {
@@ -21,10 +23,12 @@
 @property (nonatomic, retain) UITextField * IMEI;
 @property (nonatomic, retain) UITextField * brand;
 @property (nonatomic, retain) UITextField * model;
+@property (nonatomic, retain) UITextField * verification;
 @property (nonatomic, retain) UIScrollView * scrollView;
 @property (nonatomic, retain) UIView * getIMEIView;
 @property (nonatomic, retain) UITableView * tableView;
 @property (nonatomic, retain) NSArray * packages;
-
+@property (nonatomic, retain) CountdownButton * sendSMS;
+@property (nonatomic, retain) AsynRuner * asynRunner;
 
 @end

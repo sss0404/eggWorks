@@ -21,6 +21,12 @@
 #import "CollectionViewController.h"
 #import "RemindViewController.h"
 #import "EnjoyPrivateFinanceViewController.h"
+#import "MyOrderViewController.h"
+#import "IndexButton.h"
+
+enum IndexPageResultCode {
+    EnjoyPrivateFinance
+};
 
 @interface IndexPageViewController ()
 
@@ -44,126 +50,164 @@
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
     }
     
-    float ios7_d_height = 0;
-    if (IOS7) {
-        ios7_d_height = 20;
-    }
+//    float ios7_d_height = 0;
+//    if (IOS7) {
+//        ios7_d_height = 20;
+//    }
     
     float iphone5_height = 0;
     if (IPhone5) {
         iphone5_height = 20;
     }
     
-    float interval = 3;
-    UIImageView * ad = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 20, kApplicationWidth, 141)] autorelease];
-    ad.image = [UIImage imageNamed:@"ad"];
-    [self.view addSubview:ad];
-//    CARelease(ad);
+//    float interval = 3;
+//    UIImageView * ad = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 20, kApplicationWidth, 141)] autorelease];
+//    ad.image = [UIImage imageNamed:@"ad"];
+//    [self.view addSubview:ad];
+////    CARelease(ad);
+//    
+//    //理财集市
+//    float financialMarketsHeight = IPhone5 ? 176 : 133.5;
+////    float financialMarketsHeight = (kApplicationHeight - 144 - BOTTOM_HEIGHT -15 + ios7_d_height)/2;
+//    UIButton * financialMarketsBtn = [[[UIButton alloc] initWithFrame:CGRectMake(interval, 144+ios7_d_height,(kApplicationWidth-interval*3)/2 ,financialMarketsHeight)] autorelease];
+//    [financialMarketsBtn setBackgroundImage:[UIImage imageNamed:@"index_lcjs"] forState:UIControlStateNormal];
+//    [financialMarketsBtn setBackgroundImage:[UIImage imageNamed:@"index_lcjs_a"] forState:UIControlStateHighlighted];
+//    [financialMarketsBtn addTarget:self action:@selector(financialMarketsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:financialMarketsBtn];
+//    
+//    UIImageView * financialMarketImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Financial_markets"]]autorelease];
+//    financialMarketImg.frame = CGRectMake(52, 20+iphone5_height, 49, 53);
+//    [financialMarketsBtn addSubview:financialMarketImg];
+//    
+//    UILabel * financialMarketsText = [[[UILabel alloc] initWithFrame:CGRectMake(45, 80+iphone5_height, 130, 30)] autorelease];
+//    financialMarketsText.text = @"理财集市";
+//    financialMarketsText.font = [UIFont systemFontOfSize:16];
+//    financialMarketsText.textColor = [UIColor whiteColor];
+//    [financialMarketsBtn addSubview:financialMarketsText];
+//    
+//    
+//    //私享理财
+//    float privateFinanceY = financialMarketsBtn.frame.size.height + financialMarketsBtn.frame.origin.y+interval;
+////    financialMarketsBtn.frame.size.height;
+//    UIButton * privateFinanceBtn = [[[UIButton alloc] initWithFrame:CGRectMake(interval, privateFinanceY, (kApplicationWidth-interval*3)/2, financialMarketsHeight)] autorelease];
+//    [privateFinanceBtn setBackgroundImage:[UIImage imageNamed:@"index_sxlc"] forState:UIControlStateNormal];
+//    [privateFinanceBtn setBackgroundImage:[UIImage imageNamed:@"index_sxlc_a"] forState:UIControlStateHighlighted];
+//    [privateFinanceBtn addTarget:self action:@selector(privateFinanceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:privateFinanceBtn];
+//    
+//    UIImageView * privateFinanceImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"thought_financial"]]autorelease];
+//    privateFinanceImg.frame = CGRectMake(52, 20+iphone5_height, 49, 53);
+//    [privateFinanceBtn addSubview:privateFinanceImg];
+//    
+//    UILabel * privateFinanceText = [[[UILabel alloc] initWithFrame:CGRectMake(45, 80+iphone5_height, 130, 30)] autorelease];
+//    privateFinanceText.text = @"私享理财";
+//    privateFinanceText.font = [UIFont systemFontOfSize:16];
+//    privateFinanceText.textColor = [UIColor whiteColor];
+//    [privateFinanceBtn addSubview:privateFinanceText];
+//    
+//    
+//    float cardBtnHeight = IPhone5 ? 87.5 : 72.5;
+//    //信用卡
+//    UIButton * cardBtn = [[[UIButton alloc] initWithFrame:CGRectMake((kApplicationWidth-interval*3)/2 + interval*2, 144+ios7_d_height, (kApplicationWidth-interval*3)/2, cardBtnHeight)] autorelease];
+//    [cardBtn setBackgroundImage:[UIImage imageNamed:@"index_xyk"] forState:UIControlStateNormal];
+//    [cardBtn setBackgroundImage:[UIImage imageNamed:@"index_xyk"] forState:UIControlStateHighlighted];
+//    [cardBtn addTarget:self action:@selector(cardBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:cardBtn];
+//    
+//    UIImageView * cardImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"credit_card"]]autorelease];
+//    cardImg.frame = CGRectMake(52, 20+iphone5_height, 49.5, 30.5);
+//    [cardBtn addSubview:cardImg];
+//    
+//    UILabel * cardText = [[[UILabel alloc] initWithFrame:CGRectMake(45, 80+iphone5_height, 130, 30)] autorelease];
+//    cardText.text = @"信用卡";
+//    cardText.font = [UIFont systemFontOfSize:16];
+//    cardText.textColor = [UIColor whiteColor];
+//    [cardBtn addSubview:cardText];
+//    
+//    float phoneEasyHeight = IPhone5 ? 173.5 : 117.5;
+//    //手机无忧
+//    float cardBtnX = cardBtn.frame.origin.x;
+//    float cardBtnY = cardBtn.frame.origin.y;
+////    float cardHeight =  cardBtn.frame.size.height;
+//    float cardWidth =  cardBtn.frame.size.width;
+//    UIButton * phoneEasy = [[[UIButton alloc] initWithFrame:CGRectMake(cardBtnX, cardBtnY + cardBtnHeight + interval, cardWidth, phoneEasyHeight)] autorelease];
+//    [phoneEasy setBackgroundImage:[UIImage imageNamed:@"index_sjwy"] forState:UIControlStateNormal];
+//    [phoneEasy setBackgroundImage:[UIImage imageNamed:@"index_sjwy_a"] forState:UIControlStateNormal];
+//    [phoneEasy addTarget:self action:@selector(phoneEasyClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:phoneEasy];
+//    
+//    UIImageView * phoneEasyImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"phone_easy"]]autorelease];
+//    phoneEasyImg.frame = CGRectMake(62, 20+iphone5_height, 30, 51.5);
+//    [phoneEasy addSubview:phoneEasyImg];
+//    
+//    UILabel * phoneEasyText = [[[UILabel alloc] initWithFrame:CGRectMake(45, 80+iphone5_height, 130, 30)] autorelease];
+//    phoneEasyText.text = @"手机无忧";
+//    phoneEasyText.font = [UIFont systemFontOfSize:16];
+//    phoneEasyText.textColor = [UIColor whiteColor];
+//    [phoneEasy addSubview:phoneEasyText];
+//    
+//    float CarInsuranceBtnHeight = IPhone5 ? 87.5 : 72.5;
+//    //车险
+//    float phoneEasyBtnX = phoneEasy.frame.origin.x;
+//    float phoneEasyBtnY = phoneEasy.frame.origin.y;
+////    float phoneEasyHeight =  phoneEasy.frame.size.height;
+//    float phoneEasyWidth =  phoneEasy.frame.size.width;
+//    if (!IPhone5) {
+//        CarInsuranceBtnHeight += 1;
+//    }
+//    UIButton * CarInsuranceBtn = [[[UIButton alloc] initWithFrame:CGRectMake(phoneEasyBtnX, phoneEasyBtnY + phoneEasyHeight + interval, phoneEasyWidth, CarInsuranceBtnHeight)] autorelease];
+//    [CarInsuranceBtn setBackgroundImage:[UIImage imageNamed:@"index_cx"] forState:UIControlStateNormal];
+//    [CarInsuranceBtn setBackgroundImage:[UIImage imageNamed:@"index_cx"] forState:UIControlStateHighlighted];
+//    [CarInsuranceBtn addTarget:self action:@selector(CarInsuranceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:CarInsuranceBtn];
+//    
+//    UIImageView * CarInsuranceImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"car_insurance"]]autorelease];
+//    CarInsuranceImg.frame = CGRectMake(52, 20+iphone5_height, 47.5, 26.5);
+//    [CarInsuranceBtn addSubview:CarInsuranceImg];
+//    
+//    UILabel * CarInsuranceText = [[[UILabel alloc] initWithFrame:CGRectMake(45, 80+iphone5_height, 130, 30)] autorelease];
+//    CarInsuranceText.text = @"车险";
+//    CarInsuranceText.font = [UIFont systemFontOfSize:16];
+//    CarInsuranceText.textColor = [UIColor whiteColor];
+//    [CarInsuranceBtn addSubview:CarInsuranceText];
     
-    //理财集市
-    float financialMarketsHeight = IPhone5 ? 176 : 133.5;
-//    float financialMarketsHeight = (kApplicationHeight - 144 - BOTTOM_HEIGHT -15 + ios7_d_height)/2;
-    UIButton * financialMarketsBtn = [[[UIButton alloc] initWithFrame:CGRectMake(interval, 144+ios7_d_height,(kApplicationWidth-interval*3)/2 ,financialMarketsHeight)] autorelease];
-    [financialMarketsBtn setBackgroundImage:[UIImage imageNamed:@"index_lcjs"] forState:UIControlStateNormal];
-    [financialMarketsBtn setBackgroundImage:[UIImage imageNamed:@"index_lcjs_a"] forState:UIControlStateHighlighted];
+//    [IndexButton alloc] initWithFrame:CGRectMake(, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
+    
+    float ios7_d_height = 0;
+    if (IOS7) {
+        ios7_d_height = IOS7_HEIGHT;
+    }
+    float adHeight = 206.75;
+    
+    if (!IPhone5) {
+        adHeight = 206.75 - 35.2;
+    }
+    IndexButton * ad = [[[IndexButton alloc] initWithFrame:CGRectMake(10, 30, kScreenWidth-20, adHeight)] autorelease];
+    ad.backgroundColor = [UIColor colorWithRed:.85 green:.04 blue:.14 alpha:1];
+    ad.funcImg.image = [UIImage imageNamed:@"logo"];
+    [self.view addSubview:ad];
+    
+    IndexButton * financialMarketsBtn = [[[IndexButton alloc] initWithFrame:CGRectMake(10, 10+ad.frame.origin.y+ad.frame.size.height, 146, IPhone5 ? 123.25 : 123.25-26.4)] autorelease];
+    financialMarketsBtn.funcName.text = @"理财集市";
+    financialMarketsBtn.describtion.text = @"当日收益最高理财产品排行";
+    financialMarketsBtn.funcImg.image = [UIImage imageNamed:@"Financial_markets"];
+    financialMarketsBtn.backgroundColor = [UIColor colorWithRed:1 green:.64 blue:.25 alpha:1];
     [financialMarketsBtn addTarget:self action:@selector(financialMarketsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:financialMarketsBtn];
     
-    UIImageView * financialMarketImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Financial_markets"]]autorelease];
-    financialMarketImg.frame = CGRectMake(52, 20+iphone5_height, 49, 53);
-    [financialMarketsBtn addSubview:financialMarketImg];
+    IndexButton * ejoyPrivateFinanceBtn = [[[IndexButton alloc] initWithFrame:CGRectMake(10, 10+financialMarketsBtn.frame.origin.y+financialMarketsBtn.frame.size.height, 146, IPhone5 ? 123.25 : 123.25-26.4)] autorelease];
+    ejoyPrivateFinanceBtn.backgroundColor = [UIColor colorWithRed:.28 green:.85 blue:.78 alpha:1];
+    ejoyPrivateFinanceBtn.funcName.text = @"私享理财";
+    ejoyPrivateFinanceBtn.funcImg.image = [UIImage imageNamed:@"thought_financial"];
+    [ejoyPrivateFinanceBtn addTarget:self action:@selector(privateFinanceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:ejoyPrivateFinanceBtn];
     
-    UILabel * financialMarketsText = [[[UILabel alloc] initWithFrame:CGRectMake(45, 80+iphone5_height, 130, 30)] autorelease];
-    financialMarketsText.text = @"理财集市";
-    financialMarketsText.font = [UIFont systemFontOfSize:16];
-    financialMarketsText.textColor = [UIColor whiteColor];
-    [financialMarketsBtn addSubview:financialMarketsText];
-    
-    
-    //私享理财
-    float privateFinanceY = financialMarketsBtn.frame.size.height + financialMarketsBtn.frame.origin.y+interval;
-//    financialMarketsBtn.frame.size.height;
-    UIButton * privateFinanceBtn = [[[UIButton alloc] initWithFrame:CGRectMake(interval, privateFinanceY, (kApplicationWidth-interval*3)/2, financialMarketsHeight)] autorelease];
-    [privateFinanceBtn setBackgroundImage:[UIImage imageNamed:@"index_sxlc"] forState:UIControlStateNormal];
-    [privateFinanceBtn setBackgroundImage:[UIImage imageNamed:@"index_sxlc_a"] forState:UIControlStateHighlighted];
-    [privateFinanceBtn addTarget:self action:@selector(privateFinanceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:privateFinanceBtn];
-    
-    UIImageView * privateFinanceImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"thought_financial"]]autorelease];
-    privateFinanceImg.frame = CGRectMake(52, 20+iphone5_height, 49, 53);
-    [privateFinanceBtn addSubview:privateFinanceImg];
-    
-    UILabel * privateFinanceText = [[[UILabel alloc] initWithFrame:CGRectMake(45, 80+iphone5_height, 130, 30)] autorelease];
-    privateFinanceText.text = @"私享理财";
-    privateFinanceText.font = [UIFont systemFontOfSize:16];
-    privateFinanceText.textColor = [UIColor whiteColor];
-    [privateFinanceBtn addSubview:privateFinanceText];
-    
-    
-    float cardBtnHeight = IPhone5 ? 87.5 : 72.5;
-    //信用卡
-    UIButton * cardBtn = [[[UIButton alloc] initWithFrame:CGRectMake((kApplicationWidth-interval*3)/2 + interval*2, 144+ios7_d_height, (kApplicationWidth-interval*3)/2, cardBtnHeight)] autorelease];
-    [cardBtn setBackgroundImage:[UIImage imageNamed:@"index_xyk"] forState:UIControlStateNormal];
-    [cardBtn setBackgroundImage:[UIImage imageNamed:@"index_xyk"] forState:UIControlStateHighlighted];
-    [cardBtn addTarget:self action:@selector(cardBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:cardBtn];
-    
-    UIImageView * cardImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"credit_card"]]autorelease];
-    cardImg.frame = CGRectMake(52, 20+iphone5_height, 49.5, 30.5);
-    [cardBtn addSubview:cardImg];
-    
-    UILabel * cardText = [[[UILabel alloc] initWithFrame:CGRectMake(45, 80+iphone5_height, 130, 30)] autorelease];
-    cardText.text = @"信用卡";
-    cardText.font = [UIFont systemFontOfSize:16];
-    cardText.textColor = [UIColor whiteColor];
-    [cardBtn addSubview:cardText];
-    
-    float phoneEasyHeight = IPhone5 ? 173.5 : 117.5;
-    //手机无忧
-    float cardBtnX = cardBtn.frame.origin.x;
-    float cardBtnY = cardBtn.frame.origin.y;
-//    float cardHeight =  cardBtn.frame.size.height;
-    float cardWidth =  cardBtn.frame.size.width;
-    UIButton * phoneEasy = [[[UIButton alloc] initWithFrame:CGRectMake(cardBtnX, cardBtnY + cardBtnHeight + interval, cardWidth, phoneEasyHeight)] autorelease];
-    [phoneEasy setBackgroundImage:[UIImage imageNamed:@"index_sjwy"] forState:UIControlStateNormal];
-    [phoneEasy setBackgroundImage:[UIImage imageNamed:@"index_sjwy_a"] forState:UIControlStateNormal];
-    [phoneEasy addTarget:self action:@selector(phoneEasyClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:phoneEasy];
-    
-    UIImageView * phoneEasyImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"phone_easy"]]autorelease];
-    phoneEasyImg.frame = CGRectMake(62, 20+iphone5_height, 30, 51.5);
-    [phoneEasy addSubview:phoneEasyImg];
-    
-    UILabel * phoneEasyText = [[[UILabel alloc] initWithFrame:CGRectMake(45, 80+iphone5_height, 130, 30)] autorelease];
-    phoneEasyText.text = @"手机无忧";
-    phoneEasyText.font = [UIFont systemFontOfSize:16];
-    phoneEasyText.textColor = [UIColor whiteColor];
-    [phoneEasy addSubview:phoneEasyText];
-    
-    float CarInsuranceBtnHeight = IPhone5 ? 87.5 : 72.5;
-    //车险
-    float phoneEasyBtnX = phoneEasy.frame.origin.x;
-    float phoneEasyBtnY = phoneEasy.frame.origin.y;
-//    float phoneEasyHeight =  phoneEasy.frame.size.height;
-    float phoneEasyWidth =  phoneEasy.frame.size.width;
-    if (!IPhone5) {
-        CarInsuranceBtnHeight += 1;
-    }
-    UIButton * CarInsuranceBtn = [[[UIButton alloc] initWithFrame:CGRectMake(phoneEasyBtnX, phoneEasyBtnY + phoneEasyHeight + interval, phoneEasyWidth, CarInsuranceBtnHeight)] autorelease];
-    [CarInsuranceBtn setBackgroundImage:[UIImage imageNamed:@"index_cx"] forState:UIControlStateNormal];
-    [CarInsuranceBtn setBackgroundImage:[UIImage imageNamed:@"index_cx"] forState:UIControlStateHighlighted];
-    [CarInsuranceBtn addTarget:self action:@selector(CarInsuranceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:CarInsuranceBtn];
-    
-    UIImageView * CarInsuranceImg = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"car_insurance"]]autorelease];
-    CarInsuranceImg.frame = CGRectMake(52, 20+iphone5_height, 47.5, 26.5);
-    [CarInsuranceBtn addSubview:CarInsuranceImg];
-    
-    UILabel * CarInsuranceText = [[[UILabel alloc] initWithFrame:CGRectMake(45, 80+iphone5_height, 130, 30)] autorelease];
-    CarInsuranceText.text = @"车险";
-    CarInsuranceText.font = [UIFont systemFontOfSize:16];
-    CarInsuranceText.textColor = [UIColor whiteColor];
-    [CarInsuranceBtn addSubview:CarInsuranceText];
+    IndexButton * phoneEasyBtn = [[[IndexButton alloc] initWithFrame:CGRectMake(ejoyPrivateFinanceBtn.frame.origin.x+ejoyPrivateFinanceBtn.frame.size.width+7, financialMarketsBtn.frame.origin.y, 146, IPhone5 ? 256.5 : 256.5-52.8)] autorelease];
+    phoneEasyBtn.backgroundColor = [UIColor colorWithRed:.24 green:.69 blue:.88 alpha:1];
+    phoneEasyBtn.funcName.text = @"手机无忧";
+    phoneEasyBtn.funcImg.image = [UIImage imageNamed:@"phone_easy"];
+    [phoneEasyBtn addTarget:self action:@selector(phoneEasyClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:phoneEasyBtn];
 }
 
 //理财集市按钮点击事件
@@ -178,6 +222,15 @@
 -(void)privateFinanceBtnClick:()sender
 {
     NSLog(@"私享理财点击事件");
+    NSString * account = [Utils getAccount];
+    if (account.length == 0) {
+        LoginViewController * loginViewVC = [[[LoginViewController alloc] init] autorelease];
+        loginViewVC.action = action_return;
+        loginViewVC.passingParameters = self;
+        loginViewVC.resultCode = EnjoyPrivateFinance;
+        [self.navigationController pushViewController:loginViewVC animated:YES];
+        return;
+    }
     EnjoyPrivateFinanceViewController * enjoyPrivateFinanceVC = [[[EnjoyPrivateFinanceViewController alloc] init] autorelease];
     [self.navigationController pushViewController:enjoyPrivateFinanceVC animated:YES];
 }
@@ -199,6 +252,7 @@
         [self.navigationController pushViewController:mobilePE animated:YES];
     } else {
         AsynRuner * asynRunner = [[AsynRuner alloc] init];
+        
         [asynRunner runOnBackground:^{
             RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
             NSDictionary * dic = [requestUtils ordersJson];
@@ -239,13 +293,15 @@
             
             if (orders.count == 1) {
                 UserInfoViewController * userInfoVC = [[[UserInfoViewController alloc] init] autorelease];
-                userInfoVC.dic = obj;
+                userInfoVC.dic = [[obj objectForKey:@"orders"] objectAtIndex:0];
                 [self.navigationController pushViewController:userInfoVC animated:YES];
             } else {
-                
+                MyOrderViewController * myOrderVC = [[[MyOrderViewController alloc] init] autorelease];
+                myOrderVC.myOrderArray = orders;
+                [self.navigationController pushViewController:myOrderVC animated:YES];
             }
             
-        }];
+        } inView:self.view];
     }
 }
 
@@ -258,7 +314,6 @@
     } else {
         [self.navigationController popToRootViewControllerAnimated:YES];//返回首页
     }
-        
     NSLog(@"notification:%@",result);
 }
 
@@ -331,7 +386,6 @@
         MyAccountViewController * myAccountVC = [[[MyAccountViewController alloc] init] autorelease];
         [self.navigationController pushViewController:myAccountVC animated:YES];
     }
-    
 }
 
 -(UIViewController*) getLoginVC
@@ -344,6 +398,15 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - 返回页面
+-(void)completeParameters:(id)obj withTag:(NSString *)tag
+{
+    if ([tag intValue] == EnjoyPrivateFinance) {//点击私享理财 登录成功后返回
+        EnjoyPrivateFinanceViewController * enjoyPrivateFinanceVC = [[[EnjoyPrivateFinanceViewController alloc] init] autorelease];
+        [self.navigationController pushViewController:enjoyPrivateFinanceVC animated:YES];
+    }
 }
 
 

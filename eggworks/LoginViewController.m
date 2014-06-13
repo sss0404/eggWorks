@@ -21,7 +21,7 @@
 @synthesize account = _account;
 @synthesize password = _password;
 @synthesize asynRunner = _asynRunner;
-
+@synthesize action = _action;
 
 - (void)dealloc
 {
@@ -32,6 +32,7 @@
     
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -41,7 +42,7 @@
     if (IOS7) {
         ios7_d_height = IOS7_HEIGHT;
     }
-    
+//    _action = default_action;
     self.asynRunner = [[[AsynRuner alloc] init] autorelease];
     
     UIView * topView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0+ios7_d_height, 320, 160)] autorelease];
@@ -132,21 +133,51 @@
 //
 -(void) getUserInfoWithAccount:(NSString*)account andPassword:(NSString*)password
 {
+    [Utils saveAccount:account];
+    [Utils savePassword:password];
     [_asynRunner runOnBackground:^id{
         return [RequestUtils getUserInfo];
     } onUpdateUI:^(id obj) {
         BOOL success = [[obj objectForKey:@"success"] boolValue];
+        RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
         if (success) {
             [Utils saveAccount:account];//将用户名保存到本地
             [Utils savePassword:password];//保存密码
-            RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+            [Utils saveRealName:[obj objectForKey:@"real_name"]];
             [requestUtils saveWithUid:account andPassword:password];
-            MyAccountViewController * myAccountVC = [[[MyAccountViewController alloc] init] autorelease];
-            myAccountVC.userInfo = obj;
-            [self.navigationController pushViewController:myAccountVC animated:YES];
+            [self loginSuccAction:_action withObj:obj];
+            
+        } else {
+            [Utils saveAccount:@""];
+            [Utils savePassword:@""];
+            [Utils saveRealName:@""];
+            [requestUtils saveWithUid:nil andPassword:nil];
         }
-    }];
+    } inView:self.view];
     
+}
+
+-(void)loginSuccAction:(int)action withObj:(id) obj
+{
+    switch (action) {
+        case default_action://进入用户中心
+            [self goMyAcountWith:obj];
+            break;
+        case action_return:
+            [self.navigationController popViewControllerAnimated:NO];
+            [self.passingParameters completeParameters:nil withTag:self.resultCode];
+            break;
+        default:
+            break;
+    }
+}
+
+//进入用户中心
+-(void)goMyAcountWith:(id)obj
+{
+    MyAccountViewController * myAccountVC = [[[MyAccountViewController alloc] init] autorelease];
+    myAccountVC.userInfo = obj;
+    [self.navigationController pushViewController:myAccountVC animated:YES];
 }
 
 

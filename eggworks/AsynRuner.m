@@ -12,12 +12,26 @@
 
 @synthesize runBackgroundHandler;
 @synthesize updateUIHandler;
+@synthesize HUD = _HUD;
 
--(void)runOnBackground:(id (^)())handler onUpdateUI:(void(^)(id obj))UpdateUIHandler
+- (void)dealloc
 {
+    [_HUD release]; _HUD = nil;
+    [runBackgroundHandler release]; runBackgroundHandler = nil;
+    [updateUIHandler release]; updateUIHandler = nil;
+    [super dealloc];
+}
+
+-(void)runOnBackground:(id (^)())handler onUpdateUI:(void(^)(id obj))UpdateUIHandler inView:(UIView*)view
+{
+    self.HUD = [[[MBProgressHUD alloc] initWithFrame:[UIScreen mainScreen].applicationFrame] autorelease];
+    [view addSubview:_HUD];
+    
     self.runBackgroundHandler = handler;
     self.updateUIHandler = UpdateUIHandler;
-    [self performSelectorInBackground:@selector(background) withObject:nil];
+//    [self performSelectorInBackground:@selector(background) withObject:nil];
+    [_HUD showWhileExecuting:@selector(background) onTarget:self withObject:nil animated:YES];
+    
 }
 
 -(void) background

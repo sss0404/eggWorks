@@ -8,6 +8,7 @@
 
 #import "UserInfoViewController.h"
 #import "ClaimsInfoInputViewController.h"
+#import "Utils.h"
 
 @interface UserInfoViewController ()
 
@@ -42,17 +43,17 @@
     [aVeiw addSubview:btn];
     
     //构造提示数据
-    NSArray *       orders =        [_dic objectForKey:@"orders"];
-    NSDictionary *  order =         [orders objectAtIndex:0];//默认取第一个产品
-    NSString *      orderID =       [order objectForKey:@"id"];
-    NSString *      purchase_date = [order objectForKey:@"purchase_date"];//购买日期
-    NSString *      product_name =  [order objectForKey:@"product_name"];//产品名称
-    NSString *      start =         [order objectForKey:@"start"];//产品生效日期
-    NSString *      end =           [order objectForKey:@"end"];//产品结束日期
-    int             claims_count =  [[order objectForKey:@"claims_count"] intValue];//理赔次数
-    NSString *      quote =         [order objectForKey:@"quote"];//产品最高理赔额度
-    NSString *      used_quote =    [order objectForKey:@"used_quote"];//已使用额度
-    int             status =        [[order objectForKey:@"status"] intValue];
+//    NSArray *       orders =        [_dic objectForKey:@"orders"];
+//    NSDictionary *  order =         [orders objectAtIndex:0];//默认取第一个产品
+    NSString *      orderID =       [_dic objectForKey:@"id"];
+    NSString *      purchase_date = [_dic objectForKey:@"purchase_date"];//购买日期
+    NSString *      product_name =  [_dic objectForKey:@"product_name"];//产品名称
+    NSString *      start =         [_dic objectForKey:@"start"];//产品生效日期
+    NSString *      end =           [_dic objectForKey:@"end"];//产品结束日期
+    int             claims_count =  [[_dic objectForKey:@"claims_count"] intValue];//理赔次数
+    NSString *      quote =         [_dic objectForKey:@"quote"];//产品最高理赔额度
+    NSString *      used_quote =    [_dic objectForKey:@"used_quote"];//已使用额度
+    int             status =        [[_dic objectForKey:@"status"] intValue];
     
     //   保存订单id
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
@@ -61,7 +62,7 @@
     
     //现实提示的控件
     UITextView *    noteTextView =  [[[UITextView alloc] initWithFrame:CGRectMake(20, 20, 280, 200)] autorelease];
-    noteTextView.text = [NSString stringWithFormat:@"尊敬的%@用户：\n您在%@购买了“%@”服务，服务正式生效日期为%@至%@, 在此期间发生的故障才能申请理赔，享受免费维修或更换服务。\n\n到木前为止，您已申请理赔%i次，已使用了%@元的理赔额度，还剩余%@元的理赔额度可以使用。" ,@"盛青",purchase_date,product_name,start,end,claims_count,used_quote,quote];
+    noteTextView.text = [NSString stringWithFormat:@"尊敬的%@用户：\n您在%@购买了“%@”服务，服务正式生效日期为%@至%@, 在此期间发生的故障才能申请理赔，享受免费维修或更换服务。\n\n到木前为止，您已申请理赔%i次，已使用了%@元的理赔额度，还剩余%@元的理赔额度可以使用。" ,[Utils getRealName],purchase_date,product_name,start,end,claims_count,used_quote,quote];
     noteTextView.font = [UIFont systemFontOfSize:14];
     noteTextView.scrollEnabled = NO;
     noteTextView.editable = NO;
@@ -91,6 +92,7 @@
 {
     NSLog(@"我要理赔");
     ClaimsInfoInputViewController * claimsInfoInputVC = [[[ClaimsInfoInputViewController alloc] init] autorelease];
+    claimsInfoInputVC.info = _dic;
     [self.navigationController pushViewController:claimsInfoInputVC animated:YES];
 }
 
@@ -104,6 +106,12 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
+
+-(void)backButton:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 

@@ -115,11 +115,29 @@
     return result;
 }
 
+//获取用户的姓名
++(NSString*)getRealName
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    NSString * real_name = [userDefault objectForKey:@"real_name"];
+    NSLog(@"uid___:%@",real_name);
+    return real_name;
+}
+
+//保存用户的姓名
++(void)saveRealName:(NSString*)real_name
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:real_name forKey:@"real_name"];
+    [userDefault synchronize];
+}
+
 //获取用户登录名
 +(NSString*)getAccount
 {
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
     NSString * uid = [userDefault objectForKey:USER_ID];
+    NSLog(@"uid___:%@",uid);
     return uid;
 }
 
@@ -137,6 +155,7 @@
 //PASSWORD
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
     NSString * password = [userDefault objectForKey:PASSWORD];
+    NSLog(@"password___:%@",password);
     return password;
 }
 

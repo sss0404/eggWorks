@@ -42,7 +42,8 @@
 #define Window                                  [[[UIApplication sharedApplication] delegate] window]
 
 #define IndexBottomFuncArray                    @"IndexNote",@"IndexCollection",@"IndexAccount"
-#define BOTTOM_HEIGHT                           45
+#define menu_items                              @"返回首页",@"理财集市",@"手机无忧",@"私享理财"
+#define BOTTOM_HEIGHT                           55
 #define IOS7_HEIGHT                             60
 
 #define orange_btn_bg_name                      @"orange_btn_bg"

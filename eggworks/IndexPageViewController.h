@@ -12,3 +12,5 @@
 @interface IndexPageViewController : BottomNavigotionViewController<UIGestureRecognizerDelegate>
 
 @end
+
+

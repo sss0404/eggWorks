@@ -9,7 +9,7 @@
 #import "BaseViewController.h"
 #import "AsynRuner.h"
 
-@interface MyAccountViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
+@interface MyAccountViewController : BaseViewController
 
 @property (nonatomic, retain) UITableView * tableView;
 @property (nonatomic, retain) UILabel * name;

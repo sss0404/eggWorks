@@ -12,5 +12,5 @@
 
 @property (nonatomic, retain) UIButton * pickupTimeBtn;
 @property (nonatomic, retain) UITextField * pickupAddrTF;
-@property (nonatomic, retain) NSDictionary * info;
+@property (nonatomic, retain) NSMutableDictionary * info;
 @end

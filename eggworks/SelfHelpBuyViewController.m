@@ -29,6 +29,9 @@
 @synthesize getIMEIView = _getIMEIView;
 @synthesize tableView = _tableView;
 @synthesize packages = _packages;
+@synthesize sendSMS = _sendSMS;
+@synthesize asynRunner = _asynRunner;
+@synthesize verification = _verification;
 
 
 - (void)dealloc
@@ -42,7 +45,17 @@
     [_getIMEIView release]; _getIMEIView = nil;
     [_tableView release]; _tableView = nil;
     [_packages release]; _packages = nil;
+    [_sendSMS stop];
+    [_sendSMS release]; _sendSMS = nil;
+    [_asynRunner release]; _asynRunner = nil;
+    [_verification release]; _verification = nil;
     [super dealloc];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (void)viewDidLoad
@@ -57,7 +70,8 @@
     
     isSelected = NO;
     
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, kApplicationHeight)];
+    self.asynRunner = [[[AsynRuner alloc] init] autorelease];
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, kScreenHeight)];
     
     [self.view addSubview:_scrollView];
 //    scrollView.backgroundColor = [UIColor greenColor];
@@ -99,34 +113,60 @@
     phoneNumberLabel.textColor = title_text_color;
     [_scrollView addSubview:phoneNumberLabel];
     
-    _phoneNumber = [[UITextField alloc] initWithFrame:CGRectMake(80, 90, 220, 30)];
+    _phoneNumber = [[UITextField alloc] initWithFrame:CGRectMake(80, 90, 130, 30)];
     _phoneNumber.delegate = self;
     _phoneNumber.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [_scrollView addSubview:_phoneNumber];
     
+    //发送短信按钮
+    self.sendSMS = [[[CountdownButton alloc] initWithFrame:CGRectMake(214, 90, 100, 30)] autorelease];
+    [_sendSMS setTitle:@"发送手机校验码" forState:UIControlStateNormal];
+    [_sendSMS setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    _sendSMS.font = [UIFont systemFontOfSize:14];
+    [_sendSMS addTarget:self action:@selector(sendSMSBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_scrollView addSubview:_sendSMS];
+    
+    //验证码
+    UIView * divider11 = [[[UIView alloc] initWithFrame:CGRectMake(0, 125, 320, 1)] autorelease];
+    divider11.backgroundColor = divider_color;
+    [_scrollView addSubview:divider11];
+    
+    // 验证码
+    UILabel * verificationLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 130, 60, 30)] autorelease];
+    verificationLabel.text = @"验证码";
+    verificationLabel.backgroundColor = [UIColor clearColor];
+    verificationLabel.textColor = title_text_color;
+    [_scrollView addSubview:verificationLabel];
+    
+    self.verification = [[[UITextField alloc] initWithFrame:CGRectMake(80, 130, 220, 30)] autorelease];
+    _verification.delegate = self;
+    _verification.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    [_scrollView addSubview:_verification];
+    
+    
     //分割线
-    UIView * divider2 = [[[UIView alloc] initWithFrame:CGRectMake(0, 125, 320, 1)] autorelease];
+    UIView * divider2 = [[[UIView alloc] initWithFrame:CGRectMake(0, 165, 320, 1)] autorelease];
     divider2.backgroundColor = divider_color;
     [_scrollView addSubview:divider2];
     
     //IMEI
-    UILabel * imeiLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 130, 60, 30)] autorelease];
+    UILabel * imeiLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 170, 60, 30)] autorelease];
     imeiLabel.text = @"IMEI";
     imeiLabel.backgroundColor = [UIColor clearColor];
     imeiLabel.textColor = title_text_color;
     [_scrollView addSubview:imeiLabel];
     
-    _IMEI = [[[UITextField alloc] initWithFrame:CGRectMake(80, 130, 220, 30)] autorelease];
+    _IMEI = [[[UITextField alloc] initWithFrame:CGRectMake(80, 170, 220, 30)] autorelease];
     _IMEI.delegate = self;
     _IMEI.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [_scrollView addSubview:_IMEI];
     
     //分割线
-    UIView * divider3 = [[[UIView alloc] initWithFrame:CGRectMake(0, 165, 320, 1)] autorelease];
+    UIView * divider3 = [[[UIView alloc] initWithFrame:CGRectMake(0, 205, 320, 1)] autorelease];
     divider3.backgroundColor = divider_color;
     [_scrollView addSubview:divider3];
     
-    UIButton * getIMEILabel = [[[UIButton alloc] initWithFrame:CGRectMake(20, 170, 280, 35)] autorelease];
+    UIButton * getIMEILabel = [[[UIButton alloc] initWithFrame:CGRectMake(20, 210, 280, 35)] autorelease];
     getIMEILabel.tag = 10;
     [getIMEILabel setTitle:@"如何获取IMEI号?" forState:UIControlStateNormal];
     [getIMEILabel setTitleColor:[UIColor colorWithRed:.38 green:.76 blue:.98 alpha:1] forState:UIControlStateNormal];
@@ -134,22 +174,21 @@
     [_scrollView addSubview:getIMEILabel];
     
     //分割线
-    UIView * divider4 = [[[UIView alloc] initWithFrame:CGRectMake(0, 210, 320, 1)] autorelease];
+    UIView * divider4 = [[[UIView alloc] initWithFrame:CGRectMake(0, 250, 320, 1)] autorelease];
     divider4.backgroundColor = divider_color;
     divider4.tag = 11;
     [_scrollView addSubview:divider4];
     
     
     //品牌
-    UILabel * brandLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 215, 60, 30)] autorelease];
+    UILabel * brandLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 255, 60, 30)] autorelease];
     brandLabel.textColor = title_text_color;
     brandLabel.text = @"品牌";
     brandLabel.backgroundColor = [UIColor clearColor];
     brandLabel.tag = 1;
     [_scrollView addSubview:brandLabel];
     
-    _brand = [[[UITextField alloc] initWithFrame:CGRectMake(80, 215, 215, 30)] autorelease];
-    _brand.backgroundColor = [UIColor yellowColor];
+    _brand = [[[UITextField alloc] initWithFrame:CGRectMake(80, 255, 215, 30)] autorelease];
     _brand.delegate = self;
     _brand.tag = 2;
     _brand.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -158,20 +197,20 @@
     [_scrollView addSubview:_brand];
     
     //分割线
-    UIView * divider5 = [[[UIView alloc] initWithFrame:CGRectMake(0, 250, 320, 1)] autorelease];
+    UIView * divider5 = [[[UIView alloc] initWithFrame:CGRectMake(0, 290, 320, 1)] autorelease];
     divider5.backgroundColor = divider_color;
     divider5.tag = 3;
     [_scrollView addSubview:divider5];
     
     //型号
-    UILabel * modelLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 255, 60, 30)] autorelease];
+    UILabel * modelLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 295, 60, 30)] autorelease];
     modelLabel.text = @"型号";
     modelLabel.textColor = title_text_color;
     modelLabel.backgroundColor = [UIColor clearColor];
     modelLabel.tag = 4;
     [_scrollView addSubview:modelLabel];
     
-    _model = [[UITextField alloc] initWithFrame:CGRectMake(80, 255, 295, 30)];
+    _model = [[UITextField alloc] initWithFrame:CGRectMake(80, 295, 295, 30)];
     _model.text = [Utils deviceString];
     _model.enabled = NO;
     _model.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -179,31 +218,31 @@
     [_scrollView addSubview:_model];
     
     //分割线
-    UIView * divider6 = [[[UIView alloc] initWithFrame:CGRectMake(0, 290, 320, 1)] autorelease];
+    UIView * divider6 = [[[UIView alloc] initWithFrame:CGRectMake(0, 330, 320, 1)] autorelease];
     divider6.backgroundColor = divider_color;
     divider6.tag = 6;
     [_scrollView addSubview:divider6];
     
-    UILabel * packageTitleNote = [[[UILabel alloc] initWithFrame:CGRectMake(20, 295, 280, 40)] autorelease];
+    UILabel * packageTitleNote = [[[UILabel alloc] initWithFrame:CGRectMake(20, 335, 280, 40)] autorelease];
     packageTitleNote.textColor = orange_color;
     packageTitleNote.text = @"选择套餐（保障期一年）";
     packageTitleNote.tag = 7;
     [_scrollView addSubview:packageTitleNote];
     
     //橙色分割线
-    UIView * divider_ = [[[UIView alloc] initWithFrame:CGRectMake(0, 340, 320, 2)] autorelease];
+    UIView * divider_ = [[[UIView alloc] initWithFrame:CGRectMake(0, 380, 320, 2)] autorelease];
     divider_.backgroundColor = orange_color;
     divider_.tag = 8;
     [_scrollView addSubview:divider_];
     
     //告诉用户如何获取imei号码
-    _getIMEIView = [[UIView alloc] initWithFrame:CGRectMake(20, 170, 280, 240)];
+    _getIMEIView = [[UIView alloc] initWithFrame:CGRectMake(20, 210, 280, 240)];
     _getIMEIView.hidden = YES;
     _getIMEIView.tag = 9;
     [_scrollView addSubview:_getIMEIView];
     [self addGetIMEIOfHelpeContent];
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 345, 320, 200)];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 385, 320, 200)];
     _tableView.tag = 12;
     [_scrollView addSubview:_tableView];
     _tableView.delegate = self;
@@ -211,7 +250,7 @@
 //    _tableView.backgroundColor = [UIColor greenColor];
     
     //提交按钮
-    UIButton * submitBtn = [[[UIButton alloc] initWithFrame:CGRectMake(20, 345+_tableView.frame.size.height+10, 280, 40)] autorelease];
+    UIButton * submitBtn = [[[UIButton alloc] initWithFrame:CGRectMake(20, 385+_tableView.frame.size.height+10, 280, 40)] autorelease];
     submitBtn.tag = 13;
     [submitBtn setBackgroundImage:[UIImage imageNamed:orange_btn_bg_name] forState:UIControlStateNormal];
     [submitBtn setTitle:@"确认并提交" forState:UIControlStateNormal];
@@ -246,7 +285,7 @@
         return @"";
     } onUpdateUI:^(id obj){
         [_tableView reloadData];
-    }];
+    } inView:self.view];
     
 }
 
@@ -305,7 +344,7 @@
 
 -(void)setScrollViewContentSizeWithTableViewHeight:(float)height
 {
-    _scrollView.contentSize=CGSizeMake(320,288+height + 180);
+    _scrollView.contentSize=CGSizeMake(320,288+height + 180+40);
 }
 
 -(void)getImeiLabelClick:(id) sender
@@ -364,6 +403,29 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)sendSMSBtnClick:(id)sender
+{
+    if (_phoneNumber.text.length == 0) {
+        Show_msg(@"提示", @"电话号码不能为空");
+        return;
+    }
+    int second = _sendSMS.seconds;
+    if (second == 0) {
+        NSLog(@"发送短信");
+        [_asynRunner runOnBackground:^id{
+            NSDictionary * dic = [RequestUtils sendSMSVerifyWithNumber:_phoneNumber.text];
+            BOOL success = [[dic objectForKey:@"success"] boolValue];
+            return success ? @"ok" : @"fail";
+        } onUpdateUI:^(id obj) {
+            if ([obj isEqualToString:@"ok"]) {
+                [_sendSMS start];
+            } else {
+                Show_msg(@"提示", @"发送失败，请重试!");
+            }
+        } inView:self.view];
+    }
+}
+
 #pragma mark - UItableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -403,8 +465,8 @@
 //输入框编辑完成以后，将视图恢复到原始状态
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    float ios7_d_height = 0;
-    self.view.frame =CGRectMake(0, 0+ios7_d_height, self.view.frame.size.width, self.view.frame.size.height+50);
+    NSLog(@"什么情况 ：%f",self.view.frame.size.height);
+    self.view.frame =CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 }
 
 @end

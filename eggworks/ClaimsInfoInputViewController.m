@@ -9,6 +9,11 @@
 #import "ClaimsInfoInputViewController.h"
 #import "MyselfSendWayViewController.h"
 #import "HomeDeliveryWayViewController.h"
+#import "RequestUtils.h"
+#import "Utils.h"
+#import "CitySelecteViewController.h"
+#import "ClaimsConfirmInfoViewController.h"
+#import "RequestUtils.h"
 
 @interface ClaimsInfoInputViewController ()
 
@@ -25,6 +30,9 @@
 @synthesize aVeiw = _aVeiw;
 @synthesize nextBtn = _nextBtn;
 @synthesize servicePhone = _servicePhone;
+@synthesize info = _info;
+@synthesize asyRunner = _asyRunner;
+@synthesize damageReasonArray = _damageReasonArray;
 
 - (void)dealloc
 {
@@ -37,6 +45,9 @@
     [_aVeiw release]; _aVeiw = nil;
     [_nextBtn release]; _nextBtn = nil;
     [_servicePhone release]; _servicePhone = nil;
+    [_info release]; _info = nil;
+    [_asyRunner release]; _asyRunner = nil;
+    [_damageReasonArray release]; _damageReasonArray = nil;
     [super dealloc];
    
     
@@ -51,6 +62,9 @@
     if (IOS7) {
         ios7_d_height = IOS7_HEIGHT;
     }
+    self.asyRunner = [[[AsynRuner alloc] init] autorelease];
+    
+//    self.info = [[[NSMutableDictionary alloc] init] autorelease];
     
     float appHeight = [[UIScreen mainScreen] applicationFrame].size.height;
     _aVeiw = [[UIView alloc] initWithFrame:CGRectMake(0, 0+ios7_d_height, 320, appHeight)];
@@ -68,8 +82,10 @@
     [_aVeiw addSubview:cityLabel];
     
     _cityBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 25, 100, 34.5)];
-    [_cityBtn setTitle:@"上海" forState:UIControlStateNormal];//down_btn@2x
+//    [_cityBtn setTitle:@"上海" forState:UIControlStateNormal];//down_btn@2x
     [_cityBtn setTitleColor:title_text_color forState:UIControlStateNormal];
+    [_cityBtn addTarget:self action:@selector(selectCity:) forControlEvents:UIControlEventTouchUpInside];
+    
 //    _cityBtn.backgroundColor = [UIColor redColor];
 //    _cityBtn.frame = CGRectMake(100, 25, 100, 34.5);
     [_aVeiw addSubview:_cityBtn];
@@ -80,6 +96,7 @@
     
     UIButton * local = [UIButton buttonWithType:UIButtonTypeCustom];
     local.frame = CGRectMake(200, 25, 94, 34.5);
+    [local addTarget:self action:@selector(myLocalBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [local setBackgroundImage:[UIImage imageNamed:@"my_location"] forState:UIControlStateNormal];
     [_aVeiw addSubview:local];
     
@@ -144,11 +161,14 @@
     damageReasonLabel.textColor = title_text_color;
     [_aVeiw addSubview:damageReasonLabel];
     
-    _damageReasonBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 190, 200, 30)];
+    _damageReasonBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 190, 170, 30)];
 //    _damageReasonBtn.backgroundColor = [UIColor yellowColor];
+    [_damageReasonBtn addTarget:self action:@selector(damageReasonBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [_aVeiw addSubview:_damageReasonBtn];
     UIImageView * downImg1 = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"down_btn"]] autorelease];
     downImg1.frame = CGRectMake(180, 13, 11.5, 7);
+//    [_damageReasonBtn setTitle:@"测试" forState:UIControlStateNormal];
+    [_damageReasonBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_damageReasonBtn addSubview:downImg1];
     
     //分割线
@@ -156,25 +176,25 @@
     divider6.backgroundColor = divider_color;
     [_aVeiw addSubview:divider6];
     
-    //送修方式
-    UILabel * sendWayBtnLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 230, 80, 30)] autorelease];
-    sendWayBtnLabel.text = @"送修方式";
-    sendWayBtnLabel.textColor = title_text_color;
-    [_aVeiw addSubview:sendWayBtnLabel];
-    
-    _sendWayBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 230, 200, 30)];
-//    _sendWayBtn.backgroundColor = [UIColor yellowColor];
-    [_sendWayBtn setTitleColor:title_text_color forState:UIControlStateNormal];
-    [_aVeiw addSubview:_sendWayBtn];
-    [_sendWayBtn addTarget:self action:@selector(sendWayBtnClic:) forControlEvents:UIControlEventTouchUpInside];
-    UIImageView * downImg2 = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"down_btn"]] autorelease];
-    downImg2.frame = CGRectMake(180, 13, 11.5, 7);
-    [_sendWayBtn addSubview:downImg2];
-    
-    //分割线
-    UIView * divider7 = [[[UIView alloc] initWithFrame:CGRectMake(0, 265, 320, 1)] autorelease];
-    divider7.backgroundColor = divider_color;
-    [_aVeiw addSubview:divider7];
+//    //送修方式
+//    UILabel * sendWayBtnLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 230, 80, 30)] autorelease];
+//    sendWayBtnLabel.text = @"送修方式";
+//    sendWayBtnLabel.textColor = title_text_color;
+//    [_aVeiw addSubview:sendWayBtnLabel];
+//    
+//    _sendWayBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 230, 200, 30)];
+////    _sendWayBtn.backgroundColor = [UIColor yellowColor];
+//    [_sendWayBtn setTitleColor:title_text_color forState:UIControlStateNormal];
+//    [_aVeiw addSubview:_sendWayBtn];
+//    [_sendWayBtn addTarget:self action:@selector(sendWayBtnClic:) forControlEvents:UIControlEventTouchUpInside];
+//    UIImageView * downImg2 = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"down_btn"]] autorelease];
+//    downImg2.frame = CGRectMake(180, 13, 11.5, 7);
+//    [_sendWayBtn addSubview:downImg2];
+//    
+//    //分割线
+//    UIView * divider7 = [[[UIView alloc] initWithFrame:CGRectMake(0, 265, 320, 1)] autorelease];
+//    divider7.backgroundColor = divider_color;
+//    [_aVeiw addSubview:divider7];
     
     //下一步
     _nextBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, 300, 280, 40)];
@@ -193,7 +213,64 @@
     [_servicePhone setTitleColor:title_text_color forState:UIControlStateNormal];
     [_aVeiw addSubview:_servicePhone];
     
-    
+    [self myLocalBtnClick:nil];
+}
+
+//我的位置按钮
+-(void)myLocalBtnClick:(id)sender
+{
+    [_asyRunner runOnBackground:^id {
+        NSDictionary * city = [RequestUtils getMyCity];
+        return city;
+    }
+                      onUpdateUI:^(id obj) {
+                          [Utils saveCurrCity:obj];
+                          [_info setValue:[obj objectForKey:@"id"] forKey:@"user_selected_city_id"];
+                          [_cityBtn setTitle:[obj objectForKey:@"name"] forState:UIControlStateNormal];
+                      } inView:self.view];
+}
+
+-(void)damageReasonBtnClick:(id)sender
+{
+    [_asyRunner runOnBackground:^id{
+        return [RequestUtils phoneDamageReason];
+    } onUpdateUI:^(id obj) {
+        BOOL success = [[obj objectForKey:@"success"] boolValue];
+        if (success) {
+            self.damageReasonArray = [obj objectForKey:@"codes"];
+            [self showDamageresonSelection:_damageReasonArray];
+        }
+    } inView:self.view];
+}
+
+//现实损坏原因选择项
+-(void)showDamageresonSelection:(NSArray*)array
+{
+    UIActionSheet * actionSheet = [[UIActionSheet alloc] init];
+    for (int i=0; i<array.count; i++) {
+        [actionSheet addButtonWithTitle:[[array objectAtIndex:i] objectForKey:@"value"]];
+    }
+    [actionSheet addButtonWithTitle:@"取消"];
+    actionSheet.title = @"选择损坏原因";
+    actionSheet.delegate = self;
+    actionSheet.cancelButtonIndex = actionSheet.numberOfButtons -1;
+    actionSheet.tag = 2;
+    [actionSheet showInView:self.view];
+    [actionSheet release];
+}
+
+-(void)selectCity:(id)sender
+{
+    CitySelecteViewController * citySelecteVC = [[[CitySelecteViewController alloc] init] autorelease];
+    citySelecteVC.passingParameters = self;
+    [self.navigationController pushViewController:citySelecteVC animated:YES];
+}
+
+-(void)completeParameters:(id)obj withTag:(NSString *)tag
+{
+    NSLog(@"测试:%@",obj);
+    [_info setValue:[obj objectForKey:@"id"] forKey:@"user_selected_city_id"];
+    [_cityBtn setTitle:[obj objectForKey:@"name"] forState:UIControlStateNormal];
 }
 
 //选择送修方式
@@ -219,7 +296,7 @@
     NSString * phoneNumber =            _phoneNumberTF.text;
     NSString * connectPhoneNumber =     _connectPhoneNumberTF.text;
     NSString * damageReason =           [_damageReasonBtn titleForState:UIControlStateNormal];
-    NSString * sendWayBtn =                [_sendWayBtn titleForState:UIControlStateNormal];
+//    NSString * sendWayBtn =                [_sendWayBtn titleForState:UIControlStateNormal];
     
     if (name.length == 0) {
         Show_msg(@"提示", @"姓名不能为空！");
@@ -236,30 +313,25 @@
         return;
     }
     
-    if (sendWayBtn.length == 0) {
-        Show_msg(@"提示", @"请选择送修方式！");
+    if (_damageReasonBtn.titleLabel.text.length == 0) {
+        Show_msg(@"提示", @"请选择损坏原因");
         return;
     }
     
+//    if (sendWayBtn.length == 0) {
+//        Show_msg(@"提示", @"请选择送修方式！");
+//        return;
+//    }
     
+    [_info setValue:city forKey:@"city"];
+    [_info setValue:name forKey:@"name"];
+    [_info setValue:phoneNumber forKey:@"phoneNumber"];
+    [_info setValue:connectPhoneNumber forKey:@"connectPhoneNumber"];
+    [_info setValue:damageReason forKey:@"damageReason"];
     
-    NSMutableDictionary * info = [[[NSMutableDictionary alloc] init] autorelease];
-    [info setValue:city forKey:@"city"];
-    [info setValue:name forKey:@"name"];
-    [info setValue:phoneNumber forKey:@"phoneNumber"];
-    [info setValue:connectPhoneNumber forKey:@"connectPhoneNumber"];
-    [info setValue:damageReason forKey:@"damageReason"];
-    [info setValue:sendWayBtn forKey:@"sendWayBtn"];
-    
-    if ([sendWayBtn isEqualToString:@"自送维修网点"]) {
-        MyselfSendWayViewController * myselfSendWayVC = [[[MyselfSendWayViewController alloc] init]autorelease];
-        myselfSendWayVC.info = info;
-        [self.navigationController pushViewController:myselfSendWayVC animated:YES];
-        return;
-    }
-    HomeDeliveryWayViewController * homeDeliverWayVC = [[HomeDeliveryWayViewController alloc] autorelease];
-    homeDeliverWayVC.info = info;
-    [self.navigationController pushViewController:homeDeliverWayVC animated:YES];
+    ClaimsConfirmInfoViewController * claimsConfirmInfoVC = [[[ClaimsConfirmInfoViewController alloc] init] autorelease];
+    claimsConfirmInfoVC.info = _info;
+    [self.navigationController pushViewController:claimsConfirmInfoVC animated:YES];
 }
 
 
@@ -279,6 +351,8 @@
     }
 }
 
+
+
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -286,7 +360,14 @@
         case 1://送修方式项目被选择
             [self sendWayItemSelected:buttonIndex];
             break;
-            
+        case 2:
+            if (buttonIndex == _damageReasonArray.count) {
+                return;
+            }
+            NSDictionary * damageReason = [_damageReasonArray objectAtIndex:buttonIndex];
+            [_info setObject:damageReason forKey:@"damageReason"];
+            [_damageReasonBtn setTitle:[damageReason objectForKey:@"value"] forState:UIControlStateNormal];
+            break;
         default:
             break;
     }

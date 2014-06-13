@@ -55,4 +55,10 @@
 
 //保存用户密码
 +(void)savePassword:(NSString *) password;
+
+//获取用户的姓名
++(NSString*)getRealName;
+
+//保存用户的姓名
++(void)saveRealName:(NSString*)real_name;
 @end

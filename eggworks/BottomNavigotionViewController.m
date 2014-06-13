@@ -41,7 +41,7 @@
     for (int i=0; i<bottomBtnStrArray.count; i++) {
 //        [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"string"]];
         
-        UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(offset_x, 0, btnWidth, 45)];
+        UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(offset_x, 0, btnWidth, 55)];
         btn.tag = i;
         [btn setBackgroundImage:[UIImage imageNamed:[bottomBtnStrArray objectAtIndex:i]] forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

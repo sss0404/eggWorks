@@ -7,6 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MenuItemView.h"
+@class FinancialMarketMainViewController;
+@class EnjoyPrivateFinanceViewController;
+@class Utils;
+@class LoginViewController;
+@class MobilePhoneEasyViewController;
+@class MyOrderViewController;
+@class UserInfoViewController;
 
 @protocol PassingParameters <NSObject>
 
@@ -15,9 +23,11 @@
 
 @end
 
-@interface BaseViewController : UIViewController<UITextFieldDelegate,PassingParameters>
+@interface BaseViewController : UIViewController<UITextFieldDelegate,PassingParameters,MenuItemClickDeletate>
 
+@property (nonatomic, retain) MenuItemView * menuItemView;
 @property (nonatomic, assign) id<PassingParameters> passingParameters;
 @property (nonatomic, assign) NSString * resultCode;
 
 @end
+

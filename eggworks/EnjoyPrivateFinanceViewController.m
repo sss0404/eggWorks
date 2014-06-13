@@ -118,7 +118,7 @@
         [_financialProductss addObjectsFromArray:obj];
         [self.tableView reloadData];
         isLoadState = NO;
-    }];
+    } inView:self.view];
 }
 
 #pragma mark - tableView det
@@ -183,6 +183,11 @@
             NSLog(@"加载");
         }
     }
+}
+
+-(void)backButton:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

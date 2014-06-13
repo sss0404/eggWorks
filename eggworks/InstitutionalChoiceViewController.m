@@ -285,7 +285,7 @@ static NSMutableArray * currSelectedInstitutions;//当前选择的机构
      {
          [_institutionsTableView reloadData];
          _isLoading = NO;
-     }];
+     } inView:self.view];
 }
 
 #pragma mark - UITableViewDelegate
@@ -453,7 +453,7 @@ static NSMutableArray * currSelectedInstitutions;//当前选择的机构
         return @"";
     } onUpdateUI:^(id obj) {
         [_searchTableView reloadData];
-    }];
+    } inView:self.view];
 }
 
 

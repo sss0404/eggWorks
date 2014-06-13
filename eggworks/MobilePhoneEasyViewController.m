@@ -88,10 +88,10 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
-//-(void)backButton:(id)sender
-//{
-//    [self.navigationController popToRootViewControllerAnimated:YES];
-//}
+-(void)backButton:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 //
 //-(void)menuButton:(id)sender
 //{

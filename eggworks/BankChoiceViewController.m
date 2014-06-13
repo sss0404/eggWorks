@@ -158,7 +158,7 @@
      {
          [_tableView reloadData];
          _isLoading = NO;
-     }];
+     } inView:self.view];
 }
 
 -(void)checkBoxClick:(id)sender

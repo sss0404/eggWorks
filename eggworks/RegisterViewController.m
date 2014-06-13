@@ -175,7 +175,7 @@
                 Show_msg(@"提示", @"手机号码已经被注册");
             }
         }
-    }];
+    } inView:self.view];
     
 }
 
@@ -198,7 +198,7 @@
             } else {
                 Show_msg(@"提示", @"发送失败，请重试!");
             }
-        }];
+        } inView:self.view];
     }
 }
 

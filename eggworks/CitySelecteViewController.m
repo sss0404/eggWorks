@@ -138,7 +138,7 @@
          [gpsCityArray addObject:obj];
          [_citysArrayWithKey setObject:gpsCityArray forKey:GPS];
          [_cityTableVeiw reloadData];
-     }];
+     } inView:self.view];
 }
 
 - (void)didReceiveMemoryWarning
@@ -193,7 +193,7 @@
                       {
                           [_cityTableVeiw reloadData];
                           
-                      }];
+                      } inView:self.view];
 }
 
 //输入框编辑完成以后，将视图恢复到原始状态

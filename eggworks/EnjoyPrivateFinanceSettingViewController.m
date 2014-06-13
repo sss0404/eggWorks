@@ -186,7 +186,7 @@
         if (success) {
             Show_msg(@"提示", @"定制成功");
         }
-    }];
+    } inView:self.view];
     
 }
 
@@ -280,7 +280,7 @@
                           self.citySelected = obj;
                           [Utils saveCurrCity:obj];
                           [_city.btn setTitle:[obj objectForKey:@"name"] forState:UIControlStateNormal];
-                      }];
+                      } inView:self.view];
     
 }
 

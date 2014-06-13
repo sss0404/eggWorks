@@ -82,7 +82,7 @@
     
     //imei
     UILabel * imeiLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 240, 280, 40)] autorelease];
-    imeiLabel.text = [NSString stringWithFormat:@"IMEI：%@",[_info objectForKey:@"imei"]];
+    imeiLabel.text = [NSString stringWithFormat:@"IMEI：%@",[_info objectForKey:@"device_identity"]];
     imeiLabel.textColor = title_text_color;
     [aVeiw addSubview:imeiLabel];
     
@@ -135,7 +135,8 @@
                                                                 damage:1
                                                                storeId:@"1"
                                                               pickTime:0
-                                                           pickAddress:[_info objectForKey:@"addr"]];
+                                                           pickAddress:[_info objectForKey:@"addr"]
+                                                                areaId:[_info objectForKey:@"user_selected_city_id"]];
         return dic;
     } onUpdateUI:^(id obj){
         BOOL success = [[obj objectForKey:@"success"] boolValue];
@@ -147,7 +148,7 @@
             NSString * message = [obj objectForKey:@"message"];
             Show_msg(@"提示", message);
         }
-    }];
+    } inView:self.view];
     
 }
 

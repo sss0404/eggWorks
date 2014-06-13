@@ -14,19 +14,39 @@
 @implementation RequestUtils
 
 
-+(NSDictionary*)anonymousActiveWithName:(NSString*)real_name
-                            mobilePhone:(NSString*)mobile_phone
-                         deviceIdentity:(NSString*)device_identity
-                                  brand:(NSString*)brand
-                                  model:(NSString*)model
++(NSDictionary*)anonymouusActiveWithUser:(NSString*)for_user
+                                realName:(NSString*)real_name
+                             mobilePhone:(NSString*)mobile_phone
+                              verifyCode:(NSString*)verify_code
+                          deviceIdentity:(NSString*)device_identity
+                                   brand:(NSString*)brand
+                                   model:(NSString*)model
 {
-    NSString * apiAndParameter = [NSString stringWithFormat:@"%@?real_name=%@&mobile_phone=%@&device_identity=%@&brand=%@&model=%@", anonymous_active,real_name,mobile_phone,device_identity,brand,model];
+    NSString * apiAndParameter = [NSString stringWithFormat:@"%@?real_name=%@&mobile_phone=%@&verify_code=%@&device_identity=%@&brand=%@&model=%@",anonymous_active, real_name, mobile_phone, verify_code, device_identity, brand,model];;
+    if (for_user.length != 0) {
+        apiAndParameter = [NSString stringWithFormat:@"%@&for_user=%@",apiAndParameter,for_user];
+    }
     NSString * resultStr = [self requestWithPostApiAndParameter:apiAndParameter withUrl:SERVER_ADDR_HTTP];
     SBJsonParser* jsonParser = [[[SBJsonParser alloc]init]autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:resultStr];
+     NSDictionary* dic = [jsonParser objectWithString:resultStr];
     
     return dic;
 }
+
+//接口废弃
+//+(NSDictionary*)anonymousActiveWithName:(NSString*)real_name
+//                            mobilePhone:(NSString*)mobile_phone
+//                         deviceIdentity:(NSString*)device_identity
+//                                  brand:(NSString*)brand
+//                                  model:(NSString*)model
+//{
+//    NSString * apiAndParameter = [NSString stringWithFormat:@"%@?real_name=%@&mobile_phone=%@&device_identity=%@&brand=%@&model=%@", anonymous_active,real_name,mobile_phone,device_identity,brand,model];
+//    NSString * resultStr = [self requestWithPostApiAndParameter:apiAndParameter withUrl:SERVER_ADDR_HTTP];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init]autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:resultStr];
+//    
+//    return dic;
+//}
 
 +(NSArray*)queryMobileServiceProducts
 {
@@ -77,7 +97,8 @@
 
 +(NSString*)requestWithGet:(NSString*)urlStr
 {
-    NSURL * url = [[[NSURL alloc] initWithString:urlStr] autorelease];
+    
+    NSURL * url = [[[NSURL alloc] initWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] autorelease];
     NSLog(@"get请求地址：%@",urlStr);
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -101,12 +122,40 @@
 +(NSString*)requestWithPostApiAndParameter:(NSString*)apiAndParameter withUrl:(NSString*)urlStr
 {
     NSLog(@"post请求地址：%@",urlStr);
+    NSLog(@"请求参数:%@",apiAndParameter);
+    apiAndParameter = [apiAndParameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL * url = [[[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",urlStr,apiAndParameter]] autorelease];
+    
     NSMutableURLRequest * urlRequest = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
     [urlRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [urlRequest addValue:@"cdcf-ios-1.0.0" forHTTPHeaderField:@"User-Agent"];
     [urlRequest setHTTPMethod:@"POST"];
-//    apiAndParameter = [apiAndParameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSData *bodyData = [apiAndParameter dataUsingEncoding:NSUTF8StringEncoding];
+    [urlRequest setHTTPBody:bodyData];
+    
+    //开始请求
+    NSError *error = nil;
+    NSURLResponse* response = nil;
+    NSData * data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                          returningResponse:&response
+                                                      error:&error];
+    NSString * str = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+    NSLog(@"str:%@", str);
+    return str;
+}
+
+//put请求
++(NSString*)requestWithPutApiAndParameter:(NSString*)apiAndParameter withUrl:(NSString*)urlStr
+{
+    NSLog(@"post请求地址：%@",urlStr);
+    NSLog(@"请求参数:%@",apiAndParameter);
+    apiAndParameter = [apiAndParameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL * url = [[[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",urlStr,apiAndParameter]] autorelease];
+    
+    NSMutableURLRequest * urlRequest = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    [urlRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [urlRequest addValue:@"cdcf-ios-1.0.0" forHTTPHeaderField:@"User-Agent"];
+    [urlRequest setHTTPMethod:@"PUT"];
     NSData *bodyData = [apiAndParameter dataUsingEncoding:NSUTF8StringEncoding];
     [urlRequest setHTTPBody:bodyData];
     
@@ -144,6 +193,7 @@
                                  storeId:(NSString*)store_id
                                 pickTime:(int)pick_time
                              pickAddress:(NSString*)pick_address
+                                  areaId:(NSString*) areaId
 {
     //拼接请求参数
     NSString * api = [NSString stringWithFormat:claim_requests, order_id];
@@ -184,11 +234,24 @@
 }
 
 -(void) saveWithUid:(NSString*)userId andPassword:(NSString*)password {
+    NSLog(@"userId:%@",userId);
+    NSLog(@"password:%@",password);
+    
     protectionSpace = [[NSURLProtectionSpace alloc] initWithHost: SERVER_ADDR
                                                             port: 80
                                                         protocol: @"http"
                                                            realm: @"caidancf.com"
                                             authenticationMethod: NSURLAuthenticationMethodHTTPDigest];
+    
+    if (userId.length == 0) {
+        NSURLCredential * urlCredential = [[NSURLCredentialStorage sharedCredentialStorage] defaultCredentialForProtectionSpace:protectionSpace];
+        if (urlCredential != nil) {
+            [[NSURLCredentialStorage sharedCredentialStorage] removeCredential:urlCredential forProtectionSpace:protectionSpace];
+        }
+        return;
+    }
+    
+    
     //模拟器使用
 	[[NSURLCredentialStorage sharedCredentialStorage] setDefaultCredential: [NSURLCredential credentialWithUser: userId
 																									   password: password
@@ -233,7 +296,14 @@
 {
     [RequestUtils setUserAndPsd];
     NSString * api = [NSString stringWithFormat:financial_products_info,productId];
-    NSString * url = [NSString stringWithFormat:@"%@%@?for_user=%@",SERVER_ADDR_HTTP, api,[Utils getAccount]];
+    NSString * account =  [Utils getAccount];
+    NSString * url;
+    if (account.length == 0) {
+        url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
+    } else {
+        url = [NSString stringWithFormat:@"%@%@?for_user=%@",SERVER_ADDR_HTTP, api, account];
+    }
+    
     NSString * str = [RequestUtils requestWithGet:url];
     SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
     NSDictionary* dic = [jsonParser objectWithString:str];
@@ -400,7 +470,6 @@
 +(NSDictionary*)getUserInfo
 {
     RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
-    
     [requestUtils saveWithUid:[Utils getAccount] andPassword:[Utils getPassword]];
     NSString * api = user_info;
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
@@ -434,6 +503,31 @@
     NSString * parameter = [NSString stringWithFormat:@"?area_id=%@&threshold=%@%@%@",area_id, threshold, partysStr,productTypes];
     NSLog(@"私享理财 定制推荐:%@",parameter);
     NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    return dic;
+}
+
+//查询手机损坏原因
++(NSDictionary*)phoneDamageReason
+{
+    NSString * url = [NSString stringWithFormat:@"%@%@?type=%@",SERVER_ADDR_HTTP,damage_reason,@"damage_reason"];
+    NSString * str = [self requestWithGet:url];
+    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+    NSDictionary* dic = [jsonParser objectWithString:str];
+    return dic;
+}
+
+//修改登录密码
++(NSDictionary*)updatePasswordWithOldPsd:(NSString *)oldPassword andNewPassword:(NSString *)newPassword
+{    NSString * userId = [Utils getAccount];
+    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+    //使用用户当前输入的密码进行验证
+    [requestUtils saveWithUid:userId andPassword:oldPassword];
+    
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,update_password];
+    NSString * parameter = [NSString stringWithFormat:@"?password=%@",newPassword];
+    NSString * str = [self requestWithPutApiAndParameter:parameter withUrl:url];
     SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
     NSDictionary* dic = [jsonParser objectWithString:str];
     return dic;

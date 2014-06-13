@@ -14,12 +14,18 @@
     NSURLProtectionSpace * protectionSpace;
 }
 
-//匿名用户激活服务
-+(NSDictionary*)anonymousActiveWithName:(NSString*)real_name
-                            mobilePhone:(NSString*)mobile_phone
-                         deviceIdentity:(NSString*)device_identity
-                                  brand:(NSString*)brand
-                                  model:(NSString*)model;
+
+// 激活/注册手机无忧服务 /mobile_service/orders/active.json
++(NSDictionary*)anonymouusActiveWithUser:(NSString*)for_user realName:(NSString*)real_name mobilePhone:(NSString*)mobile_phone verifyCode:(NSString*)verify_code deviceIdentity:(NSString*)device_identity brand:(NSString*)brand model:(NSString*)model;
+
+
+
+////匿名用户激活服务
+//+(NSDictionary*)anonymousActiveWithName:(NSString*)real_name
+//                            mobilePhone:(NSString*)mobile_phone
+//                         deviceIdentity:(NSString*)device_identity
+//                                  brand:(NSString*)brand
+//                                  model:(NSString*)model;
 
 //获取手机无忧产品
 +(NSArray*)queryMobileServiceProducts;
@@ -42,7 +48,8 @@
                                   damage:(int)damage
                                  storeId:(NSString*)store_id
                                 pickTime:(int)pick_time
-                             pickAddress:(NSString*)pick_address;
+                             pickAddress:(NSString*)pick_address
+                                  areaId:(NSString*) areaId;
 
 //创建支付交易
 -(NSDictionary*)paymentTransactionsWithPayGateway:(NSString*)pay_gateway
@@ -93,6 +100,12 @@
 
 //查询用户基本信息
 +(NSDictionary*)getUserInfo;
+
+//查询手机损坏原因
++(NSDictionary*)phoneDamageReason;
+
+//修改登录密码
++(NSDictionary*)updatePasswordWithOldPsd:(NSString *)oldPassword andNewPassword:(NSString *)newPassword;
 
 //-------------------------------------私享理财------------------------------------------
 //获取私享理财推荐产品

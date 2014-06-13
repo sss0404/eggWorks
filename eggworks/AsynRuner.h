@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MBProgressHUD.h"
 
 @interface AsynRuner : NSObject
 {
@@ -16,7 +17,8 @@
 
 @property (nonatomic, copy)id runBackgroundHandler;
 @property (nonatomic, copy)id updateUIHandler;
+@property (nonatomic, retain) MBProgressHUD * HUD;
 
 
--(void)runOnBackground:(id(^)())handler onUpdateUI:(void(^)(id obj))UpdateUIHandler;
+-(void)runOnBackground:(id (^)())handler onUpdateUI:(void(^)(id obj))UpdateUIHandler inView:(UIView*)view;
 @end

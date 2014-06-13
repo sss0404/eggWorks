@@ -96,6 +96,7 @@
     [aView addSubview:phoneNumberLabel];
     
     UILabel * ImeiLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 250, 280, 30)] autorelease];
+    
     ImeiLabel.text = [NSString stringWithFormat:@"IMEI：%@",_IMEI];
     ImeiLabel.textColor = title_text_color;
     [aView addSubview:ImeiLabel];
@@ -181,7 +182,7 @@
                 } else {
                     [self submitOnFail:obj];
                 }
-            }];
+            } inView:self.view];
 //        }
 //    }];
 }

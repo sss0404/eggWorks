@@ -11,6 +11,7 @@
 #import "RequestUtils.h"
 #import "Utils.h"
 #import "CollectionViewController.h"
+#import "SettingViewController.h"
 
 @interface MyAccountViewController ()
 
@@ -46,9 +47,9 @@
     
     self.asynRunner = [[[AsynRuner alloc] init] autorelease];
     
-    NSArray * selection1 = @[@"我的基金产品",@"我的保单"];
+    NSArray * selection1 = @[@"我的基金产品"];
     NSArray * selection2 = @[@"我的交易账号",@"我的交易记录"];
-    NSArray * selection3 = @[@"我的收藏"];
+    NSArray * selection3 = @[@"我的收藏",@"设置"];
     self.dic = [[[NSMutableDictionary alloc] init] autorelease];
     [_dic setObject:selection1 forKey:@"1"];
     [_dic setObject:selection2 forKey:@"2"];
@@ -105,6 +106,11 @@
 //    }
 }
 
+-(void)backButton:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 -(void) getUserInfo
 {
     [_asynRunner runOnBackground:^id{
@@ -126,7 +132,7 @@
                 _name.text = realName;
             }
         }
-    }];
+    } inView:self.view];
     
 }
 
@@ -154,6 +160,7 @@
 #pragma mark - UITableView delegate method
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    
     int num = 0;
     switch (section) {
         case 0:
@@ -229,6 +236,9 @@
     } else if ([item isEqualToString:@"我的收藏"]) {
         CollectionViewController * collectionVC = [[[CollectionViewController alloc] init] autorelease];
         [self.navigationController pushViewController:collectionVC animated:YES];
+    } else if([item isEqualToString:@"设置"]) {
+        SettingViewController * settingVC = [[[SettingViewController alloc] init] autorelease];
+        [self.navigationController pushViewController:settingVC animated:YES];
     }
         
 }

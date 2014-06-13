@@ -7,6 +7,8 @@
 //
 
 #import "ActivationSuccessViewController.h"
+#import "AppDelegate.h"
+#import "IndexPageViewController.h"
 
 @interface ActivationSuccessViewController ()
 
@@ -65,10 +67,17 @@
     [shareWXBtn setTitle:@"分享手机无忧到微信" forState:UIControlStateNormal];
 //    shareWXBtn.backgroundColor = [UIColor colorWithRed:.99 green:.41 blue:.33 alpha:1];
     [shareWXBtn setBackgroundImage:[UIImage imageNamed:orange_btn_bg_name] forState:UIControlStateNormal];
+    [shareWXBtn addTarget:self action:@selector(shareWXBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shareWXBtn];
 }
 
-
+-(void)shareWXBtnClick:(id)sender
+{
+     AppDelegate * delegate = [UIApplication sharedApplication].delegate;
+    IndexPageViewController * indexPageViewController = [[[IndexPageViewController alloc] init] autorelease];
+    UINavigationController * rootView = [[[UINavigationController alloc] initWithRootViewController:indexPageViewController] autorelease];
+    delegate.window.rootViewController = rootView;
+}
 
 - (void)didReceiveMemoryWarning
 {

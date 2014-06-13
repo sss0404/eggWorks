@@ -132,7 +132,7 @@
         [_array addObjectsFromArray:obj];
         [self.tableView reloadData];
         isLoadState = NO;
-    }];
+    } inView:self.view];
 }
 
 
@@ -261,6 +261,11 @@
                        period:period//期限
                     threshold:threshold
                       keywork:keyword == nil ? @"" : [keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+}
+
+-(void)backButton:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

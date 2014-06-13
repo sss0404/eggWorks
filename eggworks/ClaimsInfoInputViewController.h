@@ -8,6 +8,7 @@
 //理赔信息填写页面
 
 #import "BaseViewController.h"
+#import "AsynRuner.h"
 
 @interface ClaimsInfoInputViewController : BaseViewController<UIActionSheetDelegate>
 
@@ -21,4 +22,7 @@
 @property (nonatomic, retain) UIView * aVeiw ;
 @property (nonatomic, retain) UIButton * nextBtn;
 @property (nonatomic, retain) UIButton * servicePhone;
+@property (nonatomic, retain) NSMutableDictionary * info;
+@property (nonatomic, retain) AsynRuner * asyRunner;
+@property (nonatomic, retain) NSArray * damageReasonArray;
 @end

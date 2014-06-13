@@ -10,5 +10,5 @@
 
 @interface UserInfoViewController : BaseViewController
 
-@property (nonatomic, retain) NSDictionary * dic;
+@property (nonatomic, retain) NSMutableDictionary * dic;
 @end

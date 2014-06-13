@@ -90,6 +90,7 @@
     self.connectPhoneNumberTF.text = [_info objectForKey:@"connectPhoneNumber"]; self.connectPhoneNumberTF.enabled = NO;
     [self.damageReasonBtn setTitle:[_info objectForKey:@"damageReason"] forState:UIControlStateNormal];
     [self.sendWayBtn setTitle:[_info objectForKey:@"sendWayBtn"] forState:UIControlStateNormal];self.sendWayBtn.enabled = NO;
+    
 }
 
 -(void)nextBtnClick:(id)sender
