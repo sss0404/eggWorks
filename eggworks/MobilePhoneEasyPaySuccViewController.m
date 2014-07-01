@@ -61,7 +61,8 @@
     [aView addSubview:introduce2];
     
     UITextView * introduce3 = [[[UITextView alloc] initWithFrame:CGRectMake(20, IOS7 ? 210 : 220, 280, 160)] autorelease];
-    introduce3.text = @"合约生成后，我们将以短信的形式通知您。服务期内您可在手机应用、微信服务号随时查询您的合约信息或申请理赔，登录名是用户名手机号，初始密码为手机号末尾6位。您也可以拨打400-000-000直接咨询。";
+    
+    introduce3.text = [NSString stringWithFormat:@"合约生成后，我们将以短信的形式通知您。服务期内您可在手机应用、微信服务号随时查询您的合约信息或申请理赔，登录名是用户名手机号，初始密码为手机号末尾6位。您也可以拨打%@直接咨询。",phone_number];
     introduce3.textColor = title_text_color;
     introduce3.font = [UIFont systemFontOfSize:14];
     introduce3.scrollEnabled = NO;

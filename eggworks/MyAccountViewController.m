@@ -12,6 +12,7 @@
 #import "Utils.h"
 #import "CollectionViewController.h"
 #import "SettingViewController.h"
+#import "MyOrderViewController.h"
 
 @interface MyAccountViewController ()
 
@@ -47,7 +48,7 @@
     
     self.asynRunner = [[[AsynRuner alloc] init] autorelease];
     
-    NSArray * selection1 = @[@"我的基金产品"];
+    NSArray * selection1 = @[@"我的基金产品",@"我的保单"];
     NSArray * selection2 = @[@"我的交易账号",@"我的交易记录"];
     NSArray * selection3 = @[@"我的收藏",@"设置"];
     self.dic = [[[NSMutableDictionary alloc] init] autorelease];
@@ -228,7 +229,7 @@
     if ([item isEqualToString:@"我的基金产品"]) {
         
     } else if([item isEqualToString:@"我的保单"]) {
-        
+        [self myOrderClick];
     } else if ([item isEqualToString:@"我的交易账号"]) {
         
     } else if ([item isEqualToString:@"我的交易记录"]) {
@@ -240,8 +241,25 @@
         SettingViewController * settingVC = [[[SettingViewController alloc] init] autorelease];
         [self.navigationController pushViewController:settingVC animated:YES];
     }
-        
 }
 
+//我的保单
+-(void)myOrderClick
+{
+    [_asynRunner runOnBackground:^id{
+        RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+        NSDictionary * dic = [requestUtils ordersJson];
+        return dic;
+    } onUpdateUI:^(id obj) {
+        if (![[obj objectForKey:@"success"] boolValue]) {
+            Show_msg(@"提示", @"获取数据失败");
+            return ;
+        }
+        NSArray * orders = [obj objectForKey:@"orders"];
+        MyOrderViewController * myOrderVC = [[[MyOrderViewController alloc] init] autorelease];
+        myOrderVC.myOrderArray = orders;
+        [self.navigationController pushViewController:myOrderVC animated:YES];
+    } inView:self.view];
+}
 
 @end

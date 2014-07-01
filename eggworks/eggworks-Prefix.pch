@@ -21,3 +21,5 @@
 
 
 #define Show_msg(title,msg) [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil] show]
+
+#define phone_number @"40060-95509"

@@ -39,7 +39,8 @@
     [self.view addSubview:aVeiw];
     
     UILabel * titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 20, 280, 40)] autorelease];
-    titleLabel.text = [NSString stringWithFormat:@"您选择%@送修方式", [_info objectForKey:@"sendWayBtn"]];
+    
+    titleLabel.text = [NSString stringWithFormat:@"您选择%@送修方式", [Utils strConversionWitd:[_info objectForKey:@"sendWayBtn"]]];
     titleLabel.textColor = orange_color;
     [aVeiw addSubview:titleLabel];
     
@@ -49,11 +50,11 @@
     [aVeiw addSubview:divider];
     
     
-    //取件地址
-    UILabel * addr = [[[UILabel alloc] initWithFrame:CGRectMake(20, 60, 280, 40)] autorelease];
-    addr.text = [NSString stringWithFormat:@"取件地址：%@", [_info objectForKey:@"addr"]];
-    addr.textColor = title_text_color;
-    [aVeiw addSubview:addr];
+//    //取件地址
+//    UILabel * addr = [[[UILabel alloc] initWithFrame:CGRectMake(20, 60, 280, 40)] autorelease];
+//    addr.text = [NSString stringWithFormat:@"取件地址：%@", [_info objectForKey:@"addr"]];
+//    addr.textColor = title_text_color;
+//    [aVeiw addSubview:addr];
     
     //联系电话
     UILabel * contactPhoneNumberLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 90, 280, 40)] autorelease];
@@ -108,7 +109,7 @@
     //服务热线电话
     UIButton * servicePhone = [UIButton buttonWithType:UIButtonTypeCustom];
     servicePhone.frame = CGRectMake(20, 400, 280, 40);
-    [servicePhone setTitle:@"客户服务热线：400-000-000" forState:UIControlStateNormal];
+    [servicePhone setTitle:[NSString stringWithFormat:@"客户服务热线：%@",phone_number] forState:UIControlStateNormal];
     servicePhone.backgroundColor = [UIColor whiteColor];
     [servicePhone setTitleColor:title_text_color forState:UIControlStateNormal];
     [aVeiw addSubview:servicePhone];

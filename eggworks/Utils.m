@@ -183,4 +183,33 @@
     return uid;
 }
 
+//字符串转换，  如果是空字符串则返回  空字符串  而不返回null
++(NSString*)strConversionWitd:(NSString *)str
+{
+    if (str == [NSNull null]) {
+        str = @"";
+    } else {
+        if ([str isKindOfClass:[NSString class]]) {
+            if (str.length == 0) {
+                str = @"";
+            }
+        } else {
+            if (str == nil) {
+                str = @"";
+            } else {
+                str = [NSString stringWithFormat:@"%@",str];
+            }
+        }
+    }
+    
+    return str;
+}
+
+//验证手机号
++(BOOL)verifyPhoneNumber:(NSString*)phoneNumber
+{
+    NSString *phoneRegex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9])|(170))\\d{8}$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
+    return [phoneTest evaluateWithObject:phoneNumber];
+}
 @end

@@ -45,6 +45,7 @@
 @synthesize earningsLabel = _earningsLabel;
 @synthesize purchaseAmount = _purchaseAmount;
 @synthesize collectionBtn = _collectionBtn;
+@synthesize earningsResult = _earningsResult;
 
 - (void)dealloc
 {
@@ -68,6 +69,7 @@
     [_earningsLabel release]; _earningsLabel = nil;
     [_purchaseAmount release]; _purchaseAmount = nil;
     [_collectionBtn release]; _collectionBtn = nil;
+    [_earningsResult release]; _earningsResult = nil;
     [super dealloc];
 }
 
@@ -80,8 +82,6 @@
     if (IOS7) {
         ios7_d_height = IOS7_HEIGHT;
     }
-    
-    
     
     _asynRunner = [[AsynRuner alloc] init];
     
@@ -132,7 +132,7 @@
     _collectionBtn.font = [UIFont systemFontOfSize:12];;
     [self.view addSubview:_collectionBtn];
     
-    //最近一个月的收益率
+    //最近一个月的收益率   7日收益率(货币基金)
     UIView * monthLast = [[[UIView alloc] initWithFrame:CGRectMake(20, 115+ios7_d_height, 137.5, 27)] autorelease];
     monthLast.backgroundColor = [UIColor colorWithRed:.92 green:.92 blue:.93 alpha:1];
     [self.view addSubview:monthLast];
@@ -144,12 +144,17 @@
     [monthLast addSubview:_monthLastContent];
     
     UILabel * monthLastTitle = [[[UILabel alloc] initWithFrame:CGRectMake(73.75, 0, 68.75, 27)] autorelease];
-    monthLastTitle.text = @"近一个月";
+    if ([_financialProduct.type isEqualToString:@"CashFund"]) {//
+        monthLastTitle.text = @"14日年化";
+    } else {
+        monthLastTitle.text = @"同类均值";
+    }
+    
     monthLastTitle.textColor = title_text_color;
     monthLastTitle.font = [UIFont systemFontOfSize:14];
     [monthLast addSubview:monthLastTitle];
     
-    //最近一年的收益率
+    //最近一年的收益率    28日(货币基金)
     UIView * yearLast = [[[UIView alloc] initWithFrame:CGRectMake(162.5, 115+ios7_d_height, 137.5, 27)] autorelease];
     yearLast.backgroundColor = [UIColor colorWithRed:.92 green:.92 blue:.93 alpha:1];
     [self.view addSubview:yearLast];
@@ -161,9 +166,13 @@
     [yearLast addSubview:_yearLastContent];
     
     UILabel * yearLastTitle = [[[UILabel alloc] initWithFrame:CGRectMake(73.75, 0, 68.75, 27)] autorelease];
-    yearLastTitle.text = @"近一年";
+    if ([_financialProduct.type isEqualToString:@"CashFund"]) {//
+        yearLastTitle.text = @"28日年化";
+    } else {
+        yearLastTitle.text = @"万元收益差";
+    }
     yearLastTitle.textColor = title_text_color;
-    yearLastTitle.font = [UIFont systemFontOfSize:14];
+    yearLastTitle.font = [UIFont systemFontOfSize:12.6];
     [yearLast addSubview:yearLastTitle];
     
     //产品详情按钮
@@ -275,7 +284,7 @@
     [view addSubview:label1];
     
     //预期收益
-    _earningsLabel = [[UILabel alloc] initWithFrame:CGRectMake(85, 45, 100, 20)];
+    self.earningsLabel = [[[UILabel alloc] initWithFrame:CGRectMake(85, 45, 100, 20)] autorelease];
     _earningsLabel.textColor = [UIColor redColor];
     _earningsLabel.font = [UIFont systemFontOfSize:12];
     [view addSubview:_earningsLabel];
@@ -293,6 +302,7 @@
     [calculateEarningsBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     calculateEarningsBtn.backgroundColor = [UIColor colorWithRed:.81 green:.12 blue:.13 alpha:1];
     calculateEarningsBtn.font = [UIFont systemFontOfSize:14];
+    [calculateEarningsBtn addTarget:self action:@selector(calculateEarningsBtnJS:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:calculateEarningsBtn];
     
     //计算结果
@@ -302,11 +312,20 @@
     label2.font = [UIFont systemFontOfSize:12];
     [view addSubview:label2];
     
-    UILabel * earningsResult = [[[UILabel alloc] initWithFrame:CGRectMake(80, 125, 100, 20)] autorelease];
-    earningsResult.textColor = [UIColor colorWithRed:.81 green:.12 blue:.13 alpha:1];
-    earningsResult.text = @"3164元";
-    earningsResult.font = [UIFont systemFontOfSize:12];
-    [view addSubview:earningsResult];
+    self.earningsResult = [[[UILabel alloc] initWithFrame:CGRectMake(80, 125, 100, 20)] autorelease];
+    _earningsResult.textColor = [UIColor colorWithRed:.81 green:.12 blue:.13 alpha:1];
+    _earningsResult.text = @"";
+    _earningsResult.font = [UIFont systemFontOfSize:12];
+    [view addSubview:_earningsResult];
+    
+}
+
+-(void)calculateEarningsBtnJS:(id)sender
+{
+    [_investmentAmount resignFirstResponder];
+    double amount = [_investmentAmount.text  doubleValue];//投资金额
+    float earnings = [_earningsLabel.text floatValue] / 100.0f;
+    _earningsResult.text = [NSString stringWithFormat:@"%@元",[Utils newFloat:amount*earnings withNumber:1]];
 }
 
 //输入框编辑完成以后，将视图恢复到原始状态
@@ -342,6 +361,7 @@
     _aboutProductsView.hidden = YES;
     _calculateEarningsView.hidden = NO;
     _productInfoTableView.hidden = YES;
+    [self calculateEarningsBtnJS:nil];
 }
 
 //相关产品按钮被点击
@@ -404,8 +424,6 @@
                             @finally {
                                 
                             }
-                            
-                            
                         }
                     }
                 }
@@ -430,7 +448,8 @@
                                                                   period:@"all"
                                                                threshold:@"all"
                                                                     page:page
-                                                                 keywork:@""];
+                                                                 keywork:@""
+                                                                   types:@""];
         NSArray * array = [[dic objectForKey:@"data"] objectForKey:@"json"];
         NSMutableArray * financialProductss = [[[NSMutableArray alloc] init] autorelease];
         NSDictionary * dicItem;
@@ -480,6 +499,13 @@
         _earningsLabel.text = interestForSort;
         NSString * qgje = [dic objectForKey:@"threshold"];
         NSString * favorite_id = [dic objectForKey:@"favorite_id"];//收藏记录的id
+        
+        // 如果是银行理财产品   并且比同类均值低的时候显示绿色  否则显示红色
+        if ([type isEqualToString:@"WealthInvestment"] && [[dic objectForKey:@"interest"] floatValue] < [[dic objectForKey:@"average_interest"] floatValue]) {
+            _yield.textColor = [UIColor colorWithRed:.46 green:.76 blue:.30 alpha:1];
+        } else {
+            _yield.textColor = [UIColor colorWithRed:.82 green:.27 blue:.27 alpha:1];
+        }
         if (favorite_id.length == 0) {
             [_collectionBtn setTitle:@"加入收藏" forState:UIControlStateNormal];
         } else {
@@ -489,6 +515,15 @@
         NSLog(@"qgje:%@",qgje);
         
         _purchaseAmount.text = qgje == [NSNull null] ? @"": [NSString stringWithFormat:@"%@元起购",qgje];
+        if ([type isEqualToString:@"CashFund"]) {
+            //近一月的收益率
+            _monthLastContent.text = [self realYields:[[dic objectForKey:@"day_14"] floatValue]];
+            _yearLastContent.text = [self realYields:[[dic objectForKey:@"day_28"] floatValue]];;
+        } else {
+            _monthLastContent.text = [self realYields:[[dic objectForKey:@"average_interest"] floatValue]];//同类产品平均收益
+            _yearLastContent.text = [NSString stringWithFormat:@"%@元", [Utils newFloat:[[dic objectForKey:@"profit_diff"] floatValue] withNumber:1]];//同类产品万元收益差
+            
+        }
         //    if ([type isEqualToString:@"CashFund"]) {//货币基金
         //        interest_for_sort
         //        float interest_for_sort = [[dic objectForKey:@"interest_for_sort"] floatValue]*100;
@@ -557,7 +592,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 //UniversalInsurance  万能险
@@ -570,51 +604,79 @@
     }
     switch (indexPath.row) {
         case 0:
-            cell.myLabel.text = [NSString stringWithFormat:@"产品名称  %@",[self.productInfo objectForKey:@"name"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"产品名称  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"name"]]];
             break;
         case 1:
-            cell.myLabel.text = [NSString stringWithFormat:@"发行机构  %@",[self.productInfo objectForKey:@"party_name"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"发行机构  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"party_name"]]];
             break;
         case 2:
-            cell.myLabel.text = [NSString stringWithFormat:@"产品状态  %@",[self.productInfo objectForKey:@"status"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"产品状态  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"status"]]];
             break;
         case 3:
-            cell.myLabel.text = [NSString stringWithFormat:@"投保年龄  %@",[self.productInfo objectForKey:@"require_age"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"投保年龄  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"require_age"]]];
             break;
         case 4:
-            cell.myLabel.text = [NSString stringWithFormat:@"投保约定的保险期限  %@",[self.productInfo objectForKey:@"contract_years"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"投保约定的保险期限  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"contract_years"]]];
             break;
         case 5:
-            cell.myLabel.text = [NSString stringWithFormat:@"最低持有年限  %@",[self.productInfo objectForKey:@"actual_years"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"最低持有年限  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"actual_years"]]];
             break;
         case 6:
-            cell.myLabel.text = [NSString stringWithFormat:@"退保手续费率  %@",[self.productInfo objectForKey:@"quit_penalties"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"退保手续费率  %@",[self procedureSurrenderRate:[self.productInfo objectForKey:@"quit_penalties"]]];
             break;
         case 7:
-            cell.myLabel.text = [NSString stringWithFormat:@"最低投保金额  %@",[self.productInfo objectForKey:@"threshold"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"最低投保金额  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"threshold"]]];
             break;
         case 8:
-            cell.myLabel.text = [NSString stringWithFormat:@"保障责任  %@",[self.productInfo objectForKey:@"responsibility"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"保障责任  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"responsibility"]]];
             break;
         case 9:
-            cell.myLabel.text = [NSString stringWithFormat:@"保单管理费率  %@",[self.productInfo objectForKey:@"manage_fee_rate"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"保单管理费率  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"manage_fee_rate"]]];
             break;
         case 10:
-            cell.myLabel.text = [NSString stringWithFormat:@"保单管理费收取年限  %@",[self.productInfo objectForKey:@"manage_fee_years"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"保单管理费收取年限  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"manage_fee_years"]]];
             break;
         case 11:
-            cell.myLabel.text = [NSString stringWithFormat:@"最新结算收益率  %@",[self.productInfo objectForKey:@"last_profit_rate"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"最新结算收益率  %@",[self realYields:[[self.productInfo objectForKey:@"last_profit_rate"] floatValue]]];
             break;
         case 12:
-            cell.myLabel.text = [NSString stringWithFormat:@"最新收益结算日期  %@",[self.productInfo objectForKey:@"last_profit_month"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"最新收益结算日期  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"last_profit_month"]]];
             break;
         case 13:
-            cell.myLabel.text = [NSString stringWithFormat:@"实际预期收益率  %@",[self.productInfo objectForKey:@"interest_for_sort"]];
+            cell.myLabel.text = [NSString stringWithFormat:@"实际预期收益率  %@",[self realYields:[[self.productInfo objectForKey:@"interest_for_sort"] floatValue]]];
             break;
         default:
             break;
     }
     return cell;
+}
+
+//将float类型的数据转换成百分比的字符串，例如：（15％）
+-(NSString*)realYields:(float) realYields
+{
+    NSString * result = @"";
+    result = [NSString stringWithFormat:@"%@％",[Utils newFloat:realYields * 100.f withNumber:2]];
+    return result;
+}
+
+//退保手续费率计算
+-(NSString*)procedureSurrenderRate:(NSArray*)rate
+{
+    NSString * str = @"";
+    NSString * baseStr1 = @"%@,%f";
+    NSString * baseStr2 = @"%f";
+    NSString * baseStr = @"";
+    if (rate != nil && rate.count != 0) {
+        for (NSString * rate_ in rate) {
+            baseStr = str.length == 0 ? baseStr2 : baseStr1;
+            if (str.length == 0) {
+                str = [NSString stringWithFormat:@"%@％ ", [Utils newFloat:[rate_ floatValue] / 100.f withNumber:1]];
+            } else {
+                str = [NSString stringWithFormat:@"%@,%@％ ",str, [Utils newFloat:[rate_ floatValue] / 100.f withNumber:1]];
+            }
+        }
+    }
+    return str;
 }
 
 //银行理财产品 cell
@@ -628,28 +690,28 @@
     @try {
         switch (indexPath.row) {
             case 0:
-                cell.myLabel.text = [NSString stringWithFormat:@"产品代码  %@",[self.productInfo objectForKey:@"vendor_product_code"]];
-                cell.secondLabel.text = [NSString stringWithFormat:@"| 机构名称  %@",[self.productInfo objectForKey:@"party_name"]];
+                cell.myLabel.text = [NSString stringWithFormat:@"产品代码  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"vendor_product_code"]]];
+                cell.secondLabel.text = [NSString stringWithFormat:@"| 机构名称  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"party_name"]]];
                 break;
             case 1:
-                cell.myLabel.text = [NSString stringWithFormat:@"管理期限  %@",[self.productInfo objectForKey:@""]];
-                cell.secondLabel.text = [NSString stringWithFormat:@"| 购买渠道  %@",[self.productInfo objectForKey:@""]];
+                cell.myLabel.text = [NSString stringWithFormat:@"管理期限  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@""]]];
+                cell.secondLabel.text = [NSString stringWithFormat:@"| 购买渠道  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@""]]];
                 break;
             case 2:
-                cell.myLabel.text = [NSString stringWithFormat:@"起购金额  %@",[self.productInfo objectForKey:@"threshold"]];
-                cell.secondLabel.text = [NSString stringWithFormat:@"| 递增单位  %@",[_productInfo objectForKey:@"increment_unit"]];
+                cell.myLabel.text = [NSString stringWithFormat:@"起购金额  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"threshold"]]];
+                cell.secondLabel.text = [NSString stringWithFormat:@"| 递增单位  %@",[Utils strConversionWitd:[_productInfo objectForKey:@"increment_unit"]]];
                 break;
             case 3:
-                cell.myLabel.text = [NSString stringWithFormat:@"销售起止日期  %@~%@",[[_productInfo objectForKey:@"sales_date"] objectForKey:@"from"],[[_productInfo objectForKey:@"sales_date"] objectForKey:@"to"]];
+                cell.myLabel.text = [NSString stringWithFormat:@"销售起止日期  %@~%@",[Utils strConversionWitd:[[_productInfo objectForKey:@"sales_date"] objectForKey:@"from"]],[Utils strConversionWitd:[[_productInfo objectForKey:@"sales_date"] objectForKey:@"to"]]];
                 break;
             case 4:
-                cell.myLabel.text = [NSString stringWithFormat:@"收益起止日期  %@~%@",[[_productInfo objectForKey:@"interest_period"] objectForKey:@"from"],[[_productInfo objectForKey:@"interest_period"] objectForKey:@"to"]];
+                cell.myLabel.text = [NSString stringWithFormat:@"收益起止日期  %@~%@",[Utils strConversionWitd:[[_productInfo objectForKey:@"interest_period"] objectForKey:@"from"]],[Utils strConversionWitd:[[_productInfo objectForKey:@"interest_period"] objectForKey:@"to"]]];
                 break;
             case 5:
-                cell.myLabel.text = [NSString stringWithFormat:@"销售地区  %@",[self.productInfo objectForKey:@""]];
+                cell.myLabel.text = [NSString stringWithFormat:@"销售地区  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@""]]];
                 break;
             case 6:
-                cell.myLabel.text = [NSString stringWithFormat:@"投资者是否有赎回权  %@",[self.productInfo objectForKey:@""]];
+                cell.myLabel.text = [NSString stringWithFormat:@"投资者是否有赎回权  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@""]]];
                 break;
             default:
                 break;
@@ -680,7 +742,7 @@
         
         cell.ExpectedReturn.text = [NSString stringWithFormat:@"%@%@",[Utils newFloat:[finProduct.interest floatValue] *100 withNumber:2],@"%"]; //@"5.61%";
         cell.financialProductsName.text = finProduct.name;
-        cell.financialProductsDescribtion.text = [NSString stringWithFormat:@"起购金额%@  理财期限%@",finProduct.threshold,finProduct.period];
+        cell.financialProductsDescribtion.text = [NSString stringWithFormat:@"起购金额%@  理财期限%@",[Utils strConversionWitd:finProduct.threshold],[Utils strConversionWitd:finProduct.period]];
     }
     @catch (NSException *exception) {
         
@@ -701,31 +763,35 @@
     if (nil == cell) {
         cell = [[[MyselfTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-
     @try {
+        NSString * arrivalDays = [Utils strConversionWitd:[self.productInfo objectForKey:@"arrival_days"]];
         switch (indexPath.row) {
             case 0:
-                cell.myLabel.text = [NSString stringWithFormat:@"取现时间  T+%@ 实时到账",[self.productInfo objectForKey:@"arrival_days"]];
+                if ([arrivalDays isEqualToString:@"0"] || arrivalDays.length == 0) {
+                    cell.myLabel.text = [NSString stringWithFormat:@"取现时间  实时到账"];
+                } else {
+                    cell.myLabel.text = [NSString stringWithFormat:@"取现时间  T+%@ 实时到账",arrivalDays];
+                }
                 cell.myLabel.textColor = [UIColor colorWithRed:.85 green:.21 blue:.20 alpha:1];
                 break;
             case 1:
-                cell.myLabel.text = [NSString stringWithFormat:@"基金代码  %@",[self.productInfo objectForKey:@"vendor_product_code"]];
+                cell.myLabel.text = [NSString stringWithFormat:@"基金代码  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"vendor_product_code"]]];
                 break;
             case 2:
-                cell.myLabel.text = [NSString stringWithFormat:@"基金公司  %@",[self.productInfo objectForKey:@"party_name"]];
+                cell.myLabel.text = [NSString stringWithFormat:@"基金公司  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@"party_name"]]];
                 break;
             case 3:
-                cell.myLabel.text = [NSString stringWithFormat:@"成立日期  %@",[self.productInfo objectForKey:@""]];
+                cell.myLabel.text = [NSString stringWithFormat:@"成立日期  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@""]]];
                 break;
             case 4:
-                cell.myLabel.text = [NSString stringWithFormat:@"管理费    %@",[self.productInfo objectForKey:@""]];
-                cell.secondLabel.text = [NSString stringWithFormat:@"| 托管费   %@",[self.productInfo objectForKey:@""]];
+                cell.myLabel.text = [NSString stringWithFormat:@"管理费    %@",[Utils strConversionWitd:[self.productInfo objectForKey:@""]]];
+                cell.secondLabel.text = [NSString stringWithFormat:@"| 托管费   %@",[Utils strConversionWitd:[self.productInfo objectForKey:@""]]];
                 break;
             case 5:
-                cell.myLabel.text = [NSString stringWithFormat:@"最新规模  %@亿元",[self.productInfo objectForKey:@""]];
+                cell.myLabel.text = [NSString stringWithFormat:@"最新规模  %@亿元",[Utils strConversionWitd:[self.productInfo objectForKey:@""]]];
                 break;
             case 6:
-                cell.myLabel.text = [NSString stringWithFormat:@"基金经理  %@",[self.productInfo objectForKey:@""]];
+                cell.myLabel.text = [NSString stringWithFormat:@"基金经理  %@",[Utils strConversionWitd:[self.productInfo objectForKey:@""]]];
                 break;
             default:
                 break;

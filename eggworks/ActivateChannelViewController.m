@@ -191,8 +191,8 @@
 
 -(void)sendSMSBtnClick:(id)sender
 {
-    if (_phoneNumber.text.length == 0) {
-        Show_msg(@"提示", @"电话号码不能为空");
+    if (![Utils verifyPhoneNumber:_phoneNumber.text]) {
+        Show_msg(@"提示", @"请输入正确的手机号");
         return;
     }
     int second = _sendSMS.seconds;
@@ -251,7 +251,7 @@
                 [self.navigationController pushViewController:submitFailVC animated:YES];
                 [submitFailVC release];
             }
-        }];
+        } inView:self.view];
        
     } else {
         NSLog(@"已登录");

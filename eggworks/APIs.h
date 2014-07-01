@@ -30,7 +30,7 @@
 
 //=====================================理财产品api
 //获取理财产品
-#define financial_market_products       @"/products.json"
+#define financial_market_products       @"/market/invest_products.json"
 //理财产品详情
 #define financial_products_info         @"/products/%@.json"
 //查询基础利率

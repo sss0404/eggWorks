@@ -240,6 +240,9 @@
                     }
                otherButtonTitles:@"继续"];
             break;
+        case verification_code_error:
+            Show_msg(@"提示", @"验证码错误");
+            break;
         default:
             break;
     }

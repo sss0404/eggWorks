@@ -19,3 +19,5 @@
 #define mobile_phone_easy_phone_202             202
 //有一个待激活的手机保障服务
 #define mobile_phone_easy_wait_activation       204
+//短信验证码错误
+#define verification_code_error                 005

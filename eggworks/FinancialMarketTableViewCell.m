@@ -38,7 +38,7 @@
     //89
     //预期收益标题
     _ExpectedReturnTitle = [[UILabel alloc] initWithFrame:CGRectMake(12.5, 20, 64, 12.8)];
-    _ExpectedReturnTitle.textColor = [UIColor redColor];
+    _ExpectedReturnTitle.textColor = [UIColor colorWithRed:.82 green:.27 blue:.27 alpha:1];
     _ExpectedReturnTitle.font = [UIFont systemFontOfSize:14];
     [self addSubview:_ExpectedReturnTitle];
     

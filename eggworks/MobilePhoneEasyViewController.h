@@ -11,4 +11,5 @@
 
 @interface MobilePhoneEasyViewController : BaseViewController
 
+@property (nonatomic, retain) UIImageView * indexImg;
 @end

@@ -269,7 +269,7 @@
 
 
 //获取理财产品
-+(NSDictionary*)getfinancialMarketsWithAreaID:(NSString*)area_id partyId:(id)party_id period:(NSString*)period threshold:(NSString*)threshold page:(int)page keywork:(NSString*)keyword
++(NSDictionary*)getfinancialMarketsWithAreaID:(NSString*)area_id partyId:(id)party_id period:(NSString*)period threshold:(NSString*)threshold page:(int)page keywork:(NSString*)keyword types:(NSString *)types
 {
     NSString * party_id_str = @"&party_id=";
     if (party_id != nil) {
@@ -281,7 +281,10 @@
     }
         
     NSString * api = financial_market_products;
-    NSString * parameter = [NSString stringWithFormat:@"?area_id=%@%@&period=%@&threshold=%@&page=%i&keyword=%@",area_id,party_id_str,period,threshold,page,keyword];
+    NSString * parameter = [NSString stringWithFormat:@"?area_id=%@%@&period=%@&threshold=%@&page=%i&keyword=%@%@",area_id,party_id_str,period,threshold,page,keyword,types];
+//    if (types.length != 0) {
+//        [NSString stringWithFormat:@"%@"];
+//    }
     NSString * url = [NSString stringWithFormat:@"%@%@%@",SERVER_ADDR_HTTP,api,parameter];
     NSString * str = [self requestWithGet:url];
 //    NSLog(@"获取理财产品:%@", str);

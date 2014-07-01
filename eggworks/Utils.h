@@ -26,9 +26,6 @@
 
 //获取当前选择的城市
 +(NSDictionary*)getCurrSelectedCity;
-
-
-
 //保留xx位小数
 +(NSString *)newFloat:(float)value withNumber:(int)numberOfPlace;
 
@@ -61,4 +58,10 @@
 
 //保存用户的姓名
 +(void)saveRealName:(NSString*)real_name;
+
+//字符串转换，  如果是空字符串则返回  空字符串  而不返回null
++(NSString*)strConversionWitd:(NSString *)str;
+
+//验证手机号
++(BOOL)verifyPhoneNumber:(NSString*)phoneNumber;
 @end

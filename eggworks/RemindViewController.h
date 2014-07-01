@@ -7,7 +7,10 @@
 // 提醒页面
 
 #import "BaseViewController.h"
+#import "Remind.h"
 
-@interface RemindViewController : BaseViewController
+@interface RemindViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
 
+@property (nonatomic, retain) Remind * preSaleProductsRemind;
+@property (nonatomic, retain) Remind * maturityProductsRemind;
 @end

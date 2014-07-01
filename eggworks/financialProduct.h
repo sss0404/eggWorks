@@ -18,4 +18,6 @@
 @property (nonatomic, retain) NSString * period;//期限
 @property (nonatomic, retain) NSString * threshold;//投资门槛
 @property (nonatomic, retain) NSString * type;//类型
+@property (nonatomic, assign) int arrival_days;//赎回到账天数
+
 @end

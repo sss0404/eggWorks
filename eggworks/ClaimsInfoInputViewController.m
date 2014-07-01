@@ -208,7 +208,7 @@
     //服务热线电话
     _servicePhone = [[UIButton alloc] initWithFrame:CGRectMake(20, 350, 280, 40)];
 //    _servicePhone.frame = CGRectMake(20, 350, 280, 40);
-    [_servicePhone setTitle:@"客户服务热线：400-000-000" forState:UIControlStateNormal];
+    [_servicePhone setTitle:[NSString stringWithFormat:@"客户服务热线：%@",phone_number] forState:UIControlStateNormal];
     _servicePhone.backgroundColor = [UIColor whiteColor];
     [_servicePhone setTitleColor:title_text_color forState:UIControlStateNormal];
     [_aVeiw addSubview:_servicePhone];
@@ -303,13 +303,14 @@
         return;
     }
     
-    if (phoneNumber.length == 0) {
-        Show_msg(@"提示", @"手机号不能为空！");
+    if (![Utils verifyPhoneNumber:phoneNumber]) {
+        
+        Show_msg(@"提示", @"请输入正确的手机号");
         return;
     }
     
-    if (connectPhoneNumber.length == 0) {
-        Show_msg(@"提示", @"联系电话不能为空！");
+    if (![Utils verifyPhoneNumber:connectPhoneNumber]) {
+        Show_msg(@"提示", @"请输入正确的手机号");
         return;
     }
     

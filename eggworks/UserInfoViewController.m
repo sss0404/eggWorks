@@ -80,7 +80,7 @@
     //服务热线电话
     UIButton * servicePhone = [UIButton buttonWithType:UIButtonTypeCustom];
     servicePhone.frame = CGRectMake(20, 315, 280, 40);
-    [servicePhone setTitle:@"客户服务热线：400-000-000" forState:UIControlStateNormal];
+    [servicePhone setTitle:[NSString stringWithFormat:@"客户服务热线：%@",phone_number] forState:UIControlStateNormal];
     servicePhone.backgroundColor = [UIColor whiteColor];
     [servicePhone setTitleColor:title_text_color forState:UIControlStateNormal];
     [aVeiw addSubview:servicePhone];
@@ -109,10 +109,10 @@
 }
 
 
--(void)backButton:(id)sender
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
+//-(void)backButton:(id)sender
+//{
+//    [self.navigationController popToRootViewControllerAnimated:YES];
+//}
 
 
 @end

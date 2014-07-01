@@ -65,7 +65,7 @@
 //------------------------------------------------------------------------------
 
 //获取理财产品
-+(NSDictionary*)getfinancialMarketsWithAreaID:(NSString*)area_id partyId:(id)party_id period:(NSString*)period threshold:(NSString*)threshold page:(int)page keywork:(NSString*)keyword;
++(NSDictionary*)getfinancialMarketsWithAreaID:(NSString*)area_id partyId:(id)party_id period:(NSString*)period threshold:(NSString*)threshold page:(int)page keywork:(NSString*)keyword types:(NSString *)types;
 
 //获取理财产品详情
 -(NSDictionary*)getfinancialInfoWithProductId:(NSString*)productId;

@@ -32,6 +32,7 @@
 @property(nonatomic, retain) UILabel * earningsLabel;
 @property(nonatomic, retain) UILabel * purchaseAmount;//立即申购上面的 起购金额
 @property(nonatomic, retain) UIButton * collectionBtn;//收藏按钮
+@property(nonatomic, retain) UILabel * earningsResult;//预期收益计算结果
 
 @property(nonatomic, retain) AsynRuner * asynRunner;
 

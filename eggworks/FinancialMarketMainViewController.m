@@ -78,7 +78,8 @@
                       partyID:nil
                        period:@"all"
                     threshold:@"all"
-                      keywork:@""];
+                      keywork:@""
+                         type:@""];
 }
 
 -(void)menuButton:(id)sender
@@ -97,7 +98,7 @@
 }
 
 //获取理财产品
--(void) getfinancialMarkets:(int)page withAreaID:(NSString*)areaID partyID:(NSArray *)partyID period:(NSString*)period threshold:(NSString*)threshold keywork:(NSString*)keyword
+-(void) getfinancialMarkets:(int)page withAreaID:(NSString*)areaID partyID:(NSArray *)partyID period:(NSString*)period threshold:(NSString*)threshold keywork:(NSString*)keyword type:(NSString*)types
 {
     NSLog(@"加载页面:%i",page);
     isLoadState = YES;
@@ -107,7 +108,8 @@
                                                                   period:period
                                                                threshold:threshold
                                                                     page:page
-                                                                 keywork:keyword];
+                                                                 keywork:keyword
+                                                                   types:types];
         self.currData = dic;
         NSArray * array = [[dic objectForKey:@"data"] objectForKey:@"json"];
         NSMutableArray * financialProductss = [[[NSMutableArray alloc] init] autorelease];
@@ -123,6 +125,7 @@
             finProduct.period = [dicItem objectForKey:@"period"];
             finProduct.threshold = [dicItem objectForKey:@"threshold"];
             finProduct.type = [dicItem objectForKey:@"type"];
+            finProduct.arrival_days = [[dicItem objectForKey:@"arrival_days"] intValue];
             [financialProductss addObject:finProduct];
             [finProduct release]; finProduct = nil;
         }
@@ -161,9 +164,14 @@
         if (finProduct.interest != [NSNull null]) {
             cell.ExpectedReturn.text = [NSString stringWithFormat:@"%@%@",[Utils newFloat:[finProduct.interest floatValue]*100 withNumber:2],@"%"];
         }
-        //@"5.61%";
+        
         cell.financialProductsName.text = finProduct.name;
-        cell.financialProductsDescribtion.text = [NSString stringWithFormat:@"起购金额%@  理财期限%@",finProduct.threshold,finProduct.period];
+        if ([finProduct.type isEqualToString:@"CashFund"]) {//货币基金
+            cell.financialProductsDescribtion.text = [NSString stringWithFormat:@"起购金额%@  T+%i",finProduct.threshold,finProduct.arrival_days];
+        } else {
+            cell.financialProductsDescribtion.text = [NSString stringWithFormat:@"起购金额%@  理财期限%@",finProduct.threshold,finProduct.period];
+        }
+        
     }
     @catch (NSException *exception) {
         NSLog(@"exception:%@",exception);
@@ -215,6 +223,25 @@
     }
     NSArray * institutionalsArray = [_obj objectForKey:@"institutionalsArray"];
     NSDictionary * investmentHorizonDic = [_obj objectForKey:@"investmentHorizonDic"];
+    NSDictionary * investmentsDic = [_obj objectForKey:@"investmentsDic"];//投资品种
+    
+    //投资品种
+    NSString * productTypes = @"";
+    if (investmentsDic != nil && ![investmentsDic isKindOfClass:[NSString class]]) {
+        BOOL bank = [[investmentsDic objectForKey:@"bank"] boolValue];   //  银行
+        BOOL fund = [[investmentsDic objectForKey:@"fund"] boolValue];   // 基金
+        BOOL insurance = [[investmentsDic objectForKey:@"insurance"] boolValue];  //万能险
+        if (bank) {
+            productTypes = [NSString stringWithFormat:@"&types[]=WealthInvestment"];
+        }
+        if (fund) {
+            productTypes = [NSString stringWithFormat:@"%@&types[]=CashFund",productTypes];
+        }
+        if (insurance) {
+            productTypes = [NSString stringWithFormat:@"%@&types[]=UniversalInsurance",productTypes];
+        }
+    }
+    
     
     //投资期限
     NSString * period = @"3";
@@ -260,7 +287,8 @@
                       partyID:institutionalsArray
                        period:period//期限
                     threshold:threshold
-                      keywork:keyword == nil ? @"" : [keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                      keywork:keyword == nil ? @"" : [keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                         type:productTypes];
 }
 
 -(void)backButton:(id)sender

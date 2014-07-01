@@ -8,6 +8,9 @@
 
 #import "SettingViewController.h"
 #import "ModifyPassViewController.h"
+#import "RequestUtils.h"
+#import "Utils.h"
+#import "LoginViewController.h"
 
 @interface SettingViewController ()
 
@@ -30,7 +33,7 @@
     [super viewDidLoad];
     self.title = @"设置";
     
-    self.funcArray = @[@"修改登录密码",@"关于理财集市"];
+    self.funcArray = @[@"修改登录密码",@"关于理财集市",@"退出登录"];
     
     self.tableView = [[[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame] autorelease];
 //    _tableView.backgroundColor = [UIColor redColor];
@@ -68,6 +71,11 @@
     if ([func isEqualToString:@"修改登录密码"]) {
         ModifyPassViewController * modifyPassVC = [[[ModifyPassViewController alloc] init] autorelease];
         [self.navigationController pushViewController:modifyPassVC animated:YES];
+    } else if([func isEqualToString:@"退出登录"]) {
+        RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+        [requestUtils saveWithUid:@"" andPassword:@""];
+        [Utils saveAccount:nil];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 

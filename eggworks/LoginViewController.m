@@ -152,6 +152,7 @@
             [Utils savePassword:@""];
             [Utils saveRealName:@""];
             [requestUtils saveWithUid:nil andPassword:nil];
+            Show_msg(@"提示", @"登录失败，请检查您的账号和密码");
         }
     } inView:self.view];
     

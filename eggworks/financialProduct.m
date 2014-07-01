@@ -17,6 +17,7 @@
 @synthesize period = _period;
 @synthesize threshold = _threshold;
 @synthesize type = _type;
+@synthesize arrival_days = _arrival_days;
 
 - (void)dealloc
 {
