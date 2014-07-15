@@ -40,7 +40,7 @@
     _funcImg.contentMode = UIViewContentModeCenter;
     [self addSubview:_funcImg];
     
-    self.funcName = [[UILabel alloc] initWithFrame:CGRectMake(7,0, size.width-7, 25)];
+    self.funcName = [[[UILabel alloc] initWithFrame:CGRectMake(7,0, size.width-7, 25)] autorelease];
     _funcName.textColor = [UIColor whiteColor];
     _funcName.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:15];
     [self addSubview:_funcName];

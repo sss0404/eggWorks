@@ -156,18 +156,12 @@
         return;
     }
     //提交
-    
-    [_asynRunner runOnBackground:^id{
-        NSDictionary * dic = [RequestUtils registerWithName:_account.text password:_password.text smsVerify:_verify.text];
-        return dic;
-    } onUpdateUI:^(id obj) {
+    [RequestUtils registerWithName:_account.text password:_password.text smsVerify:_verify.text callback:^(id obj) {
         BOOL success = [[obj objectForKey:@"success"] boolValue];
         if (success) {
             NSString * id_ = [obj objectForKey:@"id"];
             [Utils saveIdForUser:id_];
             [Utils saveAccount:account];
-            RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
-            [requestUtils saveWithUid:account andPassword:password];
             [self.navigationController popToRootViewControllerAnimated:YES];
         } else{
             NSString * error_code = [obj objectForKey:@"error_code"];
@@ -175,7 +169,26 @@
                 Show_msg(@"提示", @"手机号码已经被注册");
             }
         }
-    } inView:self.view];
+    } withView:self.view];
+    
+//    [_asynRunner runOnBackground:^id{
+//        NSDictionary * dic = [RequestUtils registerWithName:_account.text password:_password.text smsVerify:_verify.text];
+//        return dic;
+//    } onUpdateUI:^(id obj) {
+//        BOOL success = [[obj objectForKey:@"success"] boolValue];
+//        if (success) {
+//            NSString * id_ = [obj objectForKey:@"id"];
+//            [Utils saveIdForUser:id_];
+//            [Utils saveAccount:account];
+//            RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+//        } else{
+//            NSString * error_code = [obj objectForKey:@"error_code"];
+//            if ([error_code isEqualToString:@"001"]) {
+//                Show_msg(@"提示", @"手机号码已经被注册");
+//            }
+//        }
+//    } inView:self.view];
     
 }
 

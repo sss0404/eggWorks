@@ -13,6 +13,9 @@
 #import "CollectionViewController.h"
 #import "SettingViewController.h"
 #import "MyOrderViewController.h"
+#import "ShuMi_Plug_Function.h"
+#import "ShuMi_Plug_Data.h"
+#import "ShuMiDetailViewController.h"
 
 @interface MyAccountViewController ()
 
@@ -28,6 +31,7 @@
 
 - (void)dealloc
 {
+    [NotificationCenter removeObserver:self name:@"onNotification" object:nil];
     [_tableView release]; _tableView = nil;
     [_dic release]; _dic = nil;
     [_name release]; _name = nil;
@@ -114,26 +118,33 @@
 
 -(void) getUserInfo
 {
-    [_asynRunner runOnBackground:^id{
-        return [RequestUtils getUserInfo];
-    } onUpdateUI:^(id obj) {
-        BOOL success = [[obj objectForKey:@"success"] boolValue];
-        self.userInfo = obj;
+    [RequestUtils getUserInfoWithCallBack:^(id data) {
+        BOOL success = [[data objectForKey:@"success"] boolValue];
+        self.userInfo = data;
         if (success) {
-            NSString * id_ = [obj objectForKey:@"id"];
-            if (id_ == [NSNull null]) {
-                [Utils saveIdForUser:nil];
-            } else {
-                [Utils saveIdForUser:id_];
-            }
-            NSString * realName = [obj objectForKey:@"real_name"];
-            if (realName == [NSNull null]) {
-               _name.text = @"";
-            } else {
-                _name.text = realName;
-            }
+            NSString * id_ = [data objectForKey:@"id"];
+            [Utils saveIdForUser:[Utils strConversionWitd:id_]];
+            NSString * realName = [data objectForKey:@"real_name"];
+            NSString * realNameR = [Utils strConversionWitd:realName];
+            _name.text = realNameR;
+            [Utils saveRealName:realNameR];
         }
-    } inView:self.view];
+    } withView:self.view];
+    
+//    [_asynRunner runOnBackground:^id{
+//        return [RequestUtils getUserInfo];
+//    } onUpdateUI:^(id obj) {
+//        BOOL success = [[obj objectForKey:@"success"] boolValue];
+//        self.userInfo = obj;
+//        if (success) {
+//            NSString * id_ = [obj objectForKey:@"id"];
+//            [Utils saveIdForUser:[Utils strConversionWitd:id_]];
+//            NSString * realName = [obj objectForKey:@"real_name"];
+//            NSString * realNameR = [Utils strConversionWitd:realName];
+//            _name.text = realNameR;
+//            [Utils saveRealName:realNameR];
+//        }
+//    } inView:self.view];
     
 }
 
@@ -227,13 +238,13 @@
     NSArray * array = [_dic objectForKey:[NSString stringWithFormat:@"%i", indexPath.section+1]];
     NSString * item = [array objectAtIndex:indexPath.row];
     if ([item isEqualToString:@"我的基金产品"]) {
-        
+        [self myFundProducts];
     } else if([item isEqualToString:@"我的保单"]) {
         [self myOrderClick];
     } else if ([item isEqualToString:@"我的交易账号"]) {
-        
+        [self loadUserBindedCards];
     } else if ([item isEqualToString:@"我的交易记录"]) {
-        
+        [self transactionRecords];
     } else if ([item isEqualToString:@"我的收藏"]) {
         CollectionViewController * collectionVC = [[[CollectionViewController alloc] init] autorelease];
         [self.navigationController pushViewController:collectionVC animated:YES];
@@ -246,11 +257,8 @@
 //我的保单
 -(void)myOrderClick
 {
-    [_asynRunner runOnBackground:^id{
-        RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
-        NSDictionary * dic = [requestUtils ordersJson];
-        return dic;
-    } onUpdateUI:^(id obj) {
+    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+    [requestUtils ordersJsonWithCallback:^(id obj) {
         if (![[obj objectForKey:@"success"] boolValue]) {
             Show_msg(@"提示", @"获取数据失败");
             return ;
@@ -259,7 +267,95 @@
         MyOrderViewController * myOrderVC = [[[MyOrderViewController alloc] init] autorelease];
         myOrderVC.myOrderArray = orders;
         [self.navigationController pushViewController:myOrderVC animated:YES];
-    } inView:self.view];
+    } withView:self.view];
+    
+//    [_asynRunner runOnBackground:^id{
+//        RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+//        NSDictionary * dic = [requestUtils ordersJson];
+//        return dic;
+//    } onUpdateUI:^(id obj) {
+//        if (![[obj objectForKey:@"success"] boolValue]) {
+//            Show_msg(@"提示", @"获取数据失败");
+//            return ;
+//        }
+//        NSArray * orders = [obj objectForKey:@"orders"];
+//        MyOrderViewController * myOrderVC = [[[MyOrderViewController alloc] init] autorelease];
+//        myOrderVC.myOrderArray = orders;
+//        [self.navigationController pushViewController:myOrderVC animated:YES];
+//    } inView:self.view];
+}
+
+//我的基金产品
+-(void)myFundProducts
+{
+    suMiOpType = myFundProducts;
+    if ([self isBind]) {
+        ShuMiDetailViewController * suMiDetailVC = [[[ShuMiDetailViewController alloc] init] autorelease];
+        suMiDetailVC.suMi = myFundProducts;
+        [self.navigationController pushViewController:suMiDetailVC animated:YES];
+    } else {
+        [NotificationCenter addObserver:self selector:@selector(onNotification:) name:@"onNotification" object:nil];
+        [ShuMi_Plug_Function userIdentityVrification:self.navigationController];
+    }
+}
+
+//我的交易记录
+-(void)transactionRecords
+{
+    suMiOpType = transactionRecords;
+    if ([self isBind]) {
+        ShuMiDetailViewController * suMiDetailVC = [[[ShuMiDetailViewController alloc] init] autorelease];
+        suMiDetailVC.suMi = transactionRecords;
+        [self.navigationController pushViewController:suMiDetailVC animated:YES];
+    } else {
+        [NotificationCenter addObserver:self selector:@selector(onNotification:) name:@"onNotification" object:nil];
+        [ShuMi_Plug_Function userIdentityVrification:self.navigationController];
+    }
+}
+
+//我的交易账号
+-(void)loadUserBindedCards
+{
+    suMiOpType = loadUserBindedCards;
+    if ([self isBind]) {
+        ShuMiDetailViewController * suMiDetailVC = [[[ShuMiDetailViewController alloc] init] autorelease];
+        suMiDetailVC.suMi = loadUserBindedCards;
+        [self.navigationController pushViewController:suMiDetailVC animated:YES];
+        
+    } else {
+        [NotificationCenter addObserver:self selector:@selector(onNotification:) name:@"onNotification" object:nil];
+        [ShuMi_Plug_Function userIdentityVrification:self.navigationController];
+    }
+    
+}
+
+//接收到Notification
+-(void)onNotification:(NSNotification *)notification
+{
+    switch (suMiOpType) {
+        case transactionRecords:
+            [self transactionRecords];
+            break;
+        case myFundProducts:
+            [self myFundProducts];
+            break;
+        case loadUserBindedCards:
+            [self loadUserBindedCards];
+            break;
+        default:
+            break;
+    }
+    
+}
+
+
+
+//判断用户是否已经绑定数米SDK
+-(BOOL)isBind
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    BOOL binded = [[userDefault objectForKey:@"binded"] boolValue];
+    return binded;
 }
 
 @end

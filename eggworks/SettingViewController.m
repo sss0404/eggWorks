@@ -11,6 +11,7 @@
 #import "RequestUtils.h"
 #import "Utils.h"
 #import "LoginViewController.h"
+#import "AboutViewController.h"
 
 @interface SettingViewController ()
 
@@ -73,9 +74,27 @@
         [self.navigationController pushViewController:modifyPassVC animated:YES];
     } else if([func isEqualToString:@"退出登录"]) {
         RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
-        [requestUtils saveWithUid:@"" andPassword:@""];
-        [Utils saveAccount:nil];
+//        [Utils saveAccount:nil];
+        
+        [Utils saveAccount:@""];
+        [Utils savePassword:@""];
+        [Utils saveRealName:@""];
+        [requestUtils removeHttpCredentials];
+        
+        //清除数米绑定信息
+        [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"authorizedToken"];
+        [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"tokenSecret"];
+        BOOL binded = NO;
+        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:binded] forKey:@"binded"];
+        
+        [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"realName"];
+        [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"idNumber"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
         [self.navigationController popToRootViewControllerAnimated:YES];
+    } else if([func isEqualToString:@"关于理财集市"]) {
+        AboutViewController * about = [[[AboutViewController alloc] init] autorelease];
+        [self.navigationController pushViewController:about animated:YES];
     }
 }
 

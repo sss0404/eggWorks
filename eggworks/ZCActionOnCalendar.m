@@ -139,7 +139,7 @@
 //获取日历中的
 +(NSArray*)getCalendars
 {
-    EKEventStore* eventStore = [[EKEventStore alloc] init];
+    EKEventStore* eventStore = [[[EKEventStore alloc] init] autorelease];
     NSDate* ssdate = [NSDate dateWithTimeIntervalSinceNow:-3600*24*90];//事件段，开始时间
     NSDate* ssend = [NSDate dateWithTimeIntervalSinceNow:3600*24*90];//结束时间，取中间
     NSPredicate* predicate = [eventStore predicateForEventsWithStartDate:ssdate

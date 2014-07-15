@@ -11,6 +11,7 @@
 #import "PhoneEasyProduct.h"
 #import "Utils.h"
 
+
 @implementation RequestUtils
 
 
@@ -97,24 +98,28 @@
 
 +(NSString*)requestWithGet:(NSString*)urlStr
 {
-    
     NSURL * url = [[[NSURL alloc] initWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] autorelease];
     NSLog(@"get请求地址：%@",urlStr);
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url
-                                                               cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                           timeoutInterval:5];
+                                                               cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                           timeoutInterval:0];
     [urlRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [urlRequest addValue:@"cdcf-ios-1.0.0" forHTTPHeaderField:@"User-Agent"];
+    [urlRequest addValue:@"no-cache" forHTTPHeaderField:@"Cache-Control"];
+    [urlRequest addValue:@"no-cache" forHTTPHeaderField:@"Pragma"];
     [urlRequest setHTTPMethod:@"GET"];
-
+    [urlRequest setCachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData];
     //开始请求
     NSError *error = nil;
     NSURLResponse* response = nil;
+    
     NSData * data = [NSURLConnection sendSynchronousRequest:urlRequest
                                           returningResponse:&response
                                                       error:&error];
     NSString * str = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
     NSLog(@"str:%@",str);
+    RequestUtils * reqUtil = [[[RequestUtils alloc] init] autorelease];
+    [reqUtil removeHttpCredentials];
     return str;
 }
 
@@ -126,10 +131,16 @@
     apiAndParameter = [apiAndParameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL * url = [[[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",urlStr,apiAndParameter]] autorelease];
     
-    NSMutableURLRequest * urlRequest = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url
+                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                           timeoutInterval:0];
     [urlRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [urlRequest addValue:@"cdcf-ios-1.0.0" forHTTPHeaderField:@"User-Agent"];
+    [urlRequest addValue:@"no-cache" forHTTPHeaderField:@"Cache-Control"];
     [urlRequest setHTTPMethod:@"POST"];
+    [urlRequest addValue:@"no-cache" forHTTPHeaderField:@"Pragma"];
+    [urlRequest setCachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData];
+    
     NSData *bodyData = [apiAndParameter dataUsingEncoding:NSUTF8StringEncoding];
     [urlRequest setHTTPBody:bodyData];
     
@@ -141,6 +152,8 @@
                                                       error:&error];
     NSString * str = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
     NSLog(@"str:%@", str);
+    RequestUtils * reqUtil = [[[RequestUtils alloc] init] autorelease];
+    [reqUtil removeHttpCredentials];
     return str;
 }
 
@@ -152,12 +165,17 @@
     apiAndParameter = [apiAndParameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL * url = [[[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",urlStr,apiAndParameter]] autorelease];
     
-    NSMutableURLRequest * urlRequest = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:url
+                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                           timeoutInterval:5];
     [urlRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [urlRequest addValue:@"cdcf-ios-1.0.0" forHTTPHeaderField:@"User-Agent"];
+    [urlRequest addValue:@"no-cache" forHTTPHeaderField:@"Cache-Control"];
+    [urlRequest addValue:@"no-cache" forHTTPHeaderField:@"Pragma"];
     [urlRequest setHTTPMethod:@"PUT"];
     NSData *bodyData = [apiAndParameter dataUsingEncoding:NSUTF8StringEncoding];
     [urlRequest setHTTPBody:bodyData];
+    [urlRequest setCachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData];
     
     //开始请求
     NSError *error = nil;
@@ -167,22 +185,26 @@
                                                       error:&error];
     NSString * str = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
     NSLog(@"str:%@", str);
+    RequestUtils * reqUtil = [[[RequestUtils alloc] init] autorelease];
+    [reqUtil removeHttpCredentials];
     return str;
 }
 
 //查询当前服务协议
--(NSDictionary*)ordersJson
+-(NSDictionary*)ordersJsonWithCallback:(callBack)callBack withView:(UIView*)view
 {
-    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-    NSString * userId = [Utils getAccount];
-    NSString * password = [Utils getPassword];
-    [self saveWithUid:userId andPassword:password];
+//    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+//    NSString * userId = [Utils getAccount];
+//    NSString * password = [Utils getPassword];
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,orders_json];
-    NSString * str = [RequestUtils requestWithGet:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init]autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-   NSLog(@"查询当前服务协议返回:%@",str);
-    return dic;
+//    NSString * str = [RequestUtils requestWithGet:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init]autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+//   NSLog(@"查询当前服务协议返回:%@",str);
+    
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:@"" withUrl:url withCallBack:callBack method:@"GET" withView:view] ;
+    return nil;
 }
 
 //理赔申请
@@ -194,21 +216,24 @@
                                 pickTime:(int)pick_time
                              pickAddress:(NSString*)pick_address
                                   areaId:(NSString*) areaId
+                                callBack:(callBack)callback  withView:(UIView*)view
 {
     //拼接请求参数
     NSString * api = [NSString stringWithFormat:claim_requests, order_id];
     NSString * parameter = [NSString stringWithFormat:@"?order_id=%@&contact_mobil=%@&pick_method=%i&damage=%i&store_id=%@&pick_time=%i&pick_address=%@",order_id,contact_mobil,pick_method,damage,store_id,pick_time,pick_address];
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
     //发送请求
-    NSString * userId = [Utils getAccount];
-    NSString * password = [Utils getPassword];
-    [self saveWithUid:userId andPassword:password];
-    parameter = [parameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString * str = [RequestUtils requestWithPostApiAndParameter:parameter withUrl:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init]autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
+//    NSString * userId = [Utils getAccount];
+//    NSString * password = [Utils getPassword];
+//    parameter = [parameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    NSString * str = [RequestUtils requestWithPostApiAndParameter:parameter withUrl:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init]autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
 //    NSLog(@"dic:%@",dic);
-    return dic;
+    
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:parameter withUrl:url withCallBack:callback method:@"POST" withView:view];
+    return nil;
 }
 
 //创建支付交易
@@ -218,54 +243,95 @@
                                           subject:(NSString*)subject
                                          totalFee:(float)total_fee
                                            detail:(NSString*)detail
+                                         callback:(callBack)callback withView:(UIView *)view
 {
-    NSString * userId = [Utils getAccount];
-    NSString * password = [Utils getPassword];
-    [self saveWithUid:userId andPassword:password];
+
     NSString * api = payment_transactions;
     NSString * parameter = [NSString stringWithFormat:@"?pay_gateway=%@&object_type=%@&object_id=%@",pay_gateway,object_type,object_id];
     parameter = [parameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
     //请求
-    NSString * str = [RequestUtils requestWithPostApiAndParameter:parameter withUrl:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init]autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-    return dic;
+//    NSString * str = [RequestUtils requestWithPostApiAndParameter:parameter withUrl:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init]autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:parameter withUrl:url withCallBack:callback method:@"POST" withView:view];
+    return nil;
 }
 
--(void) saveWithUid:(NSString*)userId andPassword:(NSString*)password {
-    NSLog(@"userId:%@",userId);
-    NSLog(@"password:%@",password);
+//移除认证信息
+-(void) removeHttpCredentials
+{
+    NSURLCredentialStorage *credentialsStorage = [NSURLCredentialStorage sharedCredentialStorage];
     
-    protectionSpace = [[NSURLProtectionSpace alloc] initWithHost: SERVER_ADDR
-                                                            port: 80
-                                                        protocol: @"http"
-                                                           realm: @"caidancf.com"
-                                            authenticationMethod: NSURLAuthenticationMethodHTTPDigest];
-    
-    if (userId.length == 0) {
-        NSURLCredential * urlCredential = [[NSURLCredentialStorage sharedCredentialStorage] defaultCredentialForProtectionSpace:protectionSpace];
-        if (urlCredential != nil) {
-            [[NSURLCredentialStorage sharedCredentialStorage] removeCredential:urlCredential forProtectionSpace:protectionSpace];
-        }
-        return;
+    NSDictionary *allCredentials = [credentialsStorage allCredentials];
+    NSLog(@"移除前:%@",allCredentials);
+    //iterate through all credentials to find the twitter host
+    for (NSURLProtectionSpace *protectionSpace in allCredentials)
+        if ([[protectionSpace host] isEqualToString:SERVER_ADDR]){
+            //to get the twitter's credentials
+            NSDictionary *credentials = [credentialsStorage credentialsForProtectionSpace:protectionSpace];
+            //iterate through twitter's credentials, and erase them all
+            for (NSString *credentialKey in credentials)
+                [credentialsStorage removeCredential:[credentials objectForKey:credentialKey] forProtectionSpace:protectionSpace];
     }
     
-    
-    //模拟器使用
-	[[NSURLCredentialStorage sharedCredentialStorage] setDefaultCredential: [NSURLCredential credentialWithUser: userId
-																									   password: password
-																									persistence: NSURLCredentialPersistencePermanent]
-	 
-														forProtectionSpace: protectionSpace];
-    
-    //以下为真机
-//	[[NSURLCredentialStorage sharedCredentialStorage] setDefaultCredential: [NSURLCredential credentialWithUser: userId
-//																									   password: password
-//																									persistence: NSURLCredentialPersistencePermanent]
-//	 
-//														forProtectionSpace: protectionSpace];
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSLog(@"cookies:%@",cookies);
+    for (int i = 0; i < [cookies count]; i++) {
+        NSHTTPCookie *cookie = (NSHTTPCookie *)[cookies objectAtIndex:i];
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+        NSLog(@"cookie %d ==== %@", i, cookie);
+    }
+    NSLog(@"移除后：%@",[credentialsStorage allCredentials]);
 }
+
+//获取认证信息
+-(NSURLCredential*)getCredentiaWithSpace:(NSURLProtectionSpace *)protectionSpace
+{
+    NSURLCredentialStorage * credentialStorage = [NSURLCredentialStorage sharedCredentialStorage];
+    NSDictionary * credentials = [credentialStorage allCredentials];
+    NSLog(@"移除前：%@",credentials);
+
+    NSURLCredential * credential = [[NSURLCredentialStorage sharedCredentialStorage] defaultCredentialForProtectionSpace:protectionSpace];
+    return credential;
+}
+
+//-(void) saveWithUid:(NSString*)userId andPassword:(NSString*)password {
+//    NSLog(@"userId:%@",userId);
+//    NSLog(@"password:%@",password);
+//    return;
+//    
+//    NSURLProtectionSpace * protectionSpace = [[NSURLProtectionSpace alloc] initWithHost: SERVER_ADDR
+//                                                                                   port: 80
+//                                                                               protocol: @"http"
+//                                                                                  realm: @"caidancf.com"
+//                                                                   authenticationMethod: NSURLAuthenticationMethodHTTPDigest];
+//    
+////	[[NSURLCredentialStorage sharedCredentialStorage] setDefaultCredential: [NSURLCredential credentialWithUser: userId
+////																									   password: password
+////																									persistence: NSURLCredentialPersistenceForSession]
+////	 
+////														forProtectionSpace: protectionSpace];
+//    
+//    
+//    [[NSURLCredentialStorage sharedCredentialStorage] setCredential:[NSURLCredential credentialWithUser: userId
+//                                                                                              password: password
+//                                                                                            persistence: NSURLCredentialPersistenceForSession]
+//                                                 forProtectionSpace:protectionSpace];
+//  
+//    
+////    NSDictionary * dic1 = [[NSURLCredentialStorage sharedCredentialStorage] allCredentials];
+//    
+//    
+//    //以下为真机
+////	[[NSURLCredentialStorage sharedCredentialStorage] setDefaultCredential: [NSURLCredential credentialWithUser: userId
+////																									   password: password
+////																									persistence: NSURLCredentialPersistencePermanent]
+////	 
+////														forProtectionSpace: protectionSpace];
+//}
 
 
 //获取理财产品
@@ -295,87 +361,83 @@
 }
 
 //获取理财产品详情
--(NSDictionary*)getfinancialInfoWithProductId:(NSString*)productId
+-(NSDictionary*)getfinancialInfoWithProductId:(NSString*)productId Callback:(callBack)callback  withView:(UIView*)view
 {
-    [RequestUtils setUserAndPsd];
     NSString * api = [NSString stringWithFormat:financial_products_info,productId];
     NSString * account =  [Utils getAccount];
     NSString * url;
     if (account.length == 0) {
         url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
+        NSString * str = [RequestUtils requestWithGet:url];
+        SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+        NSDictionary* dic = [jsonParser objectWithString:str];
+        callback(dic);
     } else {
         url = [NSString stringWithFormat:@"%@%@?for_user=%@",SERVER_ADDR_HTTP, api, account];
+        Request * request = [[[Request alloc] init] autorelease];
+        [request requestWithPostApiAndParameter:@"" withUrl:url withCallBack:callback method:@"GET" withView:view];
     }
     
-    NSString * str = [RequestUtils requestWithGet:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-    return dic;
+//    NSString * str = [RequestUtils requestWithGet:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    
+    return nil;
 }
 
 //查询基础利率
-+(NSDictionary*)getBaseInterestRates
++(NSDictionary*)getBaseInterestRatesWithCallback:(callBack)callback  withView:(UIView*)view
 {
     NSString * api = base_interest_rates;
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP, api];
-    NSString * str = [self requestWithGet:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-    
-    return dic;
+//    NSString * str = [self requestWithGet:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:@"" withUrl:url withCallBack:callback method:@"GET" withView:view];
+    return nil;
 }
 
 //添加收藏
-+(NSDictionary*)addFavoritesWithObjectType:(NSString *) object_type withObjectId:(NSString *)object_id
++(NSDictionary*)addFavoritesWithObjectType:(NSString *) object_type withObjectId:(NSString *)object_id callback:(callBack)callBack  withView:(UIView*)view
 {
-    [self setUserAndPsd];
     
     NSString * api = profile_favorites;
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP, api];
     NSString * parameter = [NSString stringWithFormat:@"?object_type=%@&object_id=%@", object_type, object_id];
-    NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-    return dic;
+//    NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:parameter withUrl:url withCallBack:callBack method:@"POST" withView:view];
+    return nil;
 }
 
 //取消收藏
-+(NSDictionary*)deleteFavoritesWithObjectType:(NSString*)objectType andObjectId:(NSString*)objectId
++(NSDictionary*)deleteFavoritesWithObjectType:(NSString*)objectType andObjectId:(NSString*)objectId callback:(callBack)callback  withView:(UIView*)view
 {
-    [self setUserAndPsd];
-    
     NSString * api = [NSString stringWithFormat:cancel_favorites, objectType, objectId];
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP, api];
-    NSString * str = [self requestWithPostApiAndParameter:@"" withUrl:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-    return dic;
+//    NSString * str = [self requestWithPostApiAndParameter:@"" withUrl:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:@"" withUrl:url withCallBack:callback method:@"POST" withView:view];
+    return nil;
 }
-
-+(void)setUserAndPsd
-{
-    NSString * userId = [Utils getAccount];
-    NSString * password = [Utils getPassword];
-    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
-    [requestUtils saveWithUid:userId andPassword:password];
-}
-
 
 //我的收藏
-+(NSDictionary*)getFavoritesProducts
++(NSDictionary*)getFavoritesProductsCallback:(callBack)callback  withView:(UIView*)view
 {
     //添加
-    NSString * userId = [Utils getAccount];
-    NSString * password = [Utils getPassword];
-    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
-    [requestUtils saveWithUid:userId andPassword:password];
-    
     NSString * api = favorites;
     NSString * url = [NSString stringWithFormat:@"%@%@", SERVER_ADDR_HTTP, api];
-    NSString * str =  [self requestWithGet:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-    return dic;
+//    NSString * str =  [self requestWithGet:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:@"" withUrl:url withCallBack:callback method:@"GET" withView:view];
+    return nil;
 }
 
 //查询所有城市 areas_cities
@@ -458,57 +520,61 @@
 }
 
 //用户注册
-+(NSDictionary*)registerWithName:(NSString*)name password:(NSString*)password smsVerify:(NSString*)smsVerify
++(NSDictionary*)registerWithName:(NSString*)name password:(NSString*)password smsVerify:(NSString*)smsVerify callback:(callBack)callback  withView:(UIView*)view
 {
     NSString * api = user_register;
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
     NSString * parameter = [NSString stringWithFormat:@"?mobile_phone=%@&user[password]=%@&verify_code=%@",name,password,smsVerify];
-    NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-    return dic;
+//    NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:parameter withUrl:url withCallBack:callback method:@"POST" withView:view];
+    return nil;
 }
 
 //查询用户基本信息
-+(NSDictionary*)getUserInfo
++(NSDictionary*)getUserInfoWithCallBack:(callBack)callback  withView:(UIView*)view
 {
-    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
-    [requestUtils saveWithUid:[Utils getAccount] andPassword:[Utils getPassword]];
     NSString * api = user_info;
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
-    NSString * str =  [self requestWithGet:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-    return dic;
+//    NSString * str =  [self requestWithGet:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:@"" withUrl:url withCallBack:callback method:@"GET" withView:view];
+    return nil;
 }
 
 //获取私享理财推荐产品
-+(NSDictionary*)getEnjoyPrivateFinanceProductsWithPage:(int)page andForUser:(NSString*)for_user
++(NSDictionary*)getEnjoyPrivateFinanceProductsWithPage:(int)page andForUser:(NSString*)for_user callback:(callBack)callback  withView:(UIView*)view
 {
-    [self setUserAndPsd];
-    
     NSString * api = products_recommendation;
     NSString * parameter = [NSString stringWithFormat:@"?page=%i&for_user=%@",page,for_user];
     NSString * url = [NSString stringWithFormat:@"%@%@%@",SERVER_ADDR_HTTP,api,parameter];
-    NSString * str =  [self requestWithGet:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-    
-    return dic;
+//    NSString * str =  [self requestWithGet:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:@"" withUrl:url withCallBack:callback method:@"GET" withView:view];
+    return nil;
 }
 
 //定制私享理财推荐条件
-+(NSDictionary*)customEnjoyPrivateFinanceWithAreaId:(NSString*)area_id threshold:(NSString*)threshold partyIds:(NSArray*)partys productTypes:(NSString*)productTypes
++(NSDictionary*)customEnjoyPrivateFinanceWithAreaId:(NSString*)area_id threshold:(NSString*)threshold partyIds:(NSArray*)partys productTypes:(NSString*)productTypes callback:(callBack)callback withView:(UIView*)view
 {
     NSString * partysStr = [self array2StringParameter:partys withParameterName:@"party_ids[]" andKey:@"id"];
     NSString * api = recommend_preferences;
     NSString * url = [NSString stringWithFormat:@"%@%@", SERVER_ADDR_HTTP, api];
     NSString * parameter = [NSString stringWithFormat:@"?area_id=%@&threshold=%@%@%@",area_id, threshold, partysStr,productTypes];
     NSLog(@"私享理财 定制推荐:%@",parameter);
-    NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-    return dic;
+//    NSString * str = [self requestWithPostApiAndParameter:parameter withUrl:url];
+//    NSLog(@"定制str:%@",str);
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:parameter withUrl:url withCallBack:callback method:@"POST" withView:view];
+    return nil;
 }
 
 //查询手机损坏原因
@@ -522,17 +588,19 @@
 }
 
 //修改登录密码
-+(NSDictionary*)updatePasswordWithOldPsd:(NSString *)oldPassword andNewPassword:(NSString *)newPassword
-{    NSString * userId = [Utils getAccount];
-    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
++(NSDictionary*)updatePasswordWithOldPsd:(NSString *)oldPassword andNewPassword:(NSString *)newPassword callback:(callBack)callback  withView:(UIView*)view
+{
     //使用用户当前输入的密码进行验证
-    [requestUtils saveWithUid:userId andPassword:oldPassword];
     
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,update_password];
     NSString * parameter = [NSString stringWithFormat:@"?password=%@",newPassword];
-    NSString * str = [self requestWithPutApiAndParameter:parameter withUrl:url];
-    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
-    NSDictionary* dic = [jsonParser objectWithString:str];
-    return dic;
+//    NSString * str = [self requestWithPutApiAndParameter:parameter withUrl:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    Request * request = [[[Request alloc] init] autorelease];
+    [request requestWithPostApiAndParameter:parameter withUrl:url withCallBack:callback method:@"PUT" withView:view];
+    return nil;
 }
+
+
 @end

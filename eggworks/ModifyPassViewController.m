@@ -123,17 +123,26 @@
         return;
     }
     
-    [_asyrunner runOnBackground:^id{
-        return [RequestUtils updatePasswordWithOldPsd:oldPassword
-                                       andNewPassword:_newPassword_];
-    } onUpdateUI:^(id obj) {
+    [RequestUtils updatePasswordWithOldPsd:oldPassword andNewPassword:_newPassword_ callback:^(id obj) {
         BOOL success = [[obj objectForKey:@"success"] boolValue];
         if (success) {
             Show_msg(@"提示", @"修改密码成功");
             [Utils savePassword:_newPassword_];
             [self.navigationController popToRootViewControllerAnimated:YES];
         }
-    } inView:self.view];
+    } withView:self.view];
+    
+//    [_asyrunner runOnBackground:^id{
+//        return [RequestUtils updatePasswordWithOldPsd:oldPassword
+//                                       andNewPassword:_newPassword_];
+//    } onUpdateUI:^(id obj) {
+//        BOOL success = [[obj objectForKey:@"success"] boolValue];
+//        if (success) {
+//            Show_msg(@"提示", @"修改密码成功");
+//            [Utils savePassword:_newPassword_];
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+//        }
+//    } inView:self.view];
 }
 
 - (void)didReceiveMemoryWarning

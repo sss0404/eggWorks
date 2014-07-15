@@ -64,4 +64,7 @@
 
 //验证手机号
 +(BOOL)verifyPhoneNumber:(NSString*)phoneNumber;
+
+//在系统中设置提醒
++(void)setCalendarWithStartDate:(NSString*)starTime MainTitle:(NSString*)mainTitle location:(NSString*)location;
 @end

@@ -7,6 +7,10 @@
 //
 
 #import "RemindViewController.h"
+#import "PreSaleDao.h"
+#import "RemindTableViewCell.h"
+#import "FinancialProductDetailsViewController.h"
+#import "Utils.h"
 
 @interface RemindViewController ()
 
@@ -16,12 +20,18 @@
 
 @synthesize preSaleProductsRemind = _preSaleProductsRemind;
 @synthesize maturityProductsRemind = _maturityProductsRemind;
+@synthesize preSaleProductArray = _preSaleProductArray;
+@synthesize maturityProductArray = _maturityProductArray;
+@synthesize asynRunner = _asynRunner;
 
 
 - (void)dealloc
 {
     [_preSaleProductsRemind release];
+    [_preSaleProductArray release];
+    [_maturityProductArray release];
     [_maturityProductsRemind release];
+    [_asynRunner release]; _asynRunner = nil;
     [super dealloc];
 }
 
@@ -30,6 +40,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.asynRunner = [[[AsynRuner alloc] init] autorelease];
     self.title = @"闹钟提醒";
     float ios7_d_height = 0;
     if (IOS7) {
@@ -52,6 +63,22 @@
     
 }
 
+
+-(void)getRemind
+{
+    [_asynRunner runOnBackground:^id{
+        PreSaleDao * psd = [[[PreSaleDao alloc] init] autorelease];
+        NSArray * array = [psd queryPreSaleProductWithType:preSaleType];
+        NSArray * array2 = [psd queryPreSaleProductWithType:remindType];
+        self.preSaleProductArray = array;
+        self.maturityProductArray = array2;
+        return _preSaleProductArray;
+    } onUpdateUI:^(id obj) {
+        [self.preSaleProductsRemind.tableView reloadData];
+        [self.maturityProductsRemind.tableView reloadData];
+    } inView:self.view];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -61,22 +88,79 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [self getRemind];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return tableView.tag == 1 ? _preSaleProductArray.count : _maturityProductArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString * cellIdentifier = @"cellIdentifier";
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    RemindTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[[RemindTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
     }
-    cell.textLabel.text = [NSString stringWithFormat:@"%i",indexPath.row];
+    NSDictionary * dic;
+    if (tableView.tag == 1) {
+        dic = [_preSaleProductArray objectAtIndex:indexPath.row];
+        cell.title.text = [dic objectForKey:@"name"];
+        float startDay = [[dic objectForKey:@"saleStartDay"] floatValue];
+        float endDay = [[dic objectForKey:@"saleEndDay"] floatValue];
+        if (startDay < 0) {
+            if (endDay < 0) {
+                cell.content.text = [NSString stringWithFormat:@"已经过期%@天",[Utils newFloat:0-endDay withNumber:0]];
+            } else {
+                cell.content.text = [NSString stringWithFormat:@"还有%@天停止发售。",[Utils newFloat:endDay withNumber:0]];
+            }
+            
+        } else {
+            cell.content.text = [NSString stringWithFormat:@"还有%@天即将发售，敬请关注！",[Utils newFloat:startDay withNumber:0]];
+        }
+    } else if (tableView.tag == 2){
+        dic = [_maturityProductArray objectAtIndex:indexPath.row];
+        cell.title.text = [dic objectForKey:@"name"];
+        float day = [[dic objectForKey:@"expiredDay"] floatValue];
+        if (day < 0) {
+            cell.content.text = [NSString stringWithFormat:@"已经到期%@天，请抓紧赎回。",[Utils newFloat:0-day withNumber:0]];
+        } else {
+            cell.content.text = [NSString stringWithFormat:@"还有%@天到期，请及时赎回！",[Utils newFloat:day withNumber:0]];
+        }
+    }
+    
+    
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 65.f;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    financialProduct * fp = [[[financialProduct alloc] init] autorelease];
+    NSDictionary * product;
+    if (tableView.tag == 1) {
+        product = [_preSaleProductArray objectAtIndex:indexPath.row];
+        
+    } else if(tableView.tag == 2) {
+        product = [_maturityProductArray objectAtIndex:indexPath.row];
+    }
+    fp.id_ = [product objectForKey:@"id_f_server"];
+    fp.name = [product objectForKey:@"name"];
+    fp.partyName = [product objectForKey:@"party_name"];
+    fp.interest = [product objectForKey:@"interest_rate"];
+    fp.period = [product objectForKey:@"period_label"];
+    fp.threshold = [product objectForKey:@"threshold"];
+    fp.type = [product objectForKey:@"object_type"];
+    
+    FinancialProductDetailsViewController * financialProductDetailsVC = [[[FinancialProductDetailsViewController alloc] init] autorelease];
+    financialProductDetailsVC.financialProduct = fp;
+    [self.navigationController pushViewController:financialProductDetailsVC animated:YES];
 }
 
 @end

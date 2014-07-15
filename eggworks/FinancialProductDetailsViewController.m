@@ -15,9 +15,15 @@
 #import "Utils.h"
 #import "PaymentPageViewController.h"
 #import "LoginViewController.h"
+#import "RemindDialog.h"
+#import "TimeUtils.h"
+#import "ShuMi_Plug_Function.h"
+#import "ShuMiDetailViewController.h"
+
 
 //收藏产品
 #define COLLECTION_PRODUCT @"collection_product"
+#define SU_MI @"su_mi"
 
 @interface FinancialProductDetailsViewController ()
 
@@ -46,9 +52,12 @@
 @synthesize purchaseAmount = _purchaseAmount;
 @synthesize collectionBtn = _collectionBtn;
 @synthesize earningsResult = _earningsResult;
+@synthesize dialog = _dialog;
+@synthesize setRemindBtn = _setRemindBtn;
 
 - (void)dealloc
 {
+    [NotificationCenter removeObserver:self name:@"onNotification" object:nil];
     [_financialProduct release]; _financialProduct = nil;
     [_productInfoTableView release]; _productInfoTableView = nil;
     [_productInfoBtn release]; _productInfoBtn = nil;
@@ -70,6 +79,8 @@
     [_purchaseAmount release]; _purchaseAmount = nil;
     [_collectionBtn release]; _collectionBtn = nil;
     [_earningsResult release]; _earningsResult = nil;
+    [_dialog release]; _dialog = nil;
+    [_setRemindBtn release]; _setRemindBtn = nil;
     [super dealloc];
 }
 
@@ -84,6 +95,9 @@
     }
     
     _asynRunner = [[AsynRuner alloc] init];
+    
+    
+    
     
     //产品名称
     _productName = [[UILabel alloc] initWithFrame:CGRectMake(20, 10+ios7_d_height, 280, 30)];
@@ -122,6 +136,16 @@
     day7.textColor = [UIColor colorWithRed:.84 green:.84 blue:.84 alpha:1];
     day7.font = [UIFont systemFontOfSize:12];
     [self.view addSubview:day7];
+    
+    
+    //设置提醒
+    self.setRemindBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _setRemindBtn.frame = CGRectMake(320-168, 80+ios7_d_height, 70, 25);
+    _setRemindBtn.backgroundColor = [UIColor colorWithRed:.85 green:.2 blue:.17 alpha:1];
+    [_setRemindBtn setTitle:@"设置提醒" forState:UIControlStateNormal];
+    _setRemindBtn.font = [UIFont systemFontOfSize:12];
+    [_setRemindBtn addTarget:self action:@selector(setRemindBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_setRemindBtn];
     
     //加入收藏
     self.collectionBtn = [[[UIButton alloc] initWithFrame:CGRectMake(320-88, 80+ios7_d_height, 70, 25)] autorelease];
@@ -234,25 +258,116 @@
     [self getProductInfoWithProductId:_financialProduct.id_];
     [_aboutProductsView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
+    RemindDialog * rd = [[[RemindDialog alloc] initWithFrame:CGRectMake(0, 0, 250, 200)] autorelease];
+    rd.days.delegate = self;
+    rd.delegate = self;
+    self.dialog = [[[Dialog alloc] initWithView:rd] autorelease];
+    
+    [self.view addSubview:_dialog];
+    _dialog.hidden = YES;
 }
 
+-(void)onButton:(int)buttonIndex withSelectedItem:(ProductRemindType)productRemindType withRemindDays:(int)days
+{
+    long long  dayTime = 3600*24 * days;
+    NSLog(@"buttonIndex=%i,  productRemindType=%i,    days=%i",buttonIndex,productRemindType,days);
+    NSString * type = [_productInfo objectForKey:@"type"];
+    NSMutableDictionary * dic = [[[NSMutableDictionary alloc] init] autorelease];
+    [dic setObject:[_productInfo objectForKey:@"id"] forKey:@"id"];
+    [dic setObject:[_productInfo objectForKey:@"name"] forKey:@"name"];
+    if ([type isEqualToString:@"UniversalInsurance"]) {
+        //万能险
+        if (productRemindType == preSaleType) {
+            Show_msg(@"提示", @"万能型不能设置购买提醒。");
+            return;
+        } else {
+            [dic setObject:[_productInfo objectForKey:@"last_profit_month"] forKey:@"to"];
+            long long time = [TimeUtils string2LongLongWithStr:[_productInfo objectForKey:@"last_profit_month"]
+                                                    withFormat:YYYYMMDD];
+            NSString * remindTime = [TimeUtils longlong2StringWithLongLong:time - dayTime withFormate:YYYYMMDDhhmmss];
+            [Utils setCalendarWithStartDate:remindTime MainTitle:[_productInfo objectForKey:@"name"] location:@"a"];
+        }
+    } else {
+        //银行理财产品
+        if (productRemindType == preSaleType) {
+            
+            [dic setObject:[[_productInfo objectForKey:@"sales_date"] objectForKey:@"from"] forKey:@"from"];//购买
+            [dic setObject:[[_productInfo objectForKey:@"sales_date"] objectForKey:@"to"] forKey:@"to"];
+            //添加到日历
+            long long time = [TimeUtils string2LongLongWithStr:[[_productInfo objectForKey:@"sales_date"] objectForKey:@"to"]
+                                                    withFormat:YYYYMMDD];//销售的截止日期
+            NSString * remindTime = [TimeUtils longlong2StringWithLongLong:time - dayTime withFormate:YYYYMMDDhhmmss];
+            [Utils setCalendarWithStartDate:remindTime MainTitle:[_productInfo objectForKey:@"name"] location:@"a"];
+        } else {
+            [dic setObject:[[_productInfo objectForKey:@"interest_period"] objectForKey:@"from"] forKey:@"from"];//到期
+            [dic setObject:[[_productInfo objectForKey:@"interest_period"] objectForKey:@"to"] forKey:@"to"];
+            //添加到日历
+            long long time = [TimeUtils string2LongLongWithStr:[[_productInfo objectForKey:@"interest_period"] objectForKey:@"to"]
+                                                    withFormat:YYYYMMDD];
+            NSString * remindTime = [TimeUtils longlong2StringWithLongLong:time - dayTime withFormate:YYYYMMDDhhmmss];
+            [Utils setCalendarWithStartDate:remindTime MainTitle:[_productInfo objectForKey:@"name"] location:@"a"];
+        }
+    }
+    PreSaleDao * psd = [[[PreSaleDao alloc] init] autorelease];
+     [psd addPreSaleProduct:dic withType:productRemindType];
+}
 
+-(void)setRemindBtnClick:(id)sender
+{
+//    SetRemindViewController * setRemindVC = [[[SetRemindViewController alloc] init] autorelease];
+//    [self presentViewController:setRemindVC animated:YES completion:^{
+//        NSLog(@"页面返回");
+//    }];
+
+    _dialog.hidden = NO;
+}
+//判断用户是否已经绑定数米SDK
+-(BOOL)isBind
+{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    BOOL binded = [[userDefault objectForKey:@"binded"] boolValue];
+    return binded;
+}
 
 //立刻申购按钮被点击
 -(void)buyBtnClick:(id)sender
 {
     //如果用户点击“立即购买”，但是彩蛋财富不能提供在线购买功能的产品跳转到下一页
     //如果是货币基金的话接数米基金的sdk支付，如果不是的话则使用电话和银行
-    NSLog(@"_productInfo:%@",_financialProduct);
-    NSLog(@"productInfo:%@",_productInfo);
+//    NSLog(@"_productInfo:%@",_financialProduct);
+
+    NSString * account =  [Utils getAccount];
+    if (account.length == 0) {
+//        进入登陆页面
+        LoginViewController * loginVC = [[[LoginViewController alloc] init] autorelease];
+        loginVC.action = action_return;
+        loginVC.passingParameters = self;
+        loginVC.resultCode = SU_MI;
+        [self.navigationController pushViewController:loginVC animated:YES];
+        return;
+    }
+    //检查是否绑定 数米sdk
+    if ([self isBind]) {
+        [self buy];
+    } else {
+//        [NotificationCenter addObserver:self selector:nil name:@"onNotification" object:nil];
+        [ShuMi_Plug_Function userIdentityVrification:self.navigationController];
+    }
+}
+
+//申购
+-(void)buy
+{
     NSString * type =  _financialProduct.type;
     if ([type isEqualToString:@"CashFund"]) {//采用数米基金sdk支付
-        
+        [ShuMi_Plug_Function subscribeAndPurchaseFund:[_productInfo objectForKey:@"vendor_product_code"]
+                                             fundName:[_productInfo objectForKey:@"name"]
+                                            buyAction:@"P"
+                                 parentViewController:self.navigationController];
     } else {
         PaymentPageViewController * paymentPageVC = [[[PaymentPageViewController alloc] init] autorelease];
         [self.navigationController pushViewController:paymentPageVC animated:YES];
     }
-    
 }
 
 //创建计算收益页面
@@ -384,21 +499,17 @@
 //通过产品id获取产品详情
 -(void)getProductInfoWithProductId:(NSString*)productId
 {
-    @try {
+//    @try {
         //获取产品详情
         RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
-        [_asynRunner runOnBackground:^{
-            NSDictionary * dic = [requestUtils getfinancialInfoWithProductId:productId];
-            return dic;
-        } onUpdateUI:^(id obj){
+        [requestUtils getfinancialInfoWithProductId:productId Callback:^(id obj) {
             [self setProductInfoWith:obj];
+            //如果是货币基金则隐藏设置提醒按钮
+            _setRemindBtn.hidden = [[obj objectForKey:@"type"] isEqualToString:@"CashFund"];
             
             //接口有问题   暂时注释
             //获取基础利率
-            [_asynRunner runOnBackground:^{
-                NSDictionary * dic = [RequestUtils getBaseInterestRates];
-                return dic;
-            } onUpdateUI:^(id obj_){
+            [RequestUtils getBaseInterestRatesWithCallback:^(id obj_) {
                 BOOL success = [[obj_ objectForKey:@"success"] boolValue];
                 if (success) {
                     NSArray * interestRates = [obj_ objectForKey:@"interest_rates"];
@@ -427,16 +538,9 @@
                         }
                     }
                 }
-            } inView:self.view];
-            
-        } inView:self.view];
-    }
-    @catch (NSException *exception) {
-        
-    }
-    @finally {
-        
-    }
+            } withView:self.view];
+        } withView:self.view];
+    
 }
 
 //获取相关产品的数据
@@ -566,26 +670,26 @@
 //收藏产品
 -(void)collectionProduct
 {
-    if ([_collectionBtn.currentTitle isEqualToString:@"加入收藏"]) {
-        [_asynRunner runOnBackground:^{
-            NSDictionary * dic = [RequestUtils addFavoritesWithObjectType:_financialProduct.type withObjectId:[_productInfo objectForKey:@"id"]];
-            return dic;
-        } onUpdateUI:^(id obj){
-            if ([[obj objectForKey:@"success"] boolValue]) {
-                Show_msg(@"提示", @"收藏成功");
-                [self getProductInfoWithProductId:_financialProduct.id_];
-            }
-        } inView:self.view];
+        if ([_collectionBtn.currentTitle isEqualToString:@"加入收藏"]) {
+            [RequestUtils addFavoritesWithObjectType:_financialProduct.type
+                                        withObjectId:[_productInfo objectForKey:@"id"]
+                                            callback:^(id obj) {
+                                                if ([[obj objectForKey:@"success"] boolValue]) {
+                                                    Show_msg(@"提示", @"收藏成功");
+                                                    [self getProductInfoWithProductId:_financialProduct.id_];
+                                                }
+        } withView:self.view];
+        
     } else {
         //取消收藏
-        [_asynRunner runOnBackground:^{
-            return [RequestUtils deleteFavoritesWithObjectType:[_productInfo objectForKey:@"type"] andObjectId:[_productInfo objectForKey:@"id"]];
-        } onUpdateUI:^(id obj){
-            if ([[obj objectForKey:@"success"] boolValue]) {
-                Show_msg(@"提示", @"取消收藏成功");
-                [self getProductInfoWithProductId:_financialProduct.id_];
-            }
-        } inView:self.view];
+        [RequestUtils deleteFavoritesWithObjectType:[_productInfo objectForKey:@"type"]
+                                        andObjectId:[_productInfo objectForKey:@"id"]
+                                           callback:^(id obj) {
+                                               if ([[obj objectForKey:@"success"] boolValue]) {
+                                                   Show_msg(@"提示", @"取消收藏成功");
+                                                   [self getProductInfoWithProductId:_financialProduct.id_];
+                                               }
+        } withView:self.view];
     }
 }
 
@@ -880,7 +984,10 @@
 {
     if ([tag isEqualToString:COLLECTION_PRODUCT]) {//收藏登录后的页面
         [self collectionProduct];
+    } else if([tag isEqualToString:SU_MI]) {
+        [self buyBtnClick:nil];
     }
 }
+
 
 @end

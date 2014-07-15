@@ -192,13 +192,10 @@
         MobilePhoneEasyViewController * mobilePE = [[[MobilePhoneEasyViewController alloc] init] autorelease];
         [self.navigationController pushViewController:mobilePE animated:YES];
     } else {
-        AsynRuner * asynRunner = [[AsynRuner alloc] init];
+//        AsynRuner * asynRunner = [[AsynRuner alloc] init];
         
-        [asynRunner runOnBackground:^{
-            RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
-            NSDictionary * dic = [requestUtils ordersJson];
-            return dic;
-        } onUpdateUI:^(id obj){
+        RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+        [requestUtils ordersJsonWithCallback:^(id obj) {
             if (![[obj objectForKey:@"success"] boolValue]) {
                 Show_msg(@"提示", @"获取数据失败");
                 return ;
@@ -241,8 +238,56 @@
                 myOrderVC.myOrderArray = orders;
                 [self.navigationController pushViewController:myOrderVC animated:YES];
             }
-            
-        } inView:self.view];
+        } withView:self.view];
+        
+//        [asynRunner runOnBackground:^{
+//            
+//            return nil;
+//        } onUpdateUI:^(id obj){
+//            if (![[obj objectForKey:@"success"] boolValue]) {
+//                Show_msg(@"提示", @"获取数据失败");
+//                return ;
+//            }
+//            //获取数据成功
+//            //判断是否有未支付的订单，如果有则询问是否支付，如故用户点击不支付则停留在首页否则进入支付流程。如果用户不存在未支付的订单，则判断用户是否有多个保单，如果有多个保单则进入列表否则，如果只有一个保单则进入UserInfoViewController页面
+//            NSArray * orders = [obj objectForKey:@"orders"];
+//            for (int i=0; i<orders.count; i++) {
+//                NSDictionary * order = [orders objectAtIndex:i];
+//                int status = [[order objectForKey:@"status"] intValue];
+//                NSString * status_label = [order objectForKey:@"status_label"];
+//                if (status == 14) {//未支付
+//                    NSString * message = [NSString stringWithFormat:@"您有未支付的订单，是否支付？"];
+//                    MyAlertView * myAlertView = [[MyAlertView alloc] init];
+//                    [myAlertView showMessage:message withTitle:@"提示" withCancelBtnTitle:@"否" withBtnClick:^(NSInteger buttonIndex){
+//                        if (buttonIndex == 1) {
+//                            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(execute:) name:@"payMentOnResultOnIndexPageVC" object:nil];
+//                            [Utils setCurrPaymentPage:@"payMentOnResultOnIndexPageVC"];
+//                            //进行支付
+//                            NSString * order_id = [order objectForKey:@"id"];
+//                            Payment * payment = [[[Payment alloc] init] autorelease];
+//                            [payment createPaymentWithPayGateway:@"alipay_ws_secure"
+//                                                      objectType:@"PhoneInsuranceOrder"
+//                                                        objectId:order_id
+//                                                         subject:@""
+//                                                        totalFee:0
+//                                                          detail:@""];
+//                        }
+//                    } otherButtonTitles:@"是"];
+//                    return;
+//                }
+//            }
+//            
+//            if (orders.count == 1) {
+//                UserInfoViewController * userInfoVC = [[[UserInfoViewController alloc] init] autorelease];
+//                userInfoVC.dic = [[obj objectForKey:@"orders"] objectAtIndex:0];
+//                [self.navigationController pushViewController:userInfoVC animated:YES];
+//            } else {
+//                MyOrderViewController * myOrderVC = [[[MyOrderViewController alloc] init] autorelease];
+//                myOrderVC.myOrderArray = orders;
+//                [self.navigationController pushViewController:myOrderVC animated:YES];
+//            }
+//            
+//        } inView:self.view];
     }
 }
 

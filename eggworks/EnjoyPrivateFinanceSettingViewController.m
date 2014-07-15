@@ -96,7 +96,7 @@
     [view addSubview:myLocalBtn];
     
     //资金账户
-    self.institutionName = [[ScreeningItem alloc] initWithFrame:CGRectMake(0, 149+ios7_d_height, 280, 60)];
+    self.institutionName = [[[ScreeningItem alloc] initWithFrame:CGRectMake(0, 149+ios7_d_height, 280, 60)] autorelease];
     _institutionName.tag = 2;
     _institutionName.delegate = self;
     _institutionName.label.text = @"资金账户";
@@ -104,7 +104,7 @@
     [self.view addSubview:_institutionName];
     
     //投资金额
-    self.investmentAmount = [[ScreeningItem alloc] initWithFrame:CGRectMake(0, 209+ios7_d_height, 320, 60)];
+    self.investmentAmount = [[[ScreeningItem alloc] initWithFrame:CGRectMake(0, 209+ios7_d_height, 320, 60)] autorelease];
     _investmentAmount.tag = 3;
     _investmentAmount.delegate = self;
     _investmentAmount.label.text = @"投资金额";
@@ -112,7 +112,7 @@
     [self.view addSubview:_investmentAmount];
     
     //投资品种
-    self.investments = [[ScreeningItem alloc] initWithFrame:CGRectMake(0, 269+ios7_d_height, 320, 60)];
+    self.investments = [[[ScreeningItem alloc] initWithFrame:CGRectMake(0, 269+ios7_d_height, 320, 60)] autorelease];
     _investments.tag = 4;
     _investments.delegate = self;
     _investments.label.text = @"投资品种";
@@ -176,17 +176,28 @@
         
     }
     
-    [_asynRunner runOnBackground:^id{
-        return [RequestUtils customEnjoyPrivateFinanceWithAreaId:[_citySelected objectForKey:@"id"]
-                                                       threshold:threshold
-                                                        partyIds:_accountSelected
-                                                    productTypes:productTypes];
-    } onUpdateUI:^(id obj) {
-        BOOL success = [[obj objectForKey:@"success"] boolValue];
-        if (success) {
-            Show_msg(@"提示", @"定制成功");
-        }
-    } inView:self.view];
+    [RequestUtils customEnjoyPrivateFinanceWithAreaId:[_citySelected objectForKey:@"id"]
+                                            threshold:threshold
+                                             partyIds:_accountSelected
+                                         productTypes:productTypes
+                                             callback:^(id data) {
+                                             BOOL success = [[data objectForKey:@"success"] boolValue];
+                                                     Show_msg(@"提示", success ? @"定制成功":@"定制失败");
+                                          } withView:self.view];
+    
+//    [_asynRunner runOnBackground:^id{
+//        return [RequestUtils customEnjoyPrivateFinanceWithAreaId:[_citySelected objectForKey:@"id"]
+//                                                       threshold:threshold
+//                                                        partyIds:_accountSelected
+//                                                    productTypes:productTypes callback:^(id data) {
+//                                                        
+//                                                    } withView:self.view];
+//    } onUpdateUI:^(id obj) {
+//        BOOL success = [[obj objectForKey:@"success"] boolValue];
+//        if (success) {
+//            Show_msg(@"提示", @"定制成功");
+//        }
+//    } inView:self.view];
     
 }
 

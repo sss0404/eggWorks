@@ -39,26 +39,26 @@
     self.title = [[[UILabel alloc] initWithFrame:CGRectMake(20, 10, 280, 20)] autorelease];
     _title.textColor = orange_color;
     _title.font = [UIFont systemFontOfSize:14];
-    _title.text = @"1";
+//    _title.text = @"1";
     [self addSubview:_title];
     
     //起购金额
     self.firstItem = [[[UILabel alloc] initWithFrame:CGRectMake(20, 30, 280, 20)] autorelease];
     _firstItem.textColor = title_text_color;
     _firstItem.font = [UIFont systemFontOfSize:14];
-    _firstItem.text = @"2";
+//    _firstItem.text = @"2";
     [self addSubview:_firstItem];
     
     self.secondItem = [[[UILabel alloc] initWithFrame:CGRectMake(20, 50, 280, 20)] autorelease];
     _secondItem.textColor = title_text_color;
     _secondItem.font = [UIFont systemFontOfSize:14];
-    _secondItem.text = @"3";
+//    _secondItem.text = @"3";
     [self addSubview:_secondItem];
     
     self.threeItem = [[[UILabel alloc] initWithFrame:CGRectMake(20, 70, 280, 20)] autorelease];
     _threeItem.textColor = title_text_color;
     _threeItem.font = [UIFont systemFontOfSize:14];
-    _threeItem.text = @"4";
+//    _threeItem.text = @"4";
     [self addSubview:_threeItem];
 }
 

@@ -64,3 +64,6 @@
 #define CURR_SELECTED_CITY_KEY                  @"currSelectedCity"//用户当前选择的城市
 #define CURR_SELECTED_INSTITUTIONAL_KEY         @"currSelectedInstitutionalKey"//当前用户选择的机构key
 
+#define YYYYMMDD       @"yyyy-MM-dd"
+#define YYYYMMDDhhmmss       @"yyyy-MM-dd hh:mm:ss"
+

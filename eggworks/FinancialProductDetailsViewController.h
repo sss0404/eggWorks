@@ -10,8 +10,10 @@
 #import "BaseViewController.h"
 #import "financialProduct.h"
 #import "AsynRuner.h"
+#import "Dialog.h"
+#import "RemindDialog.h"
 
-@interface FinancialProductDetailsViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
+@interface FinancialProductDetailsViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate,RemindSelectDialogDelegate>
 
 @property(nonatomic, retain) financialProduct * financialProduct;
 @property(nonatomic, retain) UITableView * productInfoTableView;
@@ -33,6 +35,8 @@
 @property(nonatomic, retain) UILabel * purchaseAmount;//立即申购上面的 起购金额
 @property(nonatomic, retain) UIButton * collectionBtn;//收藏按钮
 @property(nonatomic, retain) UILabel * earningsResult;//预期收益计算结果
+@property(nonatomic, retain) Dialog * dialog;//设置提醒日期对话框
+@property(nonatomic, retain) UIButton * setRemindBtn;//设置提醒按钮
 
 @property(nonatomic, retain) AsynRuner * asynRunner;
 

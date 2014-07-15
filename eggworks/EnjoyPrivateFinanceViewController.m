@@ -93,32 +93,60 @@
 {
     NSLog(@"加载页面:%i",page);
     isLoadState = YES;
-    [_asynRunner runOnBackground:^{
-        NSDictionary * dic = [RequestUtils getEnjoyPrivateFinanceProductsWithPage:page andForUser:[Utils getAccount]];
-        self.currData = dic;
-        NSArray * array = [[dic objectForKey:@"data"] objectForKey:@"json"];
-        NSMutableArray * financialProductss = [[[NSMutableArray alloc] init] autorelease];
-        NSDictionary * dicItem;
-        financialProduct * finProduct = nil;
-        for (int i=0; i<array.count; i++) {
-            dicItem = [array objectAtIndex:i];
-            finProduct = [[financialProduct alloc] init];
-            finProduct.id_ = [dicItem objectForKey:@"id"];
-            finProduct.name = [dicItem objectForKey:@"name"];
-            finProduct.partyName = [dicItem objectForKey:@"party_name"];
-            finProduct.interest = [dicItem objectForKey:@"interest"];
-            finProduct.period = [dicItem objectForKey:@"period"];
-            finProduct.threshold = [dicItem objectForKey:@"threshold"];
-            finProduct.type = [dicItem objectForKey:@"type"];
-            [financialProductss addObject:finProduct];
-            [finProduct release]; finProduct = nil;
-        }
-        return financialProductss;
-    } onUpdateUI:^(id obj){
-        [_financialProductss addObjectsFromArray:obj];
-        [self.tableView reloadData];
-        isLoadState = NO;
-    } inView:self.view];
+    [RequestUtils getEnjoyPrivateFinanceProductsWithPage:page andForUser:[Utils getAccount] callback:^(id dic) {
+        [_asynRunner runOnBackground:^{
+            self.currData = dic;
+            NSArray * array = [[dic objectForKey:@"data"] objectForKey:@"json"];
+            NSMutableArray * financialProductss = [[[NSMutableArray alloc] init] autorelease];
+            NSDictionary * dicItem;
+            financialProduct * finProduct = nil;
+            for (int i=0; i<array.count; i++) {
+                dicItem = [array objectAtIndex:i];
+                finProduct = [[financialProduct alloc] init];
+                finProduct.id_ = [dicItem objectForKey:@"id"];
+                finProduct.name = [dicItem objectForKey:@"name"];
+                finProduct.partyName = [dicItem objectForKey:@"party_name"];
+                finProduct.interest = [dicItem objectForKey:@"interest"];
+                finProduct.period = [dicItem objectForKey:@"period"];
+                finProduct.threshold = [dicItem objectForKey:@"threshold"];
+                finProduct.type = [dicItem objectForKey:@"type"];
+                [financialProductss addObject:finProduct];
+                [finProduct release]; finProduct = nil;
+            }
+            return financialProductss;
+        } onUpdateUI:^(id obj){
+            [_financialProductss addObjectsFromArray:obj];
+            [self.tableView reloadData];
+            isLoadState = NO;
+        } inView:self.view];
+    } withView:self.view];
+    
+//    [_asynRunner runOnBackground:^{
+//        NSDictionary * dic = [RequestUtils getEnjoyPrivateFinanceProductsWithPage:page andForUser:[Utils getAccount]];
+//        self.currData = dic;
+//        NSArray * array = [[dic objectForKey:@"data"] objectForKey:@"json"];
+//        NSMutableArray * financialProductss = [[[NSMutableArray alloc] init] autorelease];
+//        NSDictionary * dicItem;
+//        financialProduct * finProduct = nil;
+//        for (int i=0; i<array.count; i++) {
+//            dicItem = [array objectAtIndex:i];
+//            finProduct = [[financialProduct alloc] init];
+//            finProduct.id_ = [dicItem objectForKey:@"id"];
+//            finProduct.name = [dicItem objectForKey:@"name"];
+//            finProduct.partyName = [dicItem objectForKey:@"party_name"];
+//            finProduct.interest = [dicItem objectForKey:@"interest"];
+//            finProduct.period = [dicItem objectForKey:@"period"];
+//            finProduct.threshold = [dicItem objectForKey:@"threshold"];
+//            finProduct.type = [dicItem objectForKey:@"type"];
+//            [financialProductss addObject:finProduct];
+//            [finProduct release]; finProduct = nil;
+//        }
+//        return financialProductss;
+//    } onUpdateUI:^(id obj){
+//        [_financialProductss addObjectsFromArray:obj];
+//        [self.tableView reloadData];
+//        isLoadState = NO;
+//    } inView:self.view];
 }
 
 #pragma mark - tableView det

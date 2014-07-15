@@ -83,6 +83,7 @@
     [forgetPsd setTitleColor:orange_color forState:UIControlStateNormal];
     forgetPsd.font = [UIFont systemFontOfSize:14];
     [forgetPsd addTarget:self action:@selector(forgetPsdBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    forgetPsd.hidden = YES;
     [passwordBg addSubview:forgetPsd];
     
     UIButton * loginBtn = [[[UIButton  alloc] initWithFrame:CGRectMake(20, 190+ios7_d_height, 280, 40)] autorelease];
@@ -135,26 +136,54 @@
 {
     [Utils saveAccount:account];
     [Utils savePassword:password];
-    [_asynRunner runOnBackground:^id{
-        return [RequestUtils getUserInfo];
-    } onUpdateUI:^(id obj) {
-        BOOL success = [[obj objectForKey:@"success"] boolValue];
+    [RequestUtils getUserInfoWithCallBack:^(id data) {
         RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+        if (data == nil) {
+            [Utils saveAccount:@""];
+            [Utils savePassword:@""];
+            [Utils saveRealName:@""];
+            [requestUtils removeHttpCredentials];
+            Show_msg(@"提示", @"登陆失败，请稍候重试");
+            return;
+        }
+        BOOL success = [[data objectForKey:@"success"] boolValue];
         if (success) {
             [Utils saveAccount:account];//将用户名保存到本地
             [Utils savePassword:password];//保存密码
-            [Utils saveRealName:[obj objectForKey:@"real_name"]];
-            [requestUtils saveWithUid:account andPassword:password];
-            [self loginSuccAction:_action withObj:obj];
-            
+            [Utils saveRealName:[data objectForKey:@"real_name"]];
+            NSLog(@"登陆成功后保存数据 account：%@,  密码：%@",account,password);
+            [self loginSuccAction:_action withObj:data];
         } else {
             [Utils saveAccount:@""];
             [Utils savePassword:@""];
             [Utils saveRealName:@""];
-            [requestUtils saveWithUid:nil andPassword:nil];
+            [requestUtils removeHttpCredentials];
             Show_msg(@"提示", @"登录失败，请检查您的账号和密码");
         }
-    } inView:self.view];
+    } withView:self.view];
+    return;
+//    //以上为测试
+//    [Utils saveAccount:account];
+//    [Utils savePassword:password];
+//    [_asynRunner runOnBackground:^id{
+//        return [RequestUtils getUserInfo];
+//    } onUpdateUI:^(id obj) {
+//        BOOL success = [[obj objectForKey:@"success"] boolValue];
+//        RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+//        if (success) {
+//            [Utils saveAccount:account];//将用户名保存到本地
+//            [Utils savePassword:password];//保存密码
+//            [Utils saveRealName:[obj objectForKey:@"real_name"]];
+//            NSLog(@"登陆成功后保存数据 account：%@,  密码：%@",account,password);
+//            [self loginSuccAction:_action withObj:obj];
+//        } else {
+//            [Utils saveAccount:@""];
+//            [Utils savePassword:@""];
+//            [Utils saveRealName:@""];
+//            [requestUtils removeHttpCredentials];
+//            Show_msg(@"提示", @"登录失败，请检查您的账号和密码");
+//        }
+//    } inView:self.view];
     
 }
 

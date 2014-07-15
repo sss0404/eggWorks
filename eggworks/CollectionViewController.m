@@ -63,15 +63,23 @@
 //获取收藏的产品
 -(void) getFavourites
 {
-    [_asynRunner runOnBackground:^id{
-        return [RequestUtils getFavoritesProducts];
-    } onUpdateUI:^(id obj) {
+    [RequestUtils getFavoritesProductsCallback:^(id obj) {
         BOOL success = [[obj objectForKey:@"success"] boolValue];
         if (success) {
             self.products =  [obj objectForKey:@"favorites"];
             [_tableView reloadData];
         }
-    } inView:self.view];
+    } withView:self.view];
+    
+//    [_asynRunner runOnBackground:^id{
+//        return [RequestUtils getFavoritesProducts];
+//    } onUpdateUI:^(id obj) {
+//        BOOL success = [[obj objectForKey:@"success"] boolValue];
+//        if (success) {
+//            self.products =  [obj objectForKey:@"favorites"];
+//            [_tableView reloadData];
+//        }
+//    } inView:self.view];
     
 }
 

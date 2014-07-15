@@ -8,11 +8,16 @@
 //请求网络  获取数据
 
 #import <Foundation/Foundation.h>
+#import "Request.h"
 
-@interface RequestUtils : NSObject<NSURLConnectionDataDelegate>
+@interface RequestUtils : NSObject
 {
-    NSURLProtectionSpace * protectionSpace;
+//    NSURLProtectionSpace * protectionSpace;
 }
+
+
+//移除认证
+-(void) removeHttpCredentials;
 
 
 // 激活/注册手机无忧服务 /mobile_service/orders/active.json
@@ -39,7 +44,7 @@
                                        model:(NSString*)model
                                        force:(BOOL)force;
 //查询当前服务协议
--(NSDictionary*)ordersJson;
+-(NSDictionary*)ordersJsonWithCallback:(callBack)callBack withView:(UIView*)view;
 
 //理赔申请
 -(NSDictionary*)claimRequestsWithOrderId:(NSString*)order_id
@@ -49,7 +54,9 @@
                                  storeId:(NSString*)store_id
                                 pickTime:(int)pick_time
                              pickAddress:(NSString*)pick_address
-                                  areaId:(NSString*) areaId;
+                                  areaId:(NSString*) areaId
+                                callBack:(callBack)callback
+                                withView:(UIView*)view;
 
 //创建支付交易
 -(NSDictionary*)paymentTransactionsWithPayGateway:(NSString*)pay_gateway
@@ -57,10 +64,11 @@
                                          objectId:(NSString*)object_id
                                           subject:(NSString*)subject
                                          totalFee:(float)total_fee
-                                           detail:(NSString*)detail;
+                                           detail:(NSString*)detail
+                                         callback:(callBack)callback
+  withView:(UIView*)view;
 
-//保存用户信息到 钥匙串中
--(void) saveWithUid:(NSString*)userId andPassword:(NSString*)password;
+////保存用户信息到 钥匙串中
 
 //------------------------------------------------------------------------------
 
@@ -68,19 +76,19 @@
 +(NSDictionary*)getfinancialMarketsWithAreaID:(NSString*)area_id partyId:(id)party_id period:(NSString*)period threshold:(NSString*)threshold page:(int)page keywork:(NSString*)keyword types:(NSString *)types;
 
 //获取理财产品详情
--(NSDictionary*)getfinancialInfoWithProductId:(NSString*)productId;
+-(NSDictionary*)getfinancialInfoWithProductId:(NSString*)productId Callback:(callBack)callback  withView:(UIView*)view;
 
 //查询基础利率
-+(NSDictionary*)getBaseInterestRates;
++(NSDictionary*)getBaseInterestRatesWithCallback:(callBack)callback  withView:(UIView*)view;
 
 //添加收藏
-+(NSDictionary*)addFavoritesWithObjectType:(NSString *) object_type withObjectId:(NSString *)object_id;
++(NSDictionary*)addFavoritesWithObjectType:(NSString *) object_type withObjectId:(NSString *)object_id callback:(callBack)callBack  withView:(UIView*)view;
 
 //取消收藏
-+(NSDictionary*)deleteFavoritesWithObjectType:(NSString*)objectType andObjectId:(NSString*)objectId;
++(NSDictionary*)deleteFavoritesWithObjectType:(NSString*)objectType andObjectId:(NSString*)objectId callback:(callBack)callback  withView:(UIView*)view;
 
 //我的收藏
-+(NSDictionary*)getFavoritesProducts;
++(NSDictionary*)getFavoritesProductsCallback:(callBack)callback  withView:(UIView*)view;
 
 //-----------------------------------基础数据-------------------------------------------
 //查询所有城市 areas_cities
@@ -96,20 +104,20 @@
 +(NSDictionary*)sendSMSVerifyWithNumber:(NSString*)number;
 
 //用户注册
-+(NSDictionary*)registerWithName:(NSString*)name password:(NSString*)password smsVerify:(NSString*)smsVerify;
++(NSDictionary*)registerWithName:(NSString*)name password:(NSString*)password smsVerify:(NSString*)smsVerify callback:(callBack)callback  withView:(UIView*)view;
 
 //查询用户基本信息
-+(NSDictionary*)getUserInfo;
++(NSDictionary*)getUserInfoWithCallBack:(callBack)callback  withView:(UIView*)view;
 
 //查询手机损坏原因
 +(NSDictionary*)phoneDamageReason;
 
 //修改登录密码
-+(NSDictionary*)updatePasswordWithOldPsd:(NSString *)oldPassword andNewPassword:(NSString *)newPassword;
++(NSDictionary*)updatePasswordWithOldPsd:(NSString *)oldPassword andNewPassword:(NSString *)newPassword callback:(callBack)callback  withView:(UIView*)view;
 
 //-------------------------------------私享理财------------------------------------------
 //获取私享理财推荐产品
-+(NSDictionary*)getEnjoyPrivateFinanceProductsWithPage:(int)page andForUser:(NSString*)for_user;
++(NSDictionary*)getEnjoyPrivateFinanceProductsWithPage:(int)page andForUser:(NSString*)for_user callback:(callBack)callback  withView:(UIView*)view;
 //定制私享理财推荐条件
-+(NSDictionary*)customEnjoyPrivateFinanceWithAreaId:(NSString*)area_id threshold:(NSString*)threshold partyIds:(NSArray*)partys productTypes:(NSString*)productTypes;
++(NSDictionary*)customEnjoyPrivateFinanceWithAreaId:(NSString*)area_id threshold:(NSString*)threshold partyIds:(NSArray*)partys productTypes:(NSString*)productTypes callback:(callBack)callback withView:(UIView*)view;
 @end

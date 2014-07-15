@@ -19,6 +19,7 @@
 		5F1506B5194995810085A8EA /* IndexNote@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1506B2194995810085A8EA /* IndexNote@2x.png */; };
 		5F1506BC194999F10085A8EA /* Financial_markets@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1506BA194999F10085A8EA /* Financial_markets@2x.png */; };
 		5F1506BD194999F10085A8EA /* thought_financial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1506BB194999F10085A8EA /* thought_financial@2x.png */; };
+		5F1D16371962A54F00124A46 /* RemindDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1D16361962A54F00124A46 /* RemindDialog.m */; };
 		5F2673D7191B2739003A27F4 /* AlipayRsaLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F2673BB191B2739003A27F4 /* AlipayRsaLib.a */; };
 		5F2673D8191B2739003A27F4 /* Alixpay.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5F2673BD191B2739003A27F4 /* Alixpay.bundle */; };
 		5F2673D9191B2739003A27F4 /* AlixPaylib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F2673BE191B2739003A27F4 /* AlixPaylib.a */; };
@@ -64,8 +65,11 @@
 		5F363058195011A700452CC7 /* mobile_phone_index_has_nav_iphone4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F363057195011A700452CC7 /* mobile_phone_index_has_nav_iphone4@2x.png */; };
 		5F36305A1950130000452CC7 /* first_ip5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F3630591950130000452CC7 /* first_ip5@2x.png */; };
 		5F36305C1950172500452CC7 /* first_ip4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F36305B1950172500452CC7 /* first_ip4@2x.png */; };
+		5F368F12196E49F800FA11F1 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F368F11196E49F800FA11F1 /* Request.m */; };
 		5F3D19CA1940615800EDF536 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3D19C91940615800EDF536 /* SettingViewController.m */; };
 		5F3D19CD194066D600EDF536 /* ModifyPassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3D19CC194066D600EDF536 /* ModifyPassViewController.m */; };
+		5F47D1AA196A36AE000E8D67 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F47D1A9196A36AE000E8D67 /* AboutViewController.m */; };
+		5F4CEE0C1963B785001D5AF5 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F4CEE0B1963B785001D5AF5 /* TimeUtils.m */; };
 		5F5394AC1915D69200351AFC /* ActivationFailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5394AB1915D69200351AFC /* ActivationFailViewController.m */; };
 		5F5394AF1915DEFD00351AFC /* ActivationSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5394AE1915DEFD00351AFC /* ActivationSuccessViewController.m */; };
 		5F5394BA1915EAFD00351AFC /* cancel_btn_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F5394B11915EAFD00351AFC /* cancel_btn_bg@2x.png */; };
@@ -108,6 +112,8 @@
 		5F63CF931924AC8B005B38FE /* CitySelecteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F63CF921924AC8B005B38FE /* CitySelecteViewController.m */; };
 		5F883DDD1941BB9900E9FEF7 /* MyOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F883DDC1941BB9900E9FEF7 /* MyOrderViewController.m */; };
 		5F883DE01941C05100E9FEF7 /* MyOrderCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F883DDF1941C05100E9FEF7 /* MyOrderCellTableViewCell.m */; };
+		5F8B942119664E5D00596691 /* ShuMiDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8B942019664E5D00596691 /* ShuMiDetailViewController.m */; };
+		5F8C7BC419629CBF00CE445C /* Dialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C7BC319629CBF00CE445C /* Dialog.m */; };
 		5F92374C192C3F8B00170DDB /* InvestmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F92374B192C3F8B00170DDB /* InvestmentsViewController.m */; };
 		5F92374F192C4E1000170DDB /* InvestmentAmountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F92374E192C4E1000170DDB /* InvestmentAmountViewController.m */; };
 		5F923752192C55D300170DDB /* InvestmentHorizonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F923751192C55D300170DDB /* InvestmentHorizonViewController.m */; };
@@ -121,9 +127,27 @@
 		5F9EF42B192B50F500A2D98A /* result@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F9EF429192B50F500A2D98A /* result@2x.png */; };
 		5FB1AE21195A6F590056AD2C /* ZCActionOnCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB1AE20195A6F590056AD2C /* ZCActionOnCalendar.m */; };
 		5FB1AE23195A6FA60056AD2C /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FB1AE22195A6FA60056AD2C /* EventKit.framework */; };
+		5FB932D819624EF30080C2E8 /* RemindTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB932D719624EF30080C2E8 /* RemindTable.m */; };
+		5FB932DA19624F450080C2E8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FB932D919624F450080C2E8 /* libsqlite3.dylib */; };
+		5FB932E01962535B0080C2E8 /* PreSaleDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB932DF1962535B0080C2E8 /* PreSaleDao.m */; };
 		5FC3191F1932DC5000EB3D5C /* CollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC3191E1932DC5000EB3D5C /* CollectionTableViewCell.m */; };
 		5FC319231933111700EB3D5C /* EnjoyPrivateFinanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC319221933111700EB3D5C /* EnjoyPrivateFinanceViewController.m */; };
 		5FC31926193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC31925193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.m */; };
+		5FC8718D1965082200E43998 /* RemindTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC8718C1965082200E43998 /* RemindTableViewCell.m */; };
+		5FC871BB1965291E00E43998 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC871BA1965291E00E43998 /* libz.dylib */; };
+		5FC871BD1965292B00E43998 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC871BC1965292B00E43998 /* AudioToolbox.framework */; };
+		5FC871DB19653FCE00E43998 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC871C219653FCE00E43998 /* JSONKit.m */; };
+		5FC871DD19653FCE00E43998 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 5FC871C719653FCE00E43998 /* ioapi.c */; };
+		5FC871DE19653FCE00E43998 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 5FC871C919653FCE00E43998 /* mztools.c */; };
+		5FC871DF19653FCE00E43998 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 5FC871CB19653FCE00E43998 /* unzip.c */; };
+		5FC871E019653FCE00E43998 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 5FC871CD19653FCE00E43998 /* zip.c */; };
+		5FC871E119653FCE00E43998 /* ZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC871D019653FCE00E43998 /* ZipArchive.m */; };
+		5FC871E219653FCE00E43998 /* ChinaPay_iPhone_Resources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5FC871D719653FCE00E43998 /* ChinaPay_iPhone_Resources.bundle */; };
+		5FC871E319653FCE00E43998 /* libChinaPay_iPhone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC871D819653FCE00E43998 /* libChinaPay_iPhone.a */; };
+		5FC871E419653FCE00E43998 /* libChinaPay_iPhone_S.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC871D919653FCE00E43998 /* libChinaPay_iPhone_S.a */; };
+		5FC871E519653FCE00E43998 /* shumi_plug_resources.bundle.zip in Resources */ = {isa = PBXBuildFile; fileRef = 5FC871DA19653FCE00E43998 /* shumi_plug_resources.bundle.zip */; };
+		5FC871E819653FF200E43998 /* libShuMi_Plug_Iphone_S.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC871E619653FF200E43998 /* libShuMi_Plug_Iphone_S.a */; };
+		5FC871E919653FF200E43998 /* libShuMi_Plug_Iphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC871E719653FF200E43998 /* libShuMi_Plug_Iphone.a */; };
 		5FCC43431919F9D200027C7E /* ClaimsConfirmInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCC43421919F9D200027C7E /* ClaimsConfirmInfoViewController.m */; };
 		5FCC4346191A0AE200027C7E /* SubmitSuccViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCC4345191A0AE200027C7E /* SubmitSuccViewController.m */; };
 		5FDC8E9319172A7500B36EE9 /* check_box_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDC8E9119172A7500B36EE9 /* check_box_cancel@2x.png */; };
@@ -194,6 +218,8 @@
 		5F1506B2194995810085A8EA /* IndexNote@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IndexNote@2x.png"; sourceTree = "<group>"; };
 		5F1506BA194999F10085A8EA /* Financial_markets@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Financial_markets@2x.png"; sourceTree = "<group>"; };
 		5F1506BB194999F10085A8EA /* thought_financial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thought_financial@2x.png"; sourceTree = "<group>"; };
+		5F1D16351962A54F00124A46 /* RemindDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemindDialog.h; sourceTree = "<group>"; };
+		5F1D16361962A54F00124A46 /* RemindDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemindDialog.m; sourceTree = "<group>"; };
 		5F2673BB191B2739003A27F4 /* AlipayRsaLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = AlipayRsaLib.a; sourceTree = "<group>"; };
 		5F2673BC191B2739003A27F4 /* AlixLibService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlixLibService.h; sourceTree = "<group>"; };
 		5F2673BD191B2739003A27F4 /* Alixpay.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Alixpay.bundle; sourceTree = "<group>"; };
@@ -254,10 +280,16 @@
 		5F363057195011A700452CC7 /* mobile_phone_index_has_nav_iphone4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mobile_phone_index_has_nav_iphone4@2x.png"; sourceTree = "<group>"; };
 		5F3630591950130000452CC7 /* first_ip5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first_ip5@2x.png"; sourceTree = "<group>"; };
 		5F36305B1950172500452CC7 /* first_ip4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first_ip4@2x.png"; sourceTree = "<group>"; };
+		5F368F10196E49F800FA11F1 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
+		5F368F11196E49F800FA11F1 /* Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Request.m; sourceTree = "<group>"; };
 		5F3D19C81940615800EDF536 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		5F3D19C91940615800EDF536 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		5F3D19CB194066D600EDF536 /* ModifyPassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyPassViewController.h; sourceTree = "<group>"; };
 		5F3D19CC194066D600EDF536 /* ModifyPassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyPassViewController.m; sourceTree = "<group>"; };
+		5F47D1A8196A36AE000E8D67 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		5F47D1A9196A36AE000E8D67 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		5F4CEE0A1963B785001D5AF5 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeUtils.h; sourceTree = "<group>"; };
+		5F4CEE0B1963B785001D5AF5 /* TimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeUtils.m; sourceTree = "<group>"; };
 		5F5394AA1915D69200351AFC /* ActivationFailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivationFailViewController.h; sourceTree = "<group>"; };
 		5F5394AB1915D69200351AFC /* ActivationFailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivationFailViewController.m; sourceTree = "<group>"; };
 		5F5394AD1915DEFD00351AFC /* ActivationSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivationSuccessViewController.h; sourceTree = "<group>"; };
@@ -329,6 +361,10 @@
 		5F883DDC1941BB9900E9FEF7 /* MyOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderViewController.m; sourceTree = "<group>"; };
 		5F883DDE1941C05100E9FEF7 /* MyOrderCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderCellTableViewCell.h; sourceTree = "<group>"; };
 		5F883DDF1941C05100E9FEF7 /* MyOrderCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderCellTableViewCell.m; sourceTree = "<group>"; };
+		5F8B941F19664E5D00596691 /* ShuMiDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShuMiDetailViewController.h; sourceTree = "<group>"; };
+		5F8B942019664E5D00596691 /* ShuMiDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShuMiDetailViewController.m; sourceTree = "<group>"; };
+		5F8C7BC219629CBF00CE445C /* Dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dialog.h; sourceTree = "<group>"; };
+		5F8C7BC319629CBF00CE445C /* Dialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dialog.m; sourceTree = "<group>"; };
 		5F92374A192C3F8B00170DDB /* InvestmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvestmentsViewController.h; sourceTree = "<group>"; };
 		5F92374B192C3F8B00170DDB /* InvestmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvestmentsViewController.m; sourceTree = "<group>"; };
 		5F92374D192C4E1000170DDB /* InvestmentAmountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvestmentAmountViewController.h; sourceTree = "<group>"; };
@@ -350,12 +386,44 @@
 		5FB1AE1F195A6F590056AD2C /* ZCActionOnCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCActionOnCalendar.h; sourceTree = "<group>"; };
 		5FB1AE20195A6F590056AD2C /* ZCActionOnCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZCActionOnCalendar.m; sourceTree = "<group>"; };
 		5FB1AE22195A6FA60056AD2C /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		5FB932D619624EF30080C2E8 /* RemindTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemindTable.h; sourceTree = "<group>"; };
+		5FB932D719624EF30080C2E8 /* RemindTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemindTable.m; sourceTree = "<group>"; };
+		5FB932D919624F450080C2E8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		5FB932DE1962535B0080C2E8 /* PreSaleDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreSaleDao.h; sourceTree = "<group>"; };
+		5FB932DF1962535B0080C2E8 /* PreSaleDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreSaleDao.m; sourceTree = "<group>"; };
 		5FC3191D1932DC5000EB3D5C /* CollectionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionTableViewCell.h; sourceTree = "<group>"; };
 		5FC3191E1932DC5000EB3D5C /* CollectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionTableViewCell.m; sourceTree = "<group>"; };
 		5FC319211933111700EB3D5C /* EnjoyPrivateFinanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnjoyPrivateFinanceViewController.h; sourceTree = "<group>"; };
 		5FC319221933111700EB3D5C /* EnjoyPrivateFinanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnjoyPrivateFinanceViewController.m; sourceTree = "<group>"; };
 		5FC31924193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnjoyPrivateFinanceSettingViewController.h; sourceTree = "<group>"; };
 		5FC31925193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnjoyPrivateFinanceSettingViewController.m; sourceTree = "<group>"; };
+		5FC8718B1965082200E43998 /* RemindTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemindTableViewCell.h; sourceTree = "<group>"; };
+		5FC8718C1965082200E43998 /* RemindTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemindTableViewCell.m; sourceTree = "<group>"; };
+		5FC871BA1965291E00E43998 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		5FC871BC1965292B00E43998 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		5FC871C119653FCE00E43998 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		5FC871C219653FCE00E43998 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		5FC871C619653FCE00E43998 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		5FC871C719653FCE00E43998 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		5FC871C819653FCE00E43998 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		5FC871C919653FCE00E43998 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		5FC871CA19653FCE00E43998 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		5FC871CB19653FCE00E43998 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		5FC871CC19653FCE00E43998 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		5FC871CD19653FCE00E43998 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		5FC871CE19653FCE00E43998 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		5FC871CF19653FCE00E43998 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		5FC871D019653FCE00E43998 /* ZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZipArchive.m; sourceTree = "<group>"; };
+		5FC871D219653FCE00E43998 /* ShuMi_Plug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShuMi_Plug.h; sourceTree = "<group>"; };
+		5FC871D319653FCE00E43998 /* ShuMi_Plug_Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShuMi_Plug_Data.h; sourceTree = "<group>"; };
+		5FC871D419653FCE00E43998 /* ShuMi_Plug_Function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShuMi_Plug_Function.h; sourceTree = "<group>"; };
+		5FC871D519653FCE00E43998 /* ShuMi_Plug_Protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShuMi_Plug_Protocol.h; sourceTree = "<group>"; };
+		5FC871D719653FCE00E43998 /* ChinaPay_iPhone_Resources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ChinaPay_iPhone_Resources.bundle; sourceTree = "<group>"; };
+		5FC871D819653FCE00E43998 /* libChinaPay_iPhone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libChinaPay_iPhone.a; sourceTree = "<group>"; };
+		5FC871D919653FCE00E43998 /* libChinaPay_iPhone_S.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libChinaPay_iPhone_S.a; sourceTree = "<group>"; };
+		5FC871DA19653FCE00E43998 /* shumi_plug_resources.bundle.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = shumi_plug_resources.bundle.zip; sourceTree = "<group>"; };
+		5FC871E619653FF200E43998 /* libShuMi_Plug_Iphone_S.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libShuMi_Plug_Iphone_S.a; sourceTree = "<group>"; };
+		5FC871E719653FF200E43998 /* libShuMi_Plug_Iphone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libShuMi_Plug_Iphone.a; sourceTree = "<group>"; };
 		5FCC43411919F9D200027C7E /* ClaimsConfirmInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClaimsConfirmInfoViewController.h; sourceTree = "<group>"; };
 		5FCC43421919F9D200027C7E /* ClaimsConfirmInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClaimsConfirmInfoViewController.m; sourceTree = "<group>"; };
 		5FCC4344191A0AE200027C7E /* SubmitSuccViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitSuccViewController.h; sourceTree = "<group>"; };
@@ -424,19 +492,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FC871BD1965292B00E43998 /* AudioToolbox.framework in Frameworks */,
+				5FC871BB1965291E00E43998 /* libz.dylib in Frameworks */,
+				5FB932DA19624F450080C2E8 /* libsqlite3.dylib in Frameworks */,
 				5FB1AE23195A6FA60056AD2C /* EventKit.framework in Frameworks */,
 				5F2673EA191B4ACE003A27F4 /* Security.framework in Frameworks */,
 				5F2673E8191B4AC6003A27F4 /* SystemConfiguration.framework in Frameworks */,
 				5F2673E6191B4ABB003A27F4 /* CFNetwork.framework in Frameworks */,
+				5FC871E319653FCE00E43998 /* libChinaPay_iPhone.a in Frameworks */,
 				5F2673D9191B2739003A27F4 /* AlixPaylib.a in Frameworks */,
 				5F2673D7191B2739003A27F4 /* AlipayRsaLib.a in Frameworks */,
 				5F2673E4191B2739003A27F4 /* libssl.a in Frameworks */,
+				5FC871E419653FCE00E43998 /* libChinaPay_iPhone_S.a in Frameworks */,
 				5F2673E3191B2739003A27F4 /* libcrypto.a in Frameworks */,
 				5F2673DA191B2739003A27F4 /* AlixPaylib_arc.a in Frameworks */,
 				5FF69ED319108CBB0010A6C2 /* CoreGraphics.framework in Frameworks */,
 				5FF69ED719108CBB0010A6C2 /* CoreData.framework in Frameworks */,
+				5FC871E819653FF200E43998 /* libShuMi_Plug_Iphone_S.a in Frameworks */,
 				5FF69ED519108CBB0010A6C2 /* UIKit.framework in Frameworks */,
 				5FF69ED119108CBB0010A6C2 /* Foundation.framework in Frameworks */,
+				5FC871E919653FF200E43998 /* libShuMi_Plug_Iphone.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +591,8 @@
 			children = (
 				5F2673EC191B7930003A27F4 /* Payment.h */,
 				5F2673ED191B7930003A27F4 /* Payment.m */,
+				5F4CEE0A1963B785001D5AF5 /* TimeUtils.h */,
+				5F4CEE0B1963B785001D5AF5 /* TimeUtils.m */,
 			);
 			name = payment;
 			sourceTree = "<group>";
@@ -674,6 +751,8 @@
 				5F5394CB1915FC1D00351AFC /* RequestUtils.m */,
 				5F5394EB191639BA00351AFC /* Utils.h */,
 				5F5394EC191639BA00351AFC /* Utils.m */,
+				5F368F10196E49F800FA11F1 /* Request.h */,
+				5F368F11196E49F800FA11F1 /* Request.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -725,6 +804,10 @@
 				5F3D19C91940615800EDF536 /* SettingViewController.m */,
 				5F3D19CB194066D600EDF536 /* ModifyPassViewController.h */,
 				5F3D19CC194066D600EDF536 /* ModifyPassViewController.m */,
+				5F8B941F19664E5D00596691 /* ShuMiDetailViewController.h */,
+				5F8B942019664E5D00596691 /* ShuMiDetailViewController.m */,
+				5F47D1A8196A36AE000E8D67 /* AboutViewController.h */,
+				5F47D1A9196A36AE000E8D67 /* AboutViewController.m */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -742,6 +825,7 @@
 		5F5C130B192DED7F0075ED6E /* Remind */ = {
 			isa = PBXGroup;
 			children = (
+				5FC8718A196507C700E43998 /* remindTableViewCell */,
 				5F0064C5195BC7E700E542BA /* view */,
 				5F5C130C192DED8E0075ED6E /* RemindViewController.h */,
 				5F5C130D192DED8E0075ED6E /* RemindViewController.m */,
@@ -754,6 +838,10 @@
 			children = (
 				5F5C135F192EEA920075ED6E /* CountdownButton.h */,
 				5F5C1360192EEA920075ED6E /* CountdownButton.m */,
+				5F8C7BC219629CBF00CE445C /* Dialog.h */,
+				5F8C7BC319629CBF00CE445C /* Dialog.m */,
+				5F1D16351962A54F00124A46 /* RemindDialog.h */,
+				5F1D16361962A54F00124A46 /* RemindDialog.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -834,6 +922,17 @@
 			name = calendar;
 			sourceTree = "<group>";
 		};
+		5FB932D519624E810080C2E8 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				5FB932D619624EF30080C2E8 /* RemindTable.h */,
+				5FB932D719624EF30080C2E8 /* RemindTable.m */,
+				5FB932DE1962535B0080C2E8 /* PreSaleDao.h */,
+				5FB932DF1962535B0080C2E8 /* PreSaleDao.m */,
+			);
+			name = DB;
+			sourceTree = "<group>";
+		};
 		5FC3191C1932DC2C00EB3D5C /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -852,6 +951,93 @@
 				5FC31925193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.m */,
 			);
 			name = EnjoyPrivateFinance;
+			sourceTree = "<group>";
+		};
+		5FC8718A196507C700E43998 /* remindTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				5FC8718B1965082200E43998 /* RemindTableViewCell.h */,
+				5FC8718C1965082200E43998 /* RemindTableViewCell.m */,
+			);
+			name = remindTableViewCell;
+			sourceTree = "<group>";
+		};
+		5FC871BE19653FAB00E43998 /* shumi_sdk */ = {
+			isa = PBXGroup;
+			children = (
+				5FC871BF19653FCE00E43998 /* Auxiliary library */,
+				5FC871D119653FCE00E43998 /* headers */,
+				5FC871D619653FCE00E43998 /* libs */,
+			);
+			name = shumi_sdk;
+			sourceTree = "<group>";
+		};
+		5FC871BF19653FCE00E43998 /* Auxiliary library */ = {
+			isa = PBXGroup;
+			children = (
+				5FC871C019653FCE00E43998 /* JSONKit */,
+				5FC871C319653FCE00E43998 /* ZipArchive */,
+			);
+			path = "Auxiliary library";
+			sourceTree = "<group>";
+		};
+		5FC871C019653FCE00E43998 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				5FC871C119653FCE00E43998 /* JSONKit.h */,
+				5FC871C219653FCE00E43998 /* JSONKit.m */,
+			);
+			path = JSONKit;
+			sourceTree = "<group>";
+		};
+		5FC871C319653FCE00E43998 /* ZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				5FC871C519653FCE00E43998 /* minizip */,
+				5FC871CF19653FCE00E43998 /* ZipArchive.h */,
+				5FC871D019653FCE00E43998 /* ZipArchive.m */,
+			);
+			path = ZipArchive;
+			sourceTree = "<group>";
+		};
+		5FC871C519653FCE00E43998 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				5FC871C619653FCE00E43998 /* crypt.h */,
+				5FC871C719653FCE00E43998 /* ioapi.c */,
+				5FC871C819653FCE00E43998 /* ioapi.h */,
+				5FC871C919653FCE00E43998 /* mztools.c */,
+				5FC871CA19653FCE00E43998 /* mztools.h */,
+				5FC871CB19653FCE00E43998 /* unzip.c */,
+				5FC871CC19653FCE00E43998 /* unzip.h */,
+				5FC871CD19653FCE00E43998 /* zip.c */,
+				5FC871CE19653FCE00E43998 /* zip.h */,
+			);
+			path = minizip;
+			sourceTree = "<group>";
+		};
+		5FC871D119653FCE00E43998 /* headers */ = {
+			isa = PBXGroup;
+			children = (
+				5FC871D219653FCE00E43998 /* ShuMi_Plug.h */,
+				5FC871D319653FCE00E43998 /* ShuMi_Plug_Data.h */,
+				5FC871D419653FCE00E43998 /* ShuMi_Plug_Function.h */,
+				5FC871D519653FCE00E43998 /* ShuMi_Plug_Protocol.h */,
+			);
+			path = headers;
+			sourceTree = "<group>";
+		};
+		5FC871D619653FCE00E43998 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				5FC871E619653FF200E43998 /* libShuMi_Plug_Iphone_S.a */,
+				5FC871E719653FF200E43998 /* libShuMi_Plug_Iphone.a */,
+				5FC871D719653FCE00E43998 /* ChinaPay_iPhone_Resources.bundle */,
+				5FC871D819653FCE00E43998 /* libChinaPay_iPhone.a */,
+				5FC871D919653FCE00E43998 /* libChinaPay_iPhone_S.a */,
+				5FC871DA19653FCE00E43998 /* shumi_plug_resources.bundle.zip */,
+			);
+			path = libs;
 			sourceTree = "<group>";
 		};
 		5FDC8E95191735B300B36EE9 /* Entitys */ = {
@@ -877,6 +1063,7 @@
 		5FEF2EEE1946AB3100F8501D /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				5FC871BE19653FAB00E43998 /* shumi_sdk */,
 				5FB1AE1E195A6F350056AD2C /* calendar */,
 				5FEF2EF11946AD7800F8501D /* MBProgressHUD */,
 			);
@@ -916,6 +1103,9 @@
 		5FF69ECF19108CBB0010A6C2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FC871BC1965292B00E43998 /* AudioToolbox.framework */,
+				5FC871BA1965291E00E43998 /* libz.dylib */,
+				5FB932D919624F450080C2E8 /* libsqlite3.dylib */,
 				5FB1AE22195A6FA60056AD2C /* EventKit.framework */,
 				5F2673E9191B4ACE003A27F4 /* Security.framework */,
 				5F2673E7191B4AC6003A27F4 /* SystemConfiguration.framework */,
@@ -932,6 +1122,7 @@
 		5FF69ED819108CBB0010A6C2 /* eggworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FB932D519624E810080C2E8 /* DB */,
 				5F5551A81948475A00BB6CD1 /* base */,
 				5FEF2EEE1946AB3100F8501D /* lib */,
 				5F5C135A192EE93A0075ED6E /* Views */,
@@ -1089,7 +1280,7 @@
 				ORGANIZATIONNAME = "陈 海刚";
 				TargetAttributes = {
 					5FF69ECC19108CBB0010A6C2 = {
-						DevelopmentTeam = 9BPFB6TRDK;
+						DevelopmentTeam = 344LDUW444;
 					};
 					5FF69EEC19108CBB0010A6C2 = {
 						TestTargetID = 5FF69ECC19108CBB0010A6C2;
@@ -1147,6 +1338,7 @@
 				5F36305319500F1500452CC7 /* buy@2x.png in Resources */,
 				5F26DAD41923617F0004837F /* index_sxlc@2x.png in Resources */,
 				5F26DADC192362DC0004837F /* ad@2x.png in Resources */,
+				5FC871E219653FCE00E43998 /* ChinaPay_iPhone_Resources.bundle in Resources */,
 				5F1506A4194948010085A8EA /* menuIndex@2x.png in Resources */,
 				5F5394C21915EAFD00351AFC /* return_pre_btn_bg@2x.png in Resources */,
 				5F9EF427192B481A00A2D98A /* screening_checkbox@2x.png in Resources */,
@@ -1155,6 +1347,7 @@
 				5F63CF8C19248D63005B38FE /* right@2x.png in Resources */,
 				5F26DADE192362DC0004837F /* index_lcjs_a.png in Resources */,
 				5F5394BA1915EAFD00351AFC /* cancel_btn_bg@2x.png in Resources */,
+				5FC871E519653FCE00E43998 /* shumi_plug_resources.bundle.zip in Resources */,
 				5F5394BF1915EAFD00351AFC /* n_right_menu@2x.png in Resources */,
 				5F1506B3194995810085A8EA /* IndexAccount@2x.png in Resources */,
 				5F63CF81192485F7005B38FE /* search_input_confi.png in Resources */,
@@ -1211,11 +1404,13 @@
 			files = (
 				5FF69F211910F0220010A6C2 /* SelfHelpBuyViewController.m in Sources */,
 				5F2673DC191B2739003A27F4 /* AlixPayResult.m in Sources */,
+				5F8C7BC419629CBF00CE445C /* Dialog.m in Sources */,
 				5FF69EE319108CBB0010A6C2 /* AppDelegate.m in Sources */,
 				5F2EE1B319208F2100FBBF75 /* FinancialMarketMainViewController.m in Sources */,
 				5F9EF423192B47C300A2D98A /* CheckBox.m in Sources */,
 				5F9EF41C192B062400A2D98A /* InstitutionalChoiceViewController.m in Sources */,
 				5F883DDD1941BB9900E9FEF7 /* MyOrderViewController.m in Sources */,
+				5F1D16371962A54F00124A46 /* RemindDialog.m in Sources */,
 				5F2673EE191B7930003A27F4 /* Payment.m in Sources */,
 				5F5394C71915F62A00351AFC /* BaseViewController.m in Sources */,
 				5F5C1303192DE9CC0075ED6E /* LoginViewController.m in Sources */,
@@ -1234,6 +1429,8 @@
 				5F5C130A192DECCB0075ED6E /* CollectionViewController.m in Sources */,
 				5FEF2EF41946ADA900F8501D /* MBProgressHUD.m in Sources */,
 				5F5394AF1915DEFD00351AFC /* ActivationSuccessViewController.m in Sources */,
+				5FB932E01962535B0080C2E8 /* PreSaleDao.m in Sources */,
+				5FC871E119653FCE00E43998 /* ZipArchive.m in Sources */,
 				5F5394AC1915D69200351AFC /* ActivationFailViewController.m in Sources */,
 				5F9D385919371ABD000F6147 /* BankSelectedTableViewCell.m in Sources */,
 				5F5394DF191608F900351AFC /* SBJsonBase.m in Sources */,
@@ -1243,9 +1440,14 @@
 				5F2673DB191B2739003A27F4 /* AlixPayOrder.m in Sources */,
 				5F5394CC1915FC1D00351AFC /* RequestUtils.m in Sources */,
 				5F5394ED191639BA00351AFC /* Utils.m in Sources */,
+				5F4CEE0C1963B785001D5AF5 /* TimeUtils.m in Sources */,
+				5F47D1AA196A36AE000E8D67 /* AboutViewController.m in Sources */,
+				5FC871DE19653FCE00E43998 /* mztools.c in Sources */,
+				5F368F12196E49F800FA11F1 /* Request.m in Sources */,
 				5F5C1369192F32420075ED6E /* PersonalDataViewController.m in Sources */,
 				5FC31926193338F400EB3D5C /* EnjoyPrivateFinanceSettingViewController.m in Sources */,
 				5F0064C8195BC81D00E542BA /* Remind.m in Sources */,
+				5FC871DD19653FCE00E43998 /* ioapi.c in Sources */,
 				5FDC8E98191735E800B36EE9 /* PhoneEasyProduct.m in Sources */,
 				5FFACA7919220438006355CE /* MyselfTableViewCell.m in Sources */,
 				5FF69F1E1910CF660010A6C2 /* ActivateChannelViewController.m in Sources */,
@@ -1259,6 +1461,7 @@
 				5F5551AB1948477C00BB6CD1 /* MenuItemView.m in Sources */,
 				5F3D19CA1940615800EDF536 /* SettingViewController.m in Sources */,
 				5F5C1306192DEBBC0075ED6E /* MyAccountViewController.m in Sources */,
+				5FC871DB19653FCE00E43998 /* JSONKit.m in Sources */,
 				5F5394E719160C2800351AFC /* AsynRuner.m in Sources */,
 				5FC3191F1932DC5000EB3D5C /* CollectionTableViewCell.m in Sources */,
 				5F923752192C55D300170DDB /* InvestmentHorizonViewController.m in Sources */,
@@ -1266,12 +1469,17 @@
 				5F2EE1B71920914E00FBBF75 /* FinancialMarketTableViewCell.m in Sources */,
 				5F2A72C21918C515004DEC61 /* ClaimsInfoInputViewController.m in Sources */,
 				5F63CF8619248B87005B38FE /* ScreeningItem.m in Sources */,
+				5FC8718D1965082200E43998 /* RemindTableViewCell.m in Sources */,
+				5FC871DF19653FCE00E43998 /* unzip.c in Sources */,
+				5FB932D819624EF30080C2E8 /* RemindTable.m in Sources */,
 				5F63CF7D19248462005B38FE /* ScreeningMainPageViewController.m in Sources */,
 				5F5C130E192DED8E0075ED6E /* RemindViewController.m in Sources */,
+				5F8B942119664E5D00596691 /* ShuMiDetailViewController.m in Sources */,
 				5F2A72BF1918763D004DEC61 /* UserInfoViewController.m in Sources */,
 				5FDC8E9F19177A4000B36EE9 /* MobilePhoneEasyPaySuccViewController.m in Sources */,
 				5F5394DD191608F900351AFC /* NSObject+SBJSON.m in Sources */,
 				5FE7DA4F19400F62006D071E /* FirstViewController.m in Sources */,
+				5FC871E019653FCE00E43998 /* zip.c in Sources */,
 				5F883DE01941C05100E9FEF7 /* MyOrderCellTableViewCell.m in Sources */,
 				5F5394DE191608F900351AFC /* NSString+SBJSON.m in Sources */,
 				5F92374C192C3F8B00170DDB /* InvestmentsViewController.m in Sources */,
@@ -1399,8 +1607,8 @@
 				);
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: chen gang (T4594TABM3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: chen gang (T4594TABM3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "eggworks/eggworks-Prefix.pch";
 				INFOPLIST_FILE = "eggworks/eggworks-Info.plist";
@@ -1408,10 +1616,11 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/alipay",
+					"$(PROJECT_DIR)/eggworks/libs",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "98DC744A-2DF3-4BA8-9169-C6BE39040148";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -1428,8 +1637,8 @@
 				);
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: chen gang (T4594TABM3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: chen gang (T4594TABM3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "eggworks/eggworks-Prefix.pch";
 				INFOPLIST_FILE = "eggworks/eggworks-Info.plist";
@@ -1437,9 +1646,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/alipay",
+					"$(PROJECT_DIR)/eggworks/libs",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "98DC744A-2DF3-4BA8-9169-C6BE39040148";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;

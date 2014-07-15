@@ -1,4 +1,4 @@
-//
+///
 //  Utils.m
 //  eggworks
 //
@@ -8,6 +8,8 @@
 
 #import "Utils.h"
 #import "sys/utsname.h"
+#import "ZCActionOnCalendar.h"
+#import "TimeUtils.h"
 
 @implementation Utils
 
@@ -128,7 +130,11 @@
 +(void)saveRealName:(NSString*)real_name
 {
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setObject:real_name forKey:@"real_name"];
+    NSString * result = [Utils strConversionWitd:real_name];
+//    if (result.length == 0) {
+//        [userDefault setObject:real_name forKey:@"real_name"];
+//    }
+    [userDefault setObject:result forKey:@"real_name"];
     [userDefault synchronize];
 }
 
@@ -211,5 +217,19 @@
     NSString *phoneRegex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9])|(170))\\d{8}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
     return [phoneTest evaluateWithObject:phoneNumber];
+}
+
++(void)setCalendarWithStartDate:(NSString*)starTime MainTitle:(NSString*)mainTitle location:(NSString*)location
+{
+    //暂时用作 日历添加测试
+    NSDate * startData = [TimeUtils string2DateWithStr:starTime withFormat:YYYYMMDDhhmmss];
+    NSString * endStr = [TimeUtils longlong2StringWithLongLong:[startData timeIntervalSince1970] + 3600 withFormate:YYYYMMDDhhmmss];
+    NSDate * endDate = [TimeUtils string2DateWithStr:endStr withFormat:YYYYMMDDhhmmss];
+    //设置事件之前多长时候开始提醒
+    float alarmFloat=-5;
+//    NSString*eventTitle=mainTitle;
+//    NSString*locationStr=location;
+    //isReminder 是否写入提醒事项
+    [ZCActionOnCalendar saveEventStartDate:startData endDate:endDate alarm:alarmFloat eventTitle:mainTitle location:location isReminder:YES];
 }
 @end

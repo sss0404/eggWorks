@@ -127,29 +127,54 @@
 {
     NSLog(@"提交信息");
     NSString * orderId = [[NSUserDefaults standardUserDefaults] objectForKey:ORDER_ID];
-    AsynRuner * asynRunner = [[AsynRuner alloc] init];
-    [asynRunner runOnBackground:^{
-        RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
-        NSDictionary * dic = [requestUtils    claimRequestsWithOrderId:orderId
-                                                         contactMobile:[_info objectForKey:@"connectPhoneNumber"]
-                                                            pickMethod:0
-                                                                damage:1
-                                                               storeId:@"1"
-                                                              pickTime:0
-                                                           pickAddress:[_info objectForKey:@"addr"]
-                                                                areaId:[_info objectForKey:@"user_selected_city_id"]];
-        return dic;
-    } onUpdateUI:^(id obj){
-        BOOL success = [[obj objectForKey:@"success"] boolValue];
-        if (success) {
-            //提交成功后进入成功页面
-            SubmitSuccViewController * submitSuccVC = [[[SubmitSuccViewController alloc] init] autorelease];
-            [self.navigationController pushViewController:submitSuccVC animated:YES];
-        } else {
-            NSString * message = [obj objectForKey:@"message"];
-            Show_msg(@"提示", message);
-        }
-    } inView:self.view];
+    
+    RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+    [requestUtils    claimRequestsWithOrderId:orderId
+                                 contactMobile:[_info objectForKey:@"connectPhoneNumber"]
+                                    pickMethod:0
+                                        damage:1
+                                       storeId:@"1"
+                                      pickTime:0
+                                   pickAddress:[_info objectForKey:@"addr"]
+                                        areaId:[_info objectForKey:@"user_selected_city_id"]
+                                      callBack:^(id obj) {
+                                          BOOL success = [[obj objectForKey:@"success"] boolValue];
+                                          if (success) {
+                                              //提交成功后进入成功页面
+                                              SubmitSuccViewController * submitSuccVC = [[[SubmitSuccViewController alloc] init] autorelease];
+                                              [self.navigationController pushViewController:submitSuccVC animated:YES];
+                                          } else {
+                                              NSString * message = [obj objectForKey:@"message"];
+                                              Show_msg(@"提示", message);
+                                          }
+                                      } withView:self.view];
+    
+//    AsynRuner * asynRunner = [[AsynRuner alloc] init];
+//    [asynRunner runOnBackground:^{
+//        RequestUtils * requestUtils = [[[RequestUtils alloc] init] autorelease];
+//        NSDictionary * dic = [requestUtils    claimRequestsWithOrderId:orderId
+//                                                         contactMobile:[_info objectForKey:@"connectPhoneNumber"]
+//                                                            pickMethod:0
+//                                                                damage:1
+//                                                               storeId:@"1"
+//                                                              pickTime:0
+//                                                           pickAddress:[_info objectForKey:@"addr"]
+//                                                                areaId:[_info objectForKey:@"user_selected_city_id"]
+//                                                              callBack:^(id data) {
+//                                                                  
+//                                                              }];
+//        return dic;
+//    } onUpdateUI:^(id obj){
+//        BOOL success = [[obj objectForKey:@"success"] boolValue];
+//        if (success) {
+//            //提交成功后进入成功页面
+//            SubmitSuccViewController * submitSuccVC = [[[SubmitSuccViewController alloc] init] autorelease];
+//            [self.navigationController pushViewController:submitSuccVC animated:YES];
+//        } else {
+//            NSString * message = [obj objectForKey:@"message"];
+//            Show_msg(@"提示", message);
+//        }
+//    } inView:self.view];
     
 }
 

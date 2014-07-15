@@ -14,8 +14,14 @@
 #import "Utils.h"
 #import "RequestUtils.h"
 #import "FirstViewController.h"
+#import "PreSaleDao.h"
+#import "TimeUtils.h"
 
 @implementation AppDelegate
+{
+    NSString *_authorizedToken;
+    NSString *_tokenSecret;
+}
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -24,6 +30,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    PreSaleDao * psd = [[[PreSaleDao alloc] init] autorelease];
+    [psd createTable];
+    
+    //初始化数米sdk
+    [self initShumiSDK];
+
+//    long long time = [TimeUtils string2LongLongWithStr:@"2014-7-2" withFormat:@"yyyy-MM-dd"];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
@@ -44,6 +58,12 @@
     return YES;
 }
 
+
+
+
+
+
+
 //检测是否第一次使用app
 -(BOOL)checkFirstUseThisApp
 {
@@ -51,7 +71,7 @@
     NSString * firstUse = [userDefault objectForKey:@"firstUseThisApp"];
     if (firstUse.length == 0) {
         RequestUtils * requestUtil = [[[RequestUtils alloc] init] autorelease];
-        [requestUtil saveWithUid:@"" andPassword:@""];
+        [requestUtil removeHttpCredentials];
         [userDefault setObject:@"nofirstuse" forKey:@"firstUseThisApp"];
         [userDefault synchronize];
         return YES;
@@ -79,6 +99,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    //检查数米sdk更新
+    [[ShuMi_Plug sharedShuMiPlug] checkShuMiPlug];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -244,6 +266,123 @@
 - (AlixPayResult *)resultFromURL:(NSURL *)url {
 	NSString * query = [[url query] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return [[[AlixPayResult alloc] initWithString:query] autorelease];
+}
+
+
+//粟米sdk初始化
+-(void)initShumiSDK
+{
+    [[ShuMi_Plug sharedShuMiPlug] initShuMiPlugWithDelegate:self appRootViewController:self.rootView];
+}
+
+#pragma mark - 数米sdk delegate
+
+/*
+ 商户标识
+ */
+- (NSString *)consumerKey
+{
+    return @"iphone_smb";
+}
+
+- (NSString *)consumerSecret
+{
+    return @"iphone_smb";
+}
+
+/*
+ 用户标识
+ */
+- (NSString *)tokenKey
+{
+    BOOL binded = [[[NSUserDefaults standardUserDefaults] objectForKey:@"binded"] boolValue];
+    if(binded){
+        return [[NSUserDefaults standardUserDefaults] objectForKey:@"authorizedToken"];
+    }else{
+        return nil;
+    }
+}
+- (NSString *)tokenSecret
+{
+    BOOL binded = [[[NSUserDefaults standardUserDefaults] objectForKey:@"binded"] boolValue];
+    if(binded){
+        return [[NSUserDefaults standardUserDefaults] objectForKey:@"tokenSecret"];
+    }else{
+        return nil;
+    }
+}
+
+/*
+ 请求服务器环境配置
+ */
+// 生产 ->http://jrsj1.data.fund123.cn/Trade
+// 测试 ->http://192.168.2.190/Trade
+- (NSString *)financialDataService
+{
+    return @"http://jrsj1.data.fund123.cn/Trade";
+}
+// 生产 ->https://trade.fund123.cn/openapi
+// 测试 ->http://sandbox.trade.fund123.cn/openapi
+- (NSString *)tradeOpenApiService
+{
+    return @"http://sandbox.trade.fund123.cn/openapi";
+}
+// 生产 ->http://openapi.fund123.cn
+// 测试 ->http://sandbox.openapi.fund123.cn
+- (NSString *)myFundOpenApiService
+{
+    return @"http://sandbox.openapi.fund123.cn";
+}
+
+-(void)userAuthorizeSuccess:(NSDictionary *)info
+{
+    _authorizedToken = [[info objectForKey:@"tokenKey"] copy];
+    //    _authorizedToken = [[info objectForKey:@"authorizedToken"] copy];
+    _tokenSecret = [[info objectForKey:@"tokenSecret"] copy];
+    [[NSUserDefaults standardUserDefaults] setValue:_authorizedToken forKey:@"authorizedToken"];
+    [[NSUserDefaults standardUserDefaults] setValue:_tokenSecret forKey:@"tokenSecret"];
+    BOOL binded = YES;
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:binded] forKey:@"binded"];
+    
+    [[NSUserDefaults standardUserDefaults] setValue:[info objectForKey:@"realName"] forKey:@"realName"];
+    [[NSUserDefaults standardUserDefaults] setValue:[info objectForKey:@"idNumber"] forKey:@"idNumber"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"onNotification" object:nil];
+}
+
+
+
+- (void)userRedeemFundSuccess:(NSDictionary *)info{
+    //赎回信息返回
+    NSLog(@"%@",info);
+}
+
+- (void)userPaymentFundSuccess:(NSDictionary *)info{
+    //申认购订单号成功返回
+    NSLog(@"%@",info);
+}
+
+- (void)userPurchaseFundSuccess:(NSDictionary *)info{
+    //认/申购信息返回
+    NSLog(@"%@",info);
+}
+
+- (void)userChangeMobileSuccess:(NSDictionary *)info{
+    //修改手机号码通知返回
+    NSLog(@"%@",info);
+}
+
+
+
+/*
+ 检测更新地址
+ 其中xxx改成对应的名称
+ */
+// 生产 ->http://tools.fund123.cn/shumi_sdk/iphone_chinapay/xxx/version.json
+// 测试 ->待定
+- (NSString *)checkUpdateURLAddress
+{
+    return @"http://tools.fund123.cn/shumi_sdk/iphone_chinapay/xxx/version.json";
 }
 
 @end

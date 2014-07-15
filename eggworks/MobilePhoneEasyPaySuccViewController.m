@@ -82,6 +82,7 @@
     [shareBtn setTitle:@"分享手机无忧到微信" forState:UIControlStateNormal];
     [shareBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [shareBtn addTarget:self action:@selector(shareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    shareBtn.hidden = YES;
     [aView addSubview:shareBtn];
 }
 

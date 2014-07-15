@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShuMi_Plug.h"
+#import "ShuMi_Plug_Protocol.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,ShuMi_Plug_Protocol>
 
 @property (strong, nonatomic) UIWindow *window;
 
