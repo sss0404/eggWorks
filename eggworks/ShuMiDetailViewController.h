@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "MBProgressHUD.h"
 #import "MyAccountViewController.h"
 
 @interface ShuMiDetailViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
@@ -15,4 +16,6 @@
 @property (nonatomic, assign) SuMi suMi;
 @property (nonatomic, retain) NSArray * array;
 @property (nonatomic, retain) NSDictionary* bussesTypeDic;
+@property (nonatomic, retain) MBProgressHUD * HUD;
+
 @end

@@ -11,6 +11,7 @@
 #import "CountdownButton.h"
 #import "RequestUtils.h"
 #import "Utils.h"
+#import "AgreementViewController.h"
 
 @interface RegisterViewController ()
 
@@ -119,6 +120,7 @@
     [termsBtn setFont:[UIFont systemFontOfSize:14.5]];
     [termsBtn setTitleColor:[UIColor colorWithRed:.38 green:.76 blue:.98 alpha:1] forState:UIControlStateNormal];
 //    termsBtn.backgroundColor = [UIColor redColor];
+    [termsBtn addTarget:self action:@selector(termsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:termsBtn];
     
     UIButton * loginBtn = [[[UIButton  alloc] initWithFrame:CGRectMake(20, 330+ios7_d_height, 280, 40)] autorelease];
@@ -127,6 +129,12 @@
     [loginBtn addTarget:self action:@selector(registerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginBtn];
     
+}
+
+-(void)termsBtnClick:(id) sender
+{
+    AgreementViewController * agreementVC = [[[AgreementViewController alloc] init] autorelease];
+    [self.navigationController pushViewController:agreementVC animated:YES];
 }
 
 //注册提交

@@ -80,13 +80,14 @@
     return currSelectedCity;
 }
 
-+(NSString *)newFloat:(float)value withNumber:(int)numberOfPlace
++(NSString *)formatFloat:(float)value withNumber:(int)numberOfPlace
 {
     NSString *formatStr = @"%0.";
-    formatStr = [formatStr stringByAppendingFormat:@"%df", numberOfPlace];
-    formatStr = [NSString stringWithFormat:formatStr, value];
-    printf("formatStr %s\n", [formatStr UTF8String]);
-    return formatStr;
+    NSString * formatStr1 = [formatStr stringByAppendingFormat:@"%df", numberOfPlace];
+    NSString * formatStr2 = [NSString stringWithFormat:formatStr1, value];
+//    printf("formatStr %s\n", [formatStr UTF8String]);
+    
+    return formatStr2;//[formatStr retain];
 }
 
 

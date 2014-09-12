@@ -23,36 +23,58 @@
     NSString *_tokenSecret;
 }
 
+- (void)dealloc
+{
+    [_suMiInfo release];
+    [super dealloc];
+}
+
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize rootView = _rootView;
+@synthesize suMiInfo = _suMiInfo;
+
+-(void)getSuMiInfoFromServer
+{
+    [RequestUtils getSumiUserInfoWithCallback:^(id data) {
+        NSMutableDictionary * dic;
+        BOOL success = [[data objectForKey:@"success"] boolValue];
+        if (success) {
+            dic = [[[NSMutableDictionary alloc] init] autorelease];
+            [dic setObject:[data objectForKey:@"username"] forKey:@"realName"];
+            [dic setObject:[data objectForKey:@"identity"] forKey:@"idNumber"];
+            [dic setObject:[data objectForKey:@"access_token"] forKey:@"tokenKey"];
+            [dic setObject:[data objectForKey:@"access_secret"] forKey:@"tokenSecret"];
+        }
+        self.suMiInfo = dic;
+    } withUIView:nil];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     PreSaleDao * psd = [[[PreSaleDao alloc] init] autorelease];
     [psd createTable];
-    
+    //从服务器上获取数米信息
+    [self getSuMiInfoFromServer];
     //初始化数米sdk
     [self initShumiSDK];
 
 //    long long time = [TimeUtils string2LongLongWithStr:@"2014-7-2" withFormat:@"yyyy-MM-dd"];
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    BOOL isFirstUse = [self checkFirstUseThisApp];
-//    isFirstUse = YES;//测试第一次使用  暂时设定是第一次使用
-    if (isFirstUse) {
-        FirstViewController * firstVC = [[[FirstViewController alloc] init] autorelease];
-         self.rootView = [[[UINavigationController alloc] initWithRootViewController:firstVC] autorelease];
-        self.window.rootViewController = _rootView;
-        
-    } else {
+//    BOOL isFirstUse = [self checkFirstUseThisApp];
+//    if (isFirstUse) {
+//        FirstViewController * firstVC = [[[FirstViewController alloc] init] autorelease];
+//        self.rootView = [[[UINavigationController alloc] initWithRootViewController:firstVC] autorelease];
+//        self.window.rootViewController = _rootView;
+//    } else {
         IndexPageViewController * indexPageViewController = [[[IndexPageViewController alloc] init] autorelease];
         self.rootView = [[[UINavigationController alloc] initWithRootViewController:indexPageViewController] autorelease];
         self.window.rootViewController = _rootView;
-    }
+//    }
     
     [self.window makeKeyAndVisible];
     return YES;
@@ -282,12 +304,12 @@
  */
 - (NSString *)consumerKey
 {
-    return @"iphone_smb";
+    return @"SM_SDK_CAIDAN";
 }
 
 - (NSString *)consumerSecret
 {
-    return @"iphone_smb";
+    return @"F491ADBCEEDC4438AF75E301168D783F";
 }
 
 /*
@@ -295,21 +317,32 @@
  */
 - (NSString *)tokenKey
 {
-    BOOL binded = [[[NSUserDefaults standardUserDefaults] objectForKey:@"binded"] boolValue];
-    if(binded){
-        return [[NSUserDefaults standardUserDefaults] objectForKey:@"authorizedToken"];
-    }else{
-        return nil;
+//    BOOL binded = [[[NSUserDefaults standardUserDefaults] objectForKey:@"binded"] boolValue];
+//    if(binded) {
+//        return [[NSUserDefaults standardUserDefaults] objectForKey:@"authorizedToken"];
+//    } else {
+//        return nil;
+//    }
+    
+    if (_suMiInfo != nil) {
+        return [_suMiInfo objectForKey:@"tokenKey"];
     }
+    return nil;
 }
 - (NSString *)tokenSecret
 {
-    BOOL binded = [[[NSUserDefaults standardUserDefaults] objectForKey:@"binded"] boolValue];
-    if(binded){
-        return [[NSUserDefaults standardUserDefaults] objectForKey:@"tokenSecret"];
-    }else{
-        return nil;
+//    BOOL binded = [[[NSUserDefaults standardUserDefaults] objectForKey:@"binded"] boolValue];
+//    if(binded){
+//        return [[NSUserDefaults standardUserDefaults] objectForKey:@"tokenSecret"];
+//    }else{
+//        return nil;
+//    }
+    
+    
+    if (_suMiInfo != nil) {
+        return [_suMiInfo objectForKey:@"tokenSecret"];
     }
+    return nil;
 }
 
 /*
@@ -325,29 +358,37 @@
 // 测试 ->http://sandbox.trade.fund123.cn/openapi
 - (NSString *)tradeOpenApiService
 {
-    return @"http://sandbox.trade.fund123.cn/openapi";
+    return @"https://trade.fund123.cn/openapi";
 }
 // 生产 ->http://openapi.fund123.cn
 // 测试 ->http://sandbox.openapi.fund123.cn
 - (NSString *)myFundOpenApiService
 {
-    return @"http://sandbox.openapi.fund123.cn";
+    return@"http://openapi.fund123.cn";
 }
 
 -(void)userAuthorizeSuccess:(NSDictionary *)info
 {
-    _authorizedToken = [[info objectForKey:@"tokenKey"] copy];
-    //    _authorizedToken = [[info objectForKey:@"authorizedToken"] copy];
-    _tokenSecret = [[info objectForKey:@"tokenSecret"] copy];
-    [[NSUserDefaults standardUserDefaults] setValue:_authorizedToken forKey:@"authorizedToken"];
-    [[NSUserDefaults standardUserDefaults] setValue:_tokenSecret forKey:@"tokenSecret"];
-    BOOL binded = YES;
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:binded] forKey:@"binded"];
+//    _authorizedToken = [[info objectForKey:@"tokenKey"] copy];
+//    //    _authorizedToken = [[info objectForKey:@"authorizedToken"] copy];
+//    _tokenSecret = [[info objectForKey:@"tokenSecret"] copy];
+//    [[NSUserDefaults standardUserDefaults] setValue:_authorizedToken forKey:@"authorizedToken"];
+//    [[NSUserDefaults standardUserDefaults] setValue:_tokenSecret forKey:@"tokenSecret"];
+//    BOOL binded = YES;
+//    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:binded] forKey:@"binded"];
+//    
+//    [[NSUserDefaults standardUserDefaults] setValue:[info objectForKey:@"realName"] forKey:@"realName"];
+//    [[NSUserDefaults standardUserDefaults] setValue:[info objectForKey:@"idNumber"] forKey:@"idNumber"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"onNotification" object:nil];
     
-    [[NSUserDefaults standardUserDefaults] setValue:[info objectForKey:@"realName"] forKey:@"realName"];
-    [[NSUserDefaults standardUserDefaults] setValue:[info objectForKey:@"idNumber"] forKey:@"idNumber"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"onNotification" object:nil];
+    self.suMiInfo = info;
+    
+    [RequestUtils uploadSumiUserInfo:info callback:^(id data) {
+        NSLog(@"上传数米返回结果：%@",data);
+    } withView:nil];
+    
+    
 }
 
 

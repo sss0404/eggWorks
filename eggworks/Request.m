@@ -38,7 +38,7 @@
         [self startWithUrl:urlStr apiAndParameter:apiAndParameter method:method];
         return @"";
     } onUpdateUI:^(id obj) {
-        NSString * str = [[NSString alloc] initWithData:_downloadData encoding:NSUTF8StringEncoding];
+        NSString * str = [[[NSString alloc] initWithData:_downloadData encoding:NSUTF8StringEncoding] autorelease];
         SBJsonParser* jsonParser = [[[SBJsonParser alloc]init]autorelease];
         NSDictionary* dic = [jsonParser objectWithString:str];
         callback_(dic);
@@ -52,8 +52,9 @@
 
 -(void)startWithUrl:(NSString*)urlStr apiAndParameter:(NSString*)apiAndParameter method:(NSString *)method
 {
+    //[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
     self.downloadData = [[[NSMutableData alloc] init] autorelease];
-    NSURL * url = [[[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",urlStr,apiAndParameter]] autorelease];;
+    NSURL * url = [[[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",urlStr,[apiAndParameter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]] autorelease];;
     NSMutableURLRequest * urlRequest = [[[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60] autorelease];
     [urlRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [urlRequest addValue:@"cdcf-ios-1.0.0" forHTTPHeaderField:@"User-Agent"];
@@ -85,7 +86,7 @@ long long curr = 0;
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [_downloadData appendData:data];
-    NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSString * str = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
     NSLog(@"--------didReceiveData-------------------------:%@",str);
     
 }

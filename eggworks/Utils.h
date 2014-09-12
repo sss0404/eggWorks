@@ -27,7 +27,7 @@
 //获取当前选择的城市
 +(NSDictionary*)getCurrSelectedCity;
 //保留xx位小数
-+(NSString *)newFloat:(float)value withNumber:(int)numberOfPlace;
++(NSString *)formatFloat:(float)value withNumber:(int)numberOfPlace;
 
 //将字符串转化成字符串
 +(NSString*)array2String:(NSArray*)array with:(NSString*)str;

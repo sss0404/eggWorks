@@ -10,6 +10,8 @@
 
 @interface InvestmentHorizonViewController : InvestmentAmountViewController
 
+@property (nonatomic, retain)CheckBox * activitys;//投资期限活期
+
 //获取当前用户选择的投资期限
 +(NSMutableDictionary*)getCurrSelectedInvestmentHorizon;
 @end

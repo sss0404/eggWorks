@@ -10,6 +10,7 @@
 #import "ShuMi_Plug_Data.h"
 #import "CollectionTableViewCell.h"
 #import "SBJsonParser.h"
+#import "AppDelegate.h"
 #import "TimeUtils.h"
 
 @interface ShuMiDetailViewController ()
@@ -22,12 +23,14 @@
 @synthesize suMi = _suMi;
 @synthesize array = _array;
 @synthesize bussesTypeDic = _bussesTypeDic;
+@synthesize HUD = _HUD;
 
 - (void)dealloc
 {
     [_tableView release]; _tableView = nil;
     [_array release]; _array = nil;
     [_bussesTypeDic release];
+    [_HUD release]; _HUD = nil;
     [super dealloc];
 }
 
@@ -39,12 +42,17 @@
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
     
+    self.HUD = [[[MBProgressHUD alloc] initWithFrame:[UIScreen mainScreen].applicationFrame] autorelease];
+    [self.view addSubview:_HUD];
+//    [_HUD showWhileExecuting:@selector(background) onTarget:self withObject:nil animated:YES];
+    
     [self initData];
 }
 
 //初始化数据
 -(void)initData
 {
+    [_HUD show:YES];
     switch (_suMi) {
         case myFundProducts:
             self.title = @"我的基金产品";
@@ -73,6 +81,7 @@
             self.array = parsedData;
             [_tableView reloadData];
         }
+        [_HUD hide:NO];
     }];
 }
 
@@ -89,25 +98,32 @@
                                              pageIndex:1
                                               pageSize:20
                                          finishedBlock:^(BOOL success, NSError *error, NSDictionary *parsedData) {
-        if (success) {
-            NSLog(@"我的交易记录：%@",parsedData);
-            self.array = [parsedData objectForKey:@"Items"];
-            [_tableView reloadData];
-            
-        }
+                                            if (success) {
+                                                NSLog(@"我的交易记录：%@",parsedData);
+                                                self.array = [parsedData objectForKey:@"Items"];
+                                                [_tableView reloadData];
+                                                
+                                            }
+                                             [_HUD hide:NO];
     }];
 }
 
 //我的交易账号
 -(void)loadUserBindedCards
-{
-    [ShuMi_Plug_Data loadUserBindedCards:^(BOOL success, NSError *error, NSArray *parsedData) {
-        if (success) {
-            NSLog(@"我的交易账号:%@", parsedData);
-            self.array = parsedData;
-            [_tableView reloadData];
-        }
-    }];
+{                  //loadUserBindedCard
+//    [ShuMi_Plug_Data loadUserBindedCards:^(BOOL success, NSError *error, NSArray *parsedData) {
+//        if (success) {
+//            NSLog(@"我的交易账号:%@", parsedData);
+//            self.array = parsedData;
+//            [_tableView reloadData];
+//        }
+//        [_HUD hide:NO];
+//    }];
+    
+    NSMutableArray * arrayTemp = [[NSMutableArray alloc] initWithCapacity:1];
+    [arrayTemp addObject:@""];
+    self.array = arrayTemp;
+    [_tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -195,9 +211,10 @@
     }
 //    NSDictionary * dic = [_array objectAtIndex:indexPath.row];
     cell.title.text = @"数米基金账号";
-    
-    cell.firstItem.text = [NSString stringWithFormat:@"用户名：%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"realName"]];
-    cell.secondItem.text = [NSString stringWithFormat:@"身份证：%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"idNumber"]];
+    AppDelegate * delegate = [UIApplication sharedApplication].delegate;
+    NSDictionary * suMiInfo = delegate.suMiInfo;
+    cell.firstItem.text = [NSString stringWithFormat:@"用户名：%@",[suMiInfo objectForKey:@"realName"]];
+    cell.secondItem.text = [NSString stringWithFormat:@"身份证：%@",[suMiInfo objectForKey:@"idNumber"]];
     return cell;
 }
 

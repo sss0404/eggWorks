@@ -180,6 +180,14 @@
                 if (success) {
                     [self submitOnSucc:obj];
                 } else {
+                    MyAlertView * alertView = [[MyAlertView alloc] init];
+                    [alertView showMessage:@"您的手机不符合投保政策！"
+                                 withTitle:@"提示"
+                        withCancelBtnTitle:@"确定"
+                              withBtnClick:^(NSInteger buttonIndex) {
+                                  [self.navigationController popToRootViewControllerAnimated:YES];
+                                  [alertView release];
+                    } otherButtonTitles:nil];
                     [self submitOnFail:obj];
                 }
             } inView:self.view];
@@ -193,7 +201,6 @@
 {
     NSString * order_id = [dic objectForKey:ORDER_ID];
     NSString * user_id = [dic objectForKey:USER_ID];
-    
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
     [userDefault setObject:order_id forKey:ORDER_ID];
     [userDefault setObject:_phoneNumber forKey:USER_ID];

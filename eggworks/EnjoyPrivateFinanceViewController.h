@@ -9,13 +9,15 @@
 #import "BaseViewController.h"
 #import "AsynRuner.h"
 
-@interface EnjoyPrivateFinanceViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
+@interface EnjoyPrivateFinanceViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
 {
     BOOL isLoadState;
 }
+
 @property (nonatomic, retain) UITableView * tableView;
 //@property (nonatomic, retain) NSMutableArray * array;
 @property (nonatomic, retain) NSMutableArray * financialProductss;
 @property (nonatomic, retain) NSDictionary * currData;//从服务器获取的原始数据
 @property (nonatomic, retain) AsynRuner * asynRunner;//异步发送
+
 @end

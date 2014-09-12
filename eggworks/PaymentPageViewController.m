@@ -7,6 +7,7 @@
 //
 
 #import "PaymentPageViewController.h"
+#import "MyAlertView.h"
 
 @interface PaymentPageViewController ()
 
@@ -43,9 +44,15 @@
 //拨打银行的电话
 -(void)bankTelBtnClick:(id)sender
 {
-    //拨打银行电话
-    NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", ((UIButton*)sender).titleLabel.text]];
-    [[UIApplication sharedApplication] openURL:phoneURL];
+    MyAlertView * alert = [[MyAlertView alloc] init];
+    [alert showMessage:[NSString stringWithFormat:@"呼叫%@?",((UIButton*)sender).titleLabel.text] withTitle:@"提示" withCancelBtnTitle:@"取消" withBtnClick:^(NSInteger buttonIndex) {
+        if (buttonIndex == 1) {
+            //拨打银行电话
+            NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", ((UIButton*)sender).titleLabel.text]];
+            [[UIApplication sharedApplication] openURL:phoneURL];
+        }
+        [alert release];
+    } otherButtonTitles:@"呼叫"];
 }
 
 //打开银行的网站

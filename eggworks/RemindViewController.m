@@ -103,33 +103,35 @@
     if (cell == nil) {
         cell = [[[RemindTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
     }
-    NSDictionary * dic;
+    NSDictionary * dic = nil;
+    NSString * contentShow = nil;
     if (tableView.tag == 1) {
         dic = [_preSaleProductArray objectAtIndex:indexPath.row];
         cell.title.text = [dic objectForKey:@"name"];
         float startDay = [[dic objectForKey:@"saleStartDay"] floatValue];
         float endDay = [[dic objectForKey:@"saleEndDay"] floatValue];
+        
         if (startDay < 0) {
             if (endDay < 0) {
-                cell.content.text = [NSString stringWithFormat:@"已经过期%@天",[Utils newFloat:0-endDay withNumber:0]];
+                contentShow = [NSString stringWithFormat:@"已经过期%@天",[Utils formatFloat:0-endDay withNumber:0]];
             } else {
-                cell.content.text = [NSString stringWithFormat:@"还有%@天停止发售。",[Utils newFloat:endDay withNumber:0]];
+                contentShow = [NSString stringWithFormat:@"还有%@天停止发售。",[Utils formatFloat:endDay withNumber:0]];
             }
             
         } else {
-            cell.content.text = [NSString stringWithFormat:@"还有%@天即将发售，敬请关注！",[Utils newFloat:startDay withNumber:0]];
+            contentShow = [NSString stringWithFormat:@"还有%@天即将发售，敬请关注！",[Utils formatFloat:startDay withNumber:0]];
         }
     } else if (tableView.tag == 2){
         dic = [_maturityProductArray objectAtIndex:indexPath.row];
         cell.title.text = [dic objectForKey:@"name"];
         float day = [[dic objectForKey:@"expiredDay"] floatValue];
         if (day < 0) {
-            cell.content.text = [NSString stringWithFormat:@"已经到期%@天，请抓紧赎回。",[Utils newFloat:0-day withNumber:0]];
+            contentShow = [NSString stringWithFormat:@"已经到期%@天，请抓紧赎回。",[Utils formatFloat:0-day withNumber:0]];
         } else {
-            cell.content.text = [NSString stringWithFormat:@"还有%@天到期，请及时赎回！",[Utils newFloat:day withNumber:0]];
+            contentShow = [NSString stringWithFormat:@"还有%@天到期，请及时赎回！",[Utils formatFloat:day withNumber:0]];
         }
     }
-    
+    cell.content.text = contentShow;
     
     return cell;
 }

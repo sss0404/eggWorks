@@ -32,7 +32,7 @@
 //获取理财产品
 #define financial_market_products       @"/market/invest_products.json"
 //理财产品详情
-#define financial_products_info         @"/products/%@.json"
+#define financial_products_info         @"/market/invest_products/%@.json"//@"/products/%@.json"
 //查询基础利率
 #define base_interest_rates             @"/master_data/base_interest_rates.json"
 //收藏
@@ -65,4 +65,7 @@
 //修改密码
 #define update_password                 @"/profile/passwords.json"
 
-
+//上传用户的数米用户信息
+#define external_accounts               @"/profile/external_accounts/%@.json"
+//查询数米用户信息
+//#define

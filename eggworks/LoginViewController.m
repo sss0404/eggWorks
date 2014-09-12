@@ -11,6 +11,7 @@
 #import "RequestUtils.h"
 #import "Utils.h"
 #import "MyAccountViewController.h"
+#import "AppDelegate.h"
 
 @interface LoginViewController ()
 
@@ -101,7 +102,11 @@
     
 }
 
-
+-(void)getSumiInfo
+{
+    AppDelegate * delegat = [UIApplication sharedApplication].delegate;
+    [delegat getSuMiInfoFromServer];
+}
 
 //忘记密码按钮
 -(void)forgetPsdBtnClick:(id)sender
@@ -153,6 +158,7 @@
             [Utils saveRealName:[data objectForKey:@"real_name"]];
             NSLog(@"登陆成功后保存数据 account：%@,  密码：%@",account,password);
             [self loginSuccAction:_action withObj:data];
+            [self getSumiInfo];
         } else {
             [Utils saveAccount:@""];
             [Utils savePassword:@""];
@@ -186,6 +192,8 @@
 //    } inView:self.view];
     
 }
+
+
 
 -(void)loginSuccAction:(int)action withObj:(id) obj
 {

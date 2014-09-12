@@ -13,6 +13,13 @@
 @synthesize title = _title;
 @synthesize content = _content;
 
+- (void)dealloc
+{
+    [_title release]; _title = nil;
+    [_content release]; _content = nil;
+    [super dealloc];
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

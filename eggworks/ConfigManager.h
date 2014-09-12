@@ -42,7 +42,7 @@
 #define Window                                  [[[UIApplication sharedApplication] delegate] window]
 
 #define IndexBottomFuncArray                    @"IndexNote",@"IndexCollection",@"IndexAccount"
-#define menu_items                              @"返回首页",@"理财集市",@"手机无忧",@"私享理财"
+#define menu_items                              @"返回首页",@"理财集市",@"私享理财"
 #define BOTTOM_HEIGHT                           55
 #define IOS7_HEIGHT                             60
 
@@ -51,8 +51,8 @@
 #define divider_color                           [UIColor colorWithRed:.83 green:.83 blue:.83 alpha:1]
 #define title_text_color                              RGBA(83,92,102,1)
 
-#define SERVER_ADDR                             @"www.eggworks.cn"
-#define SERVER_ADDR_HTTP                        @"http://www.eggworks.cn"
+#define SERVER_ADDR                             @"www.caidancf.com"//@"www.eggworks.cn"//
+#define SERVER_ADDR_HTTP                        @"http://www.caidancf.com"//@"http://www.eggworks.cn"//
 
 //本地存储用户数据 的key
 #define ORDER_ID                                @"order_id"//手机无忧订单id
@@ -64,6 +64,6 @@
 #define CURR_SELECTED_CITY_KEY                  @"currSelectedCity"//用户当前选择的城市
 #define CURR_SELECTED_INSTITUTIONAL_KEY         @"currSelectedInstitutionalKey"//当前用户选择的机构key
 
-#define YYYYMMDD       @"yyyy-MM-dd"
-#define YYYYMMDDhhmmss       @"yyyy-MM-dd hh:mm:ss"
+#define YYYYMMDD                                @"yyyy-MM-dd"
+#define YYYYMMDDhhmmss                          @"yyyy-MM-dd hh:mm:ss"
 

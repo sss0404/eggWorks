@@ -16,6 +16,7 @@
 #import "ShuMi_Plug_Function.h"
 #import "ShuMi_Plug_Data.h"
 #import "ShuMiDetailViewController.h"
+#import "AppDelegate.h"
 
 @interface MyAccountViewController ()
 
@@ -52,7 +53,7 @@
     
     self.asynRunner = [[[AsynRuner alloc] init] autorelease];
     
-    NSArray * selection1 = @[@"我的基金产品",@"我的保单"];
+    NSArray * selection1 = @[@"我的基金产品"];
     NSArray * selection2 = @[@"我的交易账号",@"我的交易记录"];
     NSArray * selection3 = @[@"我的收藏",@"设置"];
     self.dic = [[[NSMutableDictionary alloc] init] autorelease];
@@ -353,9 +354,18 @@
 //判断用户是否已经绑定数米SDK
 -(BOOL)isBind
 {
-    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-    BOOL binded = [[userDefault objectForKey:@"binded"] boolValue];
-    return binded;
+    AppDelegate * delete = [UIApplication sharedApplication].delegate;
+    id suMiInfo = delete.suMiInfo;
+    if (![suMiInfo isKindOfClass:[NSDictionary class]]) {
+        return NO;
+    }
+    NSString * tokenKey = [delete.suMiInfo objectForKey:@"tokenKey"];
+    
+    return tokenKey != nil || tokenKey.length != 0;
+    
+//    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+//    BOOL binded = [[userDefault objectForKey:@"binded"] boolValue];
+//    return binded;
 }
 
 @end

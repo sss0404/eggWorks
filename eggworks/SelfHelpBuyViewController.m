@@ -63,10 +63,10 @@
     [super viewDidLoad];
     self.title = @"填写信息";
     self.view.backgroundColor = [UIColor whiteColor];
-    float ios7_d_height = 0;
-    if (IOS7) {
-        ios7_d_height = IOS7_HEIGHT;
-    }
+//    float ios7_d_height = 0;
+//    if (IOS7) {
+//        ios7_d_height = IOS7_HEIGHT;
+//    }
     
     isSelected = NO;
     

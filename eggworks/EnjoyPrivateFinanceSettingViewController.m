@@ -11,12 +11,14 @@
 #import "InvestmentAmountViewController.h"
 #import "RequestUtils.h"
 #import "Utils.h"
+#import "LoginViewController.h"
 #import "BankChoiceViewController.h"
 
 #define CITY_SELECT @"CitySelecteViewController"                    //城市选择
 #define INVESTMENT_AMOUNT_SELECT @"InvestmentAmountViewController"  //投资金额
 #define ACCOUNT_SELECT @"BankChoiceViewController"                  //资金账户
 #define INVESTMENTS_SELECT @"InvestmentsViewController"             //投资品种
+#define SUBMIT   @"submit"   //提交
 
 @interface EnjoyPrivateFinanceSettingViewController ()
 
@@ -140,6 +142,15 @@
 -(void)submitClick:(id)sender
 {
     NSLog(@"提交");
+    //如果用户没有登录 则跳转到登录页面
+    if ([Utils getAccount].length == 0) {
+        LoginViewController * loginVC = [[[LoginViewController alloc] init] autorelease];
+        loginVC.action = action_return;
+        loginVC.passingParameters = self;
+        loginVC.resultCode = SUBMIT;
+        [self.navigationController pushViewController:loginVC animated:YES];
+        return;
+    }
     //投资金额
     NSString * threshold = @"all";
 //    NSDictionary * investmentAmountDic = [_obj objectForKey:@"investmentAmountDic"];
@@ -185,20 +196,6 @@
                                                      Show_msg(@"提示", success ? @"定制成功":@"定制失败");
                                           } withView:self.view];
     
-//    [_asynRunner runOnBackground:^id{
-//        return [RequestUtils customEnjoyPrivateFinanceWithAreaId:[_citySelected objectForKey:@"id"]
-//                                                       threshold:threshold
-//                                                        partyIds:_accountSelected
-//                                                    productTypes:productTypes callback:^(id data) {
-//                                                        
-//                                                    } withView:self.view];
-//    } onUpdateUI:^(id obj) {
-//        BOOL success = [[obj objectForKey:@"success"] boolValue];
-//        if (success) {
-//            Show_msg(@"提示", @"定制成功");
-//        }
-//    } inView:self.view];
-    
 }
 
 #pragma mark - 接收其他页面传递的参数
@@ -218,6 +215,8 @@
     } else if([tag isEqualToString:INVESTMENTS_SELECT]) {
         //投资品种选择后
         self.investmentsSelected = obj;
+    } else if([tag isEqualToString:SUBMIT]){
+        [self submitClick:nil];
     }
     [self setUiDisplay];
 }
@@ -288,6 +287,10 @@
         return city;
     }
                       onUpdateUI:^(id obj) {
+                          if (obj == nil) {
+                              Show_msg(@"提示", @"无法获取城市，请您手动选择！");
+                              return ;
+                          }
                           self.citySelected = obj;
                           [Utils saveCurrCity:obj];
                           [_city.btn setTitle:[obj objectForKey:@"name"] forState:UIControlStateNormal];

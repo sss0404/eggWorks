@@ -82,7 +82,13 @@
             break;
         case 2:
             cell.textLabel.text = @"手机号";
-            NSString * mobilePhones = [[_userInfo objectForKey:@"mobile_phones"] objectAtIndex:0];
+            NSArray * array = [_userInfo objectForKey:@"mobile_phones"];
+            NSString * mobilePhones = @"";
+
+            if (array.count != 0) {
+                mobilePhones = [array objectAtIndex:0];
+            }
+            
             label.text = mobilePhones;
             break;
         default:

@@ -24,14 +24,16 @@
 
 -(void)runOnBackground:(id (^)())handler onUpdateUI:(void(^)(id obj))UpdateUIHandler inView:(UIView*)view
 {
-    self.HUD = [[[MBProgressHUD alloc] initWithFrame:[UIScreen mainScreen].applicationFrame] autorelease];
-    [view addSubview:_HUD];
-    
     self.runBackgroundHandler = handler;
     self.updateUIHandler = UpdateUIHandler;
-//    [self performSelectorInBackground:@selector(background) withObject:nil];
-    [_HUD showWhileExecuting:@selector(background) onTarget:self withObject:nil animated:YES];
-    
+
+    if (view != nil) {
+        self.HUD = [[[MBProgressHUD alloc] initWithFrame:[UIScreen mainScreen].applicationFrame] autorelease];
+        [view addSubview:_HUD];
+        [_HUD showWhileExecuting:@selector(background) onTarget:self withObject:nil animated:YES];
+    } else {
+        [self performSelectorInBackground:@selector(background) withObject:nil];
+    }
 }
 
 -(void) background

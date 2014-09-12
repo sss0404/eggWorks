@@ -19,6 +19,7 @@
 #import "TimeUtils.h"
 #import "ShuMi_Plug_Function.h"
 #import "ShuMiDetailViewController.h"
+#import "AppDelegate.h"
 
 
 //收藏产品
@@ -130,9 +131,9 @@
     bei.font = [UIFont systemFontOfSize:12];
     [self.view addSubview:bei];
     
-    //7日年华收益率   标签
+    //7日年华收益率   标签   修改为28日年化
     UILabel * day7 = [[[UILabel alloc] initWithFrame:CGRectMake(20, 75+ios7_d_height, 140, 20)] autorelease];
-    day7.text = @"7日年化收益率";
+    day7.text = @"28日年化收益率";
     day7.textColor = [UIColor colorWithRed:.84 green:.84 blue:.84 alpha:1];
     day7.font = [UIFont systemFontOfSize:12];
     [self.view addSubview:day7];
@@ -169,7 +170,7 @@
     
     UILabel * monthLastTitle = [[[UILabel alloc] initWithFrame:CGRectMake(73.75, 0, 68.75, 27)] autorelease];
     if ([_financialProduct.type isEqualToString:@"CashFund"]) {//
-        monthLastTitle.text = @"14日年化";
+        monthLastTitle.text = @"7日年化"; //14 日年化改为7日年化
     } else {
         monthLastTitle.text = @"同类均值";
     }
@@ -191,7 +192,7 @@
     
     UILabel * yearLastTitle = [[[UILabel alloc] initWithFrame:CGRectMake(73.75, 0, 68.75, 27)] autorelease];
     if ([_financialProduct.type isEqualToString:@"CashFund"]) {//
-        yearLastTitle.text = @"28日年化";
+        yearLastTitle.text = @"业绩波动";//28日年化 修改为 业绩波动
     } else {
         yearLastTitle.text = @"万元收益差";
     }
@@ -324,9 +325,17 @@
 //判断用户是否已经绑定数米SDK
 -(BOOL)isBind
 {
-    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-    BOOL binded = [[userDefault objectForKey:@"binded"] boolValue];
-    return binded;
+//    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+//    BOOL binded = [[userDefault objectForKey:@"binded"] boolValue];
+//    return binded;
+    AppDelegate * delete = [UIApplication sharedApplication].delegate;
+    if (![delete.suMiInfo isKindOfClass:[NSDictionary class]]) {
+        return NO;
+    }
+    NSString * tokenKey = [delete.suMiInfo objectForKey:@"tokenKey"];
+    
+    return tokenKey != nil || tokenKey.length != 0;
+
 }
 
 //立刻申购按钮被点击
@@ -440,16 +449,16 @@
     [_investmentAmount resignFirstResponder];
     double amount = [_investmentAmount.text  doubleValue];//投资金额
     float earnings = [_earningsLabel.text floatValue] / 100.0f;
-    _earningsResult.text = [NSString stringWithFormat:@"%@元",[Utils newFloat:amount*earnings withNumber:1]];
+    _earningsResult.text = [NSString stringWithFormat:@"%@元",[Utils formatFloat:amount*earnings withNumber:1]];
 }
 
 //输入框编辑完成以后，将视图恢复到原始状态
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    float ios7_d_height = 0;
-    if (IOS7) {
-        ios7_d_height = IOS7_HEIGHT;
-    }
+//    float ios7_d_height = 0;
+//    if (IOS7) {
+//        ios7_d_height = IOS7_HEIGHT;
+//    }
    
     self.view.frame =CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height+50);
 }
@@ -526,7 +535,7 @@
                                 } else {
                                     float yield = [yieldStr floatValue];
                                     float bei = yield / rate;
-                                    _timesLabel.text = [NSString stringWithFormat:@"%@",[Utils newFloat:bei withNumber:1]];
+                                    _timesLabel.text = [NSString stringWithFormat:@"%@",[Utils formatFloat:bei withNumber:1]];
                                 }
                             }
                             @catch (NSException *exception) {
@@ -578,7 +587,7 @@
     } inView:self.view];
 }
 
-//-(NSString *)newFloat:(float)value withNumber:(int)numberOfPlace
+//-(NSString *)formatFloat:(float)value withNumber:(int)numberOfPlace
 //{
 //    NSString *formatStr = @"%0.";
 //    formatStr = [formatStr stringByAppendingFormat:@"%df", numberOfPlace];
@@ -597,19 +606,28 @@
         _productName.text = [dic objectForKey:@"name"];
         NSString * interest_for_sortTemp = [dic objectForKey:@"interest_for_sort"];
         float interest_for_sort = [interest_for_sortTemp floatValue]*100;
-        NSString * interestForSort = [Utils newFloat:interest_for_sort withNumber:2];
+        NSString * interestForSort = [Utils formatFloat:interest_for_sort withNumber:2];
         interestForSort = [NSString stringWithFormat:@"%@%@", interestForSort,@"%"];
         _yield.text = interestForSort;
         _earningsLabel.text = interestForSort;
         NSString * qgje = [dic objectForKey:@"threshold"];
         NSString * favorite_id = [dic objectForKey:@"favorite_id"];//收藏记录的id
         
-        // 如果是银行理财产品   并且比同类均值低的时候显示绿色  否则显示红色
-        if ([type isEqualToString:@"WealthInvestment"] && [[dic objectForKey:@"interest"] floatValue] < [[dic objectForKey:@"average_interest"] floatValue]) {
-            _yield.textColor = [UIColor colorWithRed:.46 green:.76 blue:.30 alpha:1];
-        } else {
-            _yield.textColor = [UIColor colorWithRed:.82 green:.27 blue:.27 alpha:1];
+        @try {
+            // 如果是银行理财产品   并且比同类均值低的时候显示绿色  否则显示红色
+            if ([type isEqualToString:@"WealthInvestment"] && [[dic objectForKey:@"interest"] floatValue] < [[Utils strConversionWitd:[dic objectForKey:@"average_interest"]] floatValue]) {
+                _yield.textColor = [UIColor colorWithRed:.46 green:.76 blue:.30 alpha:1];
+            } else {
+                _yield.textColor = [UIColor colorWithRed:.82 green:.27 blue:.27 alpha:1];
+            }
         }
+        @catch (NSException *exception) {
+            NSLog(@"exception:%@" ,exception);
+        }
+        @finally {
+            
+        }
+        
         if (favorite_id.length == 0) {
             [_collectionBtn setTitle:@"加入收藏" forState:UIControlStateNormal];
         } else {
@@ -620,26 +638,15 @@
         
         _purchaseAmount.text = qgje == [NSNull null] ? @"": [NSString stringWithFormat:@"%@元起购",qgje];
         if ([type isEqualToString:@"CashFund"]) {
-            //近一月的收益率
-            _monthLastContent.text = [self realYields:[[dic objectForKey:@"day_14"] floatValue]];
-            _yearLastContent.text = [self realYields:[[dic objectForKey:@"day_28"] floatValue]];;
+            //近一月的收益率   修改为7日年化
+            _monthLastContent.text = [self realYields:[[dic objectForKey:@"day_7"] floatValue]];
+            _yearLastContent.text = [self getScoreIncome10000WithLevel:[[dic objectForKey:@"score_income_10000"] intValue]];//需要新接口  修改为 业绩波动
         } else {
-            _monthLastContent.text = [self realYields:[[dic objectForKey:@"average_interest"] floatValue]];//同类产品平均收益
-            _yearLastContent.text = [NSString stringWithFormat:@"%@元", [Utils newFloat:[[dic objectForKey:@"profit_diff"] floatValue] withNumber:1]];//同类产品万元收益差
+            _monthLastContent.text = [self realYields:[[Utils strConversionWitd:[dic objectForKey:@"average_interest"]] floatValue]];//同类产品平均收益
+            _yearLastContent.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"profit_diff"]];//[NSString stringWithFormat:@"%@元", [Utils formatFloat:[[dic objectForKey:@"profit_diff"] floatValue] withNumber:1]];//同类产品万元收益差
             
         }
-        //    if ([type isEqualToString:@"CashFund"]) {//货币基金
-        //        interest_for_sort
-        //        float interest_for_sort = [[dic objectForKey:@"interest_for_sort"] floatValue]*100;
-        //        NSString * interestForSort = [self newFloat:interest_for_sort withNumber:2];
-        //        interestForSort = [NSString stringWithFormat:@"%@%@", interestForSort,@"%"];
-        //        _yield.text = interestForSort;
-        //        _earningsLabel.text = interestForSort;
-        //最近一个月  暂无
-        //最近一年    暂无
         
-        //        [_aboutProductsView reloadData];
-        //    }
         [_productInfoTableView reloadData];
     }
     @catch (NSException *exception) {
@@ -759,7 +766,7 @@
 -(NSString*)realYields:(float) realYields
 {
     NSString * result = @"";
-    result = [NSString stringWithFormat:@"%@％",[Utils newFloat:realYields * 100.f withNumber:2]];
+    result = [NSString stringWithFormat:@"%@％",[Utils formatFloat:realYields * 100.f withNumber:2]];
     return result;
 }
 
@@ -767,16 +774,16 @@
 -(NSString*)procedureSurrenderRate:(NSArray*)rate
 {
     NSString * str = @"";
-    NSString * baseStr1 = @"%@,%f";
-    NSString * baseStr2 = @"%f";
-    NSString * baseStr = @"";
+//    NSString * baseStr1 = @"%@,%f";
+//    NSString * baseStr2 = @"%f";
+//    NSString * baseStr = @"";
     if (rate != nil && rate.count != 0) {
         for (NSString * rate_ in rate) {
-            baseStr = str.length == 0 ? baseStr2 : baseStr1;
+//            baseStr = str.length == 0 ? baseStr2 : baseStr1;
             if (str.length == 0) {
-                str = [NSString stringWithFormat:@"%@％ ", [Utils newFloat:[rate_ floatValue] / 100.f withNumber:1]];
+                str = [NSString stringWithFormat:@"%@％ ", [Utils formatFloat:[rate_ floatValue] / 100.f withNumber:1]];
             } else {
-                str = [NSString stringWithFormat:@"%@,%@％ ",str, [Utils newFloat:[rate_ floatValue] / 100.f withNumber:1]];
+                str = [NSString stringWithFormat:@"%@,%@％ ",str, [Utils formatFloat:[rate_ floatValue] / 100.f withNumber:1]];
             }
         }
     }
@@ -844,7 +851,7 @@
         financialProduct * finProduct = [_aboutProducts objectAtIndex:indexPath.row];
         cell.ExpectedReturnTitle.text = @"预期收益";
         
-        cell.ExpectedReturn.text = [NSString stringWithFormat:@"%@%@",[Utils newFloat:[finProduct.interest floatValue] *100 withNumber:2],@"%"]; //@"5.61%";
+        cell.ExpectedReturn.text = [NSString stringWithFormat:@"%@%@",[Utils formatFloat:[finProduct.interest floatValue] *100 withNumber:2],@"%"]; //@"5.61%";
         cell.financialProductsName.text = finProduct.name;
         cell.financialProductsDescribtion.text = [NSString stringWithFormat:@"起购金额%@  理财期限%@",[Utils strConversionWitd:finProduct.threshold],[Utils strConversionWitd:finProduct.period]];
     }
@@ -987,6 +994,14 @@
     } else if([tag isEqualToString:SU_MI]) {
         [self buyBtnClick:nil];
     }
+}
+
+//获取万元波动指标
+-(NSString*)getScoreIncome10000WithLevel:(int)level
+{
+    //1 非常小 2 比较小 3 一般 4 比较大 5 非常大
+    NSArray * array = @[@"非常小",@"比较小",@"一般",@"比较大",@"非常大"];
+    return [array objectAtIndex:level-1];
 }
 
 

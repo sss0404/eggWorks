@@ -15,7 +15,7 @@
 @property (nonatomic, retain) UITextField * searchInputTextField;
 @property (nonatomic, retain) ScreeningItem * city; //城市
 @property (nonatomic, retain) ScreeningItem * institutionName;//机构名称
-@property (nonatomic, retain) ScreeningItem * investments;//投资品种
+//@property (nonatomic, retain) ScreeningItem * investments;//投资品种
 @property (nonatomic, retain) ScreeningItem * investmentAmount;//投资金额
 @property (nonatomic, retain) ScreeningItem * investmentHorizon;//投资期限
 

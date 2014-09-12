@@ -120,4 +120,10 @@
 +(NSDictionary*)getEnjoyPrivateFinanceProductsWithPage:(int)page andForUser:(NSString*)for_user callback:(callBack)callback  withView:(UIView*)view;
 //定制私享理财推荐条件
 +(NSDictionary*)customEnjoyPrivateFinanceWithAreaId:(NSString*)area_id threshold:(NSString*)threshold partyIds:(NSArray*)partys productTypes:(NSString*)productTypes callback:(callBack)callback withView:(UIView*)view;
+
+//上传数米用户信息
++(void)uploadSumiUserInfo:(NSDictionary*)dic callback:(callBack)callback withView:(UIView*)view;
+//获取数米用户信息
++(void)getSumiUserInfoWithCallback:(callBack)callback withUIView:(UIView*)view;
+
 @end

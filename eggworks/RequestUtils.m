@@ -12,6 +12,7 @@
 #import "Utils.h"
 
 
+
 @implementation RequestUtils
 
 
@@ -30,6 +31,8 @@
     NSString * resultStr = [self requestWithPostApiAndParameter:apiAndParameter withUrl:SERVER_ADDR_HTTP];
     SBJsonParser* jsonParser = [[[SBJsonParser alloc]init]autorelease];
      NSDictionary* dic = [jsonParser objectWithString:resultStr];
+    
+    
     
     return dic;
 }
@@ -233,6 +236,7 @@
     
     Request * request = [[[Request alloc] init] autorelease];
     [request requestWithPostApiAndParameter:parameter withUrl:url withCallBack:callback method:@"POST" withView:view];
+    
     return nil;
 }
 
@@ -347,7 +351,7 @@
     }
         
     NSString * api = financial_market_products;
-    NSString * parameter = [NSString stringWithFormat:@"?area_id=%@%@&period=%@&threshold=%@&page=%i&keyword=%@%@",area_id,party_id_str,period,threshold,page,keyword,types];
+    NSString * parameter = [NSString stringWithFormat:@"?area_id=%@%@&period=%@&threshold=%@&page=%i&keyword=%@",area_id,party_id_str,period,threshold,page,keyword];
 //    if (types.length != 0) {
 //        [NSString stringWithFormat:@"%@"];
 //    }
@@ -459,12 +463,12 @@
     SBJsonParser * jsonParser = [[[SBJsonParser alloc]init] autorelease];
     NSDictionary * dic = [jsonParser objectWithString:str];
     
-    NSMutableDictionary * cityCity;
+    NSMutableDictionary * cityCity = nil;
     if ([[dic objectForKey:@"success"] boolValue]) {
         cityCity = [[[NSMutableDictionary alloc] init] autorelease];
         [cityCity setValue:[dic objectForKey:@"city_name"] forKey:@"name"];//当前测试城市
         [cityCity setValue:[dic objectForKey:@"city_id"] forKey:@"id"];
-    }
+    } 
     return cityCity;
 }
 
@@ -499,9 +503,7 @@
 +(NSString*)array2StringParameter:(NSArray*)array withParameterName:(NSString *)parameterName andKey:(NSString*)key
 {
     NSString * str = @"";
-    
     for (int i=0; i<array.count; i++) {
-        
         str = [NSString stringWithFormat:@"%@&%@=%@",str,parameterName,[[array objectAtIndex:i] objectForKey:key]];
     }
     return str;
@@ -510,6 +512,7 @@
 //发送短信验证
 +(NSDictionary*)sendSMSVerifyWithNumber:(NSString*)number
 {
+    
     NSString * api = send_sms_verify;
     NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,api];
     NSString * parameter = [NSString stringWithFormat:@"?mobile_phone=%@",number];
@@ -550,7 +553,13 @@
 +(NSDictionary*)getEnjoyPrivateFinanceProductsWithPage:(int)page andForUser:(NSString*)for_user callback:(callBack)callback  withView:(UIView*)view
 {
     NSString * api = products_recommendation;
-    NSString * parameter = [NSString stringWithFormat:@"?page=%i&for_user=%@",page,for_user];
+    NSString * parameter = nil;
+    if (for_user.length == 0) {
+        parameter = [NSString stringWithFormat:@"?page=%i",page];
+    } else {
+        parameter = [NSString stringWithFormat:@"?page=%i&for_user=%@",page,for_user];
+    }
+//    NSString * parameter = [NSString stringWithFormat:@"?page=%i&for_user=%@",page,for_user];
     NSString * url = [NSString stringWithFormat:@"%@%@%@",SERVER_ADDR_HTTP,api,parameter];
 //    NSString * str =  [self requestWithGet:url];
 //    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
@@ -600,6 +609,31 @@
     Request * request = [[[Request alloc] init] autorelease];
     [request requestWithPostApiAndParameter:parameter withUrl:url withCallBack:callback method:@"PUT" withView:view];
     return nil;
+}
+
+//上传数米用户信息
++(void)uploadSumiUserInfo:(NSDictionary*)dic callback:(callBack)callback withView:(UIView*)view
+{
+    
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,[NSString stringWithFormat:external_accounts,@"fund123"]];
+    NSString * parameter = [NSString stringWithFormat:@"?account[username]=%@&account[identity]=%@&account[access_token]=%@&account[access_secret]=%@",[dic objectForKey:@"realName"],[dic objectForKey:@"idNumber"],[dic objectForKey:@"tokenKey"],[dic objectForKey:@"tokenSecret"]];
+    Request * request = [[[Request alloc] init] autorelease];
+    
+    [request requestWithPostApiAndParameter:parameter withUrl:url withCallBack:callback method:@"PUT" withView:view];
+}
+
+//获取数米用户信息
++(void)getSumiUserInfoWithCallback:(callBack)callback withUIView:(UIView*)view
+{
+    NSString * url = [NSString stringWithFormat:@"%@%@",SERVER_ADDR_HTTP,[NSString stringWithFormat:external_accounts,@"fund123"]];
+//    NSString * str = [self requestWithGet:url];
+//    SBJsonParser* jsonParser = [[[SBJsonParser alloc]init] autorelease];
+//    NSDictionary* dic = [jsonParser objectWithString:str];
+    
+    Request * request = [[[Request alloc] init] autorelease];
+    
+    [request requestWithPostApiAndParameter:@"" withUrl:url withCallBack:callback method:@"GET" withView:view];
+
 }
 
 

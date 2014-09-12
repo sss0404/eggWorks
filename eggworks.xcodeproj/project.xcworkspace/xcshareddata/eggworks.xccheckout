@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>BF08A5AE-50BF-48DB-895C-9DE5BB180BC9</string>
+	<key>IDESourceControlProjectName</key>
+	<string>eggworks</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8A9DA14D-F11F-416A-A383-7A32936D9691</key>
+		<string>git:finance-ios</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>eggworks.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8A9DA14D-F11F-416A-A383-7A32936D9691</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>git:finance-ios</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>8A9DA14D-F11F-416A-A383-7A32936D9691</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8A9DA14D-F11F-416A-A383-7A32936D9691</string>
+			<key>IDESourceControlWCCName</key>
+			<string>eggworks</string>
+		</dict>
+	</array>
+</dict>
+</plist>

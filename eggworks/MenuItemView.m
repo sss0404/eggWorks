@@ -50,7 +50,7 @@
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return _menuItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -68,10 +68,10 @@
         case 1:
             imgName = @"menuFinancialMarkets";
             break;
+//        case 2:
+//            imgName = @"menuPhoneEasy";
+//            break;
         case 2:
-            imgName = @"menuPhoneEasy";
-            break;
-        case 3:
             imgName = @"menuEnjoyFrivateFinance";
             break;
         default:

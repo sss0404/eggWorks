@@ -132,8 +132,17 @@
      }
                       onUpdateUI:^(id obj)
      {
+         if (obj == nil) {
+             Show_msg(@"提示", @"无法获取城市，请您手动选择！");
+             return ;
+         }
          //添加定位城市
+         BOOL exist = [_citiesKeys containsObject:GPS];
+         if (exist) {
+             return;
+         }
          [_citiesKeys insertObject:GPS atIndex:0];
+         
          NSMutableArray * gpsCityArray = [[[NSMutableArray alloc] init] autorelease];
          [gpsCityArray addObject:obj];
          [_citysArrayWithKey setObject:gpsCityArray forKey:GPS];

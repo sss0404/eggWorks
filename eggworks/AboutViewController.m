@@ -19,7 +19,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"关于理财集市";
+    self.title = @"关于盘算";
     float ios7_d_height = 0;
     if (IOS7) {
         ios7_d_height = IOS7_HEIGHT;
@@ -33,7 +33,7 @@
     [self.view addSubview:company];
     
     
-    UIImageView * icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"114"]];
+    UIImageView * icon = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"114"]] autorelease];
     icon.frame = CGRectMake((kScreenWidth-72)/2, ios7_d_height + 60, 72, 72);
     [self.view addSubview:icon];
     
@@ -48,7 +48,7 @@
     
     //版本
     UILabel * version =  [[[UILabel alloc] initWithFrame:CGRectMake(0, ios7_d_height+185, kScreenWidth, 30)] autorelease];
-    version.text = @"IOS版 1.0";
+    version.text = @"IOS版 1.0.0";
     version.textAlignment = NSTextAlignmentCenter;
     version.font = [UIFont systemFontOfSize:14];
     version.textColor = title_text_color;

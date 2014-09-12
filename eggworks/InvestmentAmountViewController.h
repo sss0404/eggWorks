@@ -13,4 +13,6 @@
 // 获取投资金额的选项
 +(NSMutableDictionary*)getCurrSelecteInvestmentAmount;
 
+-(void)resultBtnClick:(id)sender;
+
 @end

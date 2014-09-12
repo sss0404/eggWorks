@@ -52,15 +52,15 @@ enum IndexPageResultCode {
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
     }
     
-    float iphone5_height = 0;
-    if (IPhone5) {
-        iphone5_height = 20;
-    }
-    
-    float ios7_d_height = 0;
-    if (IOS7) {
-        ios7_d_height = IOS7_HEIGHT;
-    }
+//    float iphone5_height = 0;
+//    if (IPhone5) {
+//        iphone5_height = 20;
+//    }
+//    
+//    float ios7_d_height = 0;
+//    if (IOS7) {
+//        ios7_d_height = IOS7_HEIGHT;
+//    }
     float adHeight = 206.75;
     
     if (!IPhone5) {
@@ -71,7 +71,7 @@ enum IndexPageResultCode {
     ad.funcImg.image = [UIImage imageNamed:@"logo"];
     [self.view addSubview:ad];
     
-    IndexButton * financialMarketsBtn = [[[IndexButton alloc] initWithFrame:CGRectMake(10, 10+ad.frame.origin.y+ad.frame.size.height, 146, IPhone5 ? 123.25 : 123.25-26.4)] autorelease];
+    IndexButton * financialMarketsBtn = [[[IndexButton alloc] initWithFrame:CGRectMake(10, 10+ad.frame.origin.y+ad.frame.size.height, 146, IPhone5 ? 256.5 : 256.5-52.8)] autorelease];
     financialMarketsBtn.funcName.text = @"理财集市";
     financialMarketsBtn.describtion.text = @"当日收益最高理财产品排行";
     financialMarketsBtn.funcImg.image = [UIImage imageNamed:@"Financial_markets"];
@@ -79,19 +79,21 @@ enum IndexPageResultCode {
     [financialMarketsBtn addTarget:self action:@selector(financialMarketsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:financialMarketsBtn];
     
-    IndexButton * ejoyPrivateFinanceBtn = [[[IndexButton alloc] initWithFrame:CGRectMake(10, 10+financialMarketsBtn.frame.origin.y+financialMarketsBtn.frame.size.height, 146, IPhone5 ? 123.25 : 123.25-26.4)] autorelease];
+//    IndexButton * ejoyPrivateFinanceBtn = [[[IndexButton alloc] initWithFrame:CGRectMake(10, 10+financialMarketsBtn.frame.origin.y+financialMarketsBtn.frame.size.height, 146, IPhone5 ? 123.25 : 123.25-26.4)] autorelease];
+    
+    IndexButton * ejoyPrivateFinanceBtn = [[[IndexButton alloc] initWithFrame:CGRectMake(164, 10+ad.frame.origin.y+ad.frame.size.height, 146, IPhone5 ? 256.5 : 256.5-52.8)] autorelease];
     ejoyPrivateFinanceBtn.backgroundColor = [UIColor colorWithRed:.28 green:.85 blue:.78 alpha:1];
     ejoyPrivateFinanceBtn.funcName.text = @"私享理财";
     ejoyPrivateFinanceBtn.funcImg.image = [UIImage imageNamed:@"thought_financial"];
     [ejoyPrivateFinanceBtn addTarget:self action:@selector(privateFinanceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:ejoyPrivateFinanceBtn];
     
-    IndexButton * phoneEasyBtn = [[[IndexButton alloc] initWithFrame:CGRectMake(ejoyPrivateFinanceBtn.frame.origin.x+ejoyPrivateFinanceBtn.frame.size.width+7, financialMarketsBtn.frame.origin.y, 146, IPhone5 ? 256.5 : 256.5-52.8)] autorelease];
-    phoneEasyBtn.backgroundColor = [UIColor colorWithRed:.24 green:.69 blue:.88 alpha:1];
-    phoneEasyBtn.funcName.text = @"手机无忧";
-    phoneEasyBtn.funcImg.image = [UIImage imageNamed:@"phone_easy"];
-    [phoneEasyBtn addTarget:self action:@selector(phoneEasyClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:phoneEasyBtn];
+//    IndexButton * phoneEasyBtn = [[[IndexButton alloc] initWithFrame:CGRectMake(ejoyPrivateFinanceBtn.frame.origin.x+ejoyPrivateFinanceBtn.frame.size.width+7, financialMarketsBtn.frame.origin.y, 146, IPhone5 ? 256.5 : 256.5-52.8)] autorelease];
+//    phoneEasyBtn.backgroundColor = [UIColor colorWithRed:.24 green:.69 blue:.88 alpha:1];
+//    phoneEasyBtn.funcName.text = @"手机无忧";
+//    phoneEasyBtn.funcImg.image = [UIImage imageNamed:@"phone_easy"];
+//    [phoneEasyBtn addTarget:self action:@selector(phoneEasyClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:phoneEasyBtn];
 }
 
 //理财集市按钮点击事件
@@ -106,15 +108,15 @@ enum IndexPageResultCode {
 -(void)privateFinanceBtnClick:()sender
 {
     NSLog(@"私享理财点击事件");
-    NSString * account = [Utils getAccount];
-    if (account.length == 0) {
-        LoginViewController * loginViewVC = [[[LoginViewController alloc] init] autorelease];
-        loginViewVC.action = action_return;
-        loginViewVC.passingParameters = self;
-        loginViewVC.resultCode = EnjoyPrivateFinance;
-        [self.navigationController pushViewController:loginViewVC animated:YES];
-        return;
-    }
+//    NSString * account = [Utils getAccount];
+//    if (account.length == 0) {
+//        LoginViewController * loginViewVC = [[[LoginViewController alloc] init] autorelease];
+//        loginViewVC.action = action_return;
+//        loginViewVC.passingParameters = self;
+//        loginViewVC.resultCode = EnjoyPrivateFinance;
+//        [self.navigationController pushViewController:loginViewVC animated:YES];
+//        return;
+//    }
     EnjoyPrivateFinanceViewController * enjoyPrivateFinanceVC = [[[EnjoyPrivateFinanceViewController alloc] init] autorelease];
     [self.navigationController pushViewController:enjoyPrivateFinanceVC animated:YES];
 }
@@ -343,7 +345,6 @@ enum IndexPageResultCode {
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - 返回页面

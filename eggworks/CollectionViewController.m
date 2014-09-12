@@ -111,7 +111,7 @@
 {
     static NSString *CellIdentifier = @"Cell";
     CollectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (nil == cell) {
+    if (cell == nil) {
         cell = [[[CollectionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
@@ -131,9 +131,8 @@
         cell.secondItem.text = [NSString stringWithFormat:@"投资期限：%@",[product objectForKey:@"period_label"]];
         
         NSString * interestRate = [product objectForKey:@"interest_rate"];
-        
         if (interestRate != [NSNull null]) {
-            interestRate = [Utils newFloat:[interestRate floatValue] *100 withNumber:2];
+            interestRate = [Utils formatFloat:[interestRate floatValue] *100 withNumber:2];
         }
         cell.threeItem.text = [NSString stringWithFormat:@"预期最高收益率：%@％",interestRate];
     }

@@ -52,17 +52,17 @@
     self.asynRunner = [[[AsynRuner alloc] init] autorelease];
     
     UIButton * settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [settingBtn setBackgroundImage:[UIImage imageNamed:@"search_right_btn"] forState:UIControlStateNormal];
-    settingBtn.frame = CGRectMake(0, 0, 52, 44.5);
+    [settingBtn setBackgroundImage:[UIImage imageNamed:@"setting"] forState:UIControlStateNormal];
+    settingBtn.frame = CGRectMake(0, 0, 25, 25);
     [settingBtn addTarget:self action:@selector(settingButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightBtn = [[[UIBarButtonItem alloc] initWithCustomView:settingBtn] autorelease];
     rightBtn.style = UIBarButtonItemStylePlain;
     self.navigationItem.rightBarButtonItem = rightBtn;
     
-    float ios7_d_height = 0;
-    if (IOS7) {
-        ios7_d_height = IOS7_HEIGHT;
-    }
+//    float ios7_d_height = 0;
+//    if (IOS7) {
+//        ios7_d_height = IOS7_HEIGHT;
+//    }
     
     float appHeight = [[UIScreen mainScreen] applicationFrame].size.height;
     self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, appHeight+20)] autorelease];
@@ -121,32 +121,6 @@
         } inView:self.view];
     } withView:self.view];
     
-//    [_asynRunner runOnBackground:^{
-//        NSDictionary * dic = [RequestUtils getEnjoyPrivateFinanceProductsWithPage:page andForUser:[Utils getAccount]];
-//        self.currData = dic;
-//        NSArray * array = [[dic objectForKey:@"data"] objectForKey:@"json"];
-//        NSMutableArray * financialProductss = [[[NSMutableArray alloc] init] autorelease];
-//        NSDictionary * dicItem;
-//        financialProduct * finProduct = nil;
-//        for (int i=0; i<array.count; i++) {
-//            dicItem = [array objectAtIndex:i];
-//            finProduct = [[financialProduct alloc] init];
-//            finProduct.id_ = [dicItem objectForKey:@"id"];
-//            finProduct.name = [dicItem objectForKey:@"name"];
-//            finProduct.partyName = [dicItem objectForKey:@"party_name"];
-//            finProduct.interest = [dicItem objectForKey:@"interest"];
-//            finProduct.period = [dicItem objectForKey:@"period"];
-//            finProduct.threshold = [dicItem objectForKey:@"threshold"];
-//            finProduct.type = [dicItem objectForKey:@"type"];
-//            [financialProductss addObject:finProduct];
-//            [finProduct release]; finProduct = nil;
-//        }
-//        return financialProductss;
-//    } onUpdateUI:^(id obj){
-//        [_financialProductss addObjectsFromArray:obj];
-//        [self.tableView reloadData];
-//        isLoadState = NO;
-//    } inView:self.view];
 }
 
 #pragma mark - tableView det
@@ -166,7 +140,7 @@
         financialProduct * finProduct = [_financialProductss objectAtIndex:indexPath.row];
         cell.ExpectedReturnTitle.text = @"预期收益";
         if (finProduct.interest != [NSNull null]) {
-            cell.ExpectedReturn.text = [NSString stringWithFormat:@"%@%@",[Utils newFloat:[finProduct.interest floatValue]*100 withNumber:2],@"%"];
+            cell.ExpectedReturn.text = [NSString stringWithFormat:@"%@%@",[Utils formatFloat:[finProduct.interest floatValue]*100 withNumber:2],@"%"];
         }
         //@"5.61%";
         cell.financialProductsName.text = finProduct.name;

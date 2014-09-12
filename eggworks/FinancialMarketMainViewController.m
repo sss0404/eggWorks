@@ -61,10 +61,10 @@
     rightBtn.style = UIBarButtonItemStylePlain;
     self.navigationItem.rightBarButtonItem = rightBtn;
     
-    float ios7_d_height = 0;
-    if (IOS7) {
-        ios7_d_height = IOS7_HEIGHT;
-    }
+//    float ios7_d_height = 0;
+//    if (IOS7) {
+//        ios7_d_height = IOS7_HEIGHT;
+//    }
     _array = [[NSMutableArray alloc] init];
     float appHeight = [[UIScreen mainScreen] applicationFrame].size.height;
     self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, appHeight+20)] autorelease];
@@ -162,7 +162,7 @@
         financialProduct * finProduct = [_array objectAtIndex:indexPath.row];
         cell.ExpectedReturnTitle.text = @"预期收益";
         if (finProduct.interest != [NSNull null]) {
-            cell.ExpectedReturn.text = [NSString stringWithFormat:@"%@%@",[Utils newFloat:[finProduct.interest floatValue]*100 withNumber:2],@"%"];
+            cell.ExpectedReturn.text = [NSString stringWithFormat:@"%@%@",[Utils formatFloat:[finProduct.interest floatValue]*100 withNumber:2],@"%"];
         }
         
         cell.financialProductsName.text = finProduct.name;
@@ -217,38 +217,49 @@
 
 -(void)getOtherPage:(int)page
 {
-    NSString * areaID = [[_obj objectForKey:@"cityDic"] objectForKey:@"id"];//地区id
-    if (areaID.length == 0) {
-        areaID = @"all";
+    NSString * areaID = @"all";
+    NSDictionary * cityDic = [_obj objectForKey:@"cityDic"];
+    if (![cityDic isKindOfClass:[NSString class]]) {
+        areaID = [cityDic objectForKey:@"id"];//地区id
+        if (areaID.length == 0) {
+            areaID = @"all";
+        }
     }
+    
+    
+    
     NSArray * institutionalsArray = [_obj objectForKey:@"institutionalsArray"];
     NSDictionary * investmentHorizonDic = [_obj objectForKey:@"investmentHorizonDic"];
-    NSDictionary * investmentsDic = [_obj objectForKey:@"investmentsDic"];//投资品种
+//    NSDictionary * investmentsDic = [_obj objectForKey:@"investmentsDic"];//投资品种
     
-    //投资品种
-    NSString * productTypes = @"";
-    if (investmentsDic != nil && ![investmentsDic isKindOfClass:[NSString class]]) {
-        BOOL bank = [[investmentsDic objectForKey:@"bank"] boolValue];   //  银行
-        BOOL fund = [[investmentsDic objectForKey:@"fund"] boolValue];   // 基金
-        BOOL insurance = [[investmentsDic objectForKey:@"insurance"] boolValue];  //万能险
-        if (bank) {
-            productTypes = [NSString stringWithFormat:@"&types[]=WealthInvestment"];
-        }
-        if (fund) {
-            productTypes = [NSString stringWithFormat:@"%@&types[]=CashFund",productTypes];
-        }
-        if (insurance) {
-            productTypes = [NSString stringWithFormat:@"%@&types[]=UniversalInsurance",productTypes];
-        }
-    }
+//    //投资品种
+//    NSString * productTypes = @"";
+//    if (investmentsDic != nil && ![investmentsDic isKindOfClass:[NSString class]]) {
+//        BOOL bank = [[investmentsDic objectForKey:@"bank"] boolValue];   //  银行
+//        BOOL fund = [[investmentsDic objectForKey:@"fund"] boolValue];   // 基金
+//        BOOL insurance = [[investmentsDic objectForKey:@"insurance"] boolValue];  //万能险
+//        if (bank) {
+//            productTypes = [NSString stringWithFormat:@"&types[]=WealthInvestment"];
+//        }
+//        if (fund) {
+//            productTypes = [NSString stringWithFormat:@"%@&types[]=CashFund",productTypes];
+//        }
+//        if (insurance) {
+//            productTypes = [NSString stringWithFormat:@"%@&types[]=UniversalInsurance",productTypes];
+//        }
+//    }
     
     
     //投资期限
     NSString * period = @"3";
     if (investmentHorizonDic != nil && ![investmentHorizonDic isKindOfClass:[NSString class]]) {
+        BOOL activity = [[investmentHorizonDic objectForKey:@"activity"] boolValue];
         BOOL t30 = [[investmentHorizonDic objectForKey:@"30t"] boolValue];
         BOOL t30t90 = [[investmentHorizonDic objectForKey:@"30t90t"] boolValue];
         BOOL t90 = [[investmentHorizonDic objectForKey:@"90t"] boolValue];
+        if (activity) {
+            period = @"open";
+        }
         if (t30) {
             period = @"0";
         }
@@ -288,7 +299,7 @@
                        period:period//期限
                     threshold:threshold
                       keywork:keyword == nil ? @"" : [keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
-                         type:productTypes];
+                         type:@""];
 }
 
 -(void)backButton:(id)sender

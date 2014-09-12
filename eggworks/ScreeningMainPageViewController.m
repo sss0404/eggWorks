@@ -24,7 +24,7 @@
 @synthesize searchInputTextField = _searchInputTextField;
 @synthesize city = _city;
 @synthesize institutionName = _institutionName;
-@synthesize investments = _investments;
+//@synthesize investments = _investments;
 @synthesize investmentAmount = _investmentAmount;
 @synthesize investmentHorizon = _investmentHorizon;
 @synthesize asynRunner = _asynRunner;
@@ -40,7 +40,7 @@
     [_searchInputTextField release]; _searchInputTextField = nil;
     [_city release]; _city = nil;
     [_institutionName release]; _institutionName = nil;
-    [_investments release]; _investments = nil;
+//    [_investments release]; _investments = nil;
     [_investmentAmount release]; _investmentAmount = nil;
     [_investmentHorizon release]; _investmentHorizon = nil;
     [_asynRunner release]; _asynRunner = nil;
@@ -105,16 +105,16 @@
     [_institutionName.btn setTitle:@"不限" forState:UIControlStateNormal];
     [self.view addSubview:_institutionName];
     
-    //投资品种
-    _investments = [[ScreeningItem alloc] initWithFrame:CGRectMake(0, 169+ios7_d_height, 320, 60)];
-    _investments.tag = 3;
-    _investments.delegate = self;
-    _investments.label.text = @"投资品种";
-    [_investments.btn setTitle:@"不限" forState:UIControlStateNormal];
-    [self.view addSubview:_investments];
+//    //投资品种
+//    _investments = [[ScreeningItem alloc] initWithFrame:CGRectMake(0, 169+ios7_d_height, 320, 60)];
+//    _investments.tag = 3;
+//    _investments.delegate = self;
+//    _investments.label.text = @"投资品种";
+//    [_investments.btn setTitle:@"不限" forState:UIControlStateNormal];
+//    [self.view addSubview:_investments];
     
     //投资金额
-    _investmentAmount = [[ScreeningItem alloc] initWithFrame:CGRectMake(0, 229+ios7_d_height, 320, 60)];
+    _investmentAmount = [[ScreeningItem alloc] initWithFrame:CGRectMake(0, 169+ios7_d_height, 320, 60)];
     _investmentAmount.tag = 4;
     _investmentAmount.delegate = self;
     _investmentAmount.label.text = @"投资金额";
@@ -122,7 +122,7 @@
     [self.view addSubview:_investmentAmount];
     
     //投资期限
-    _investmentHorizon = [[ScreeningItem alloc] initWithFrame:CGRectMake(0, 289+ios7_d_height, 320, 60)];
+    _investmentHorizon = [[ScreeningItem alloc] initWithFrame:CGRectMake(0, 229+ios7_d_height, 320, 60)];
     _investmentHorizon.tag = 5;
     _investmentHorizon.delegate = self;
     _investmentHorizon.label.text = @"投资期限";
@@ -158,29 +158,29 @@
         [_institutionName.btn setTitle:str forState:UIControlStateNormal];
     }
     
-    //投资品种筛选
-    self.investmentsDic = [InvestmentsViewController getCurrSelectedInvestments];
-    if (_investmentsDic == nil) {
-        [_investments.btn setTitle:@"不限" forState:UIControlStateNormal];
-    } else {
-        BOOL bank = [[_investmentsDic objectForKey:@"bank"] boolValue];
-        BOOL fund = [[_investmentsDic objectForKey:@"fund"] boolValue];
-        BOOL insurance = [[_investmentsDic objectForKey:@"insurance"] boolValue];
-        NSString * str = @"";
-        if (bank) {
-            str = @"银行理财产品,";
-        }
-        if (fund) {
-            str = [NSString stringWithFormat:@"%@基金产品,",str];
-        }
-        if (insurance) {
-            str = [NSString stringWithFormat:@"%@保险产品（万能险）",str];
-        }
-        if ([str isEqualToString:@""]) {
-            str = @"不限";
-        }
-        [_investments.btn setTitle:str forState:UIControlStateNormal];
-    }
+//    //投资品种筛选
+//    self.investmentsDic = [InvestmentsViewController getCurrSelectedInvestments];
+//    if (_investmentsDic == nil) {
+//        [_investments.btn setTitle:@"不限" forState:UIControlStateNormal];
+//    } else {
+//        BOOL bank = [[_investmentsDic objectForKey:@"bank"] boolValue];
+//        BOOL fund = [[_investmentsDic objectForKey:@"fund"] boolValue];
+//        BOOL insurance = [[_investmentsDic objectForKey:@"insurance"] boolValue];
+//        NSString * str = @"";
+//        if (bank) {
+//            str = @"银行理财产品,";
+//        }
+//        if (fund) {
+//            str = [NSString stringWithFormat:@"%@基金产品,",str];
+//        }
+//        if (insurance) {
+//            str = [NSString stringWithFormat:@"%@保险产品（万能险）",str];
+//        }
+//        if ([str isEqualToString:@""]) {
+//            str = @"不限";
+//        }
+//        [_investments.btn setTitle:str forState:UIControlStateNormal];
+//    }
     
     //投资金额选择
     self.investmentAmountDic = [InvestmentAmountViewController getCurrSelecteInvestmentAmount];
@@ -207,12 +207,16 @@
     //投资期限
     self.investmentHorizonDic = [InvestmentHorizonViewController getCurrSelectedInvestmentHorizon];
     if (_investmentHorizonDic != nil) {
+        BOOL activity = [[_investmentHorizonDic objectForKey:@"activity"] boolValue];
         BOOL t30 = [[_investmentHorizonDic objectForKey:@"30t"] boolValue];
         BOOL t30t90 = [[_investmentHorizonDic objectForKey:@"30t90t"] boolValue];
         BOOL t90 = [[_investmentHorizonDic objectForKey:@"90t"] boolValue];
         NSString * str = @"";
+        if (activity) {
+            str = @"活期";
+        }
         if (t30) {
-            str = @"30天以下";
+            str = @"1天~30天";
         }
         if (t30t90) {
             str = @"30天~90天";
@@ -243,6 +247,10 @@
         return city;
     }
                       onUpdateUI:^(id obj) {
+                          if (obj == nil) {
+                              Show_msg(@"提示", @"无法获取城市，请您手动选择！");
+                              return ;
+                          }
                           [Utils saveCurrCity:obj];
                           [_city.btn setTitle:[obj objectForKey:@"name"] forState:UIControlStateNormal];
     } inView:self.view];
@@ -255,7 +263,7 @@
     self.cityDic = [Utils getCurrSelectedCity] ;
     [_dataDic setObject:_cityDic == nil ? @"" : _cityDic forKey:@"cityDic"];//用户选择的城市
     [_dataDic setObject:_institutionalsArray == nil ? @"" : _institutionalsArray forKey:@"institutionalsArray"];//机构名称
-    [_dataDic setObject:_investmentsDic == nil ? @"" : _investmentsDic forKey:@"investmentsDic"];//投资品种
+//    [_dataDic setObject:_investmentsDic == nil ? @"" : _investmentsDic forKey:@"investmentsDic"];//投资品种
     [_dataDic setObject:_investmentAmountDic == nil ? @"" : _investmentAmountDic forKey:@"investmentAmountDic"];//投资金额
     [_dataDic setObject:_investmentHorizonDic == nil ? @"" : _investmentHorizonDic forKey:@"investmentHorizonDic"];//投资期限
     [_dataDic setObject:_searchInputTextField.text forKey:@"keyword"];//搜索关键字

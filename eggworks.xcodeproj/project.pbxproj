@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5F0064C8195BC81D00E542BA /* Remind.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0064C7195BC81D00E542BA /* Remind.m */; };
+		5F0319431989F0560055C93A /* setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F0319421989F0560055C93A /* setting@2x.png */; };
 		5F1506A2194948010085A8EA /* menuEnjoyFrivateFinance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F15069E194948010085A8EA /* menuEnjoyFrivateFinance@2x.png */; };
 		5F1506A3194948010085A8EA /* menuFinancialMarkets@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F15069F194948010085A8EA /* menuFinancialMarkets@2x.png */; };
 		5F1506A4194948010085A8EA /* menuIndex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1506A0194948010085A8EA /* menuIndex@2x.png */; };
@@ -114,6 +115,8 @@
 		5F883DE01941C05100E9FEF7 /* MyOrderCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F883DDF1941C05100E9FEF7 /* MyOrderCellTableViewCell.m */; };
 		5F8B942119664E5D00596691 /* ShuMiDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8B942019664E5D00596691 /* ShuMiDetailViewController.m */; };
 		5F8C7BC419629CBF00CE445C /* Dialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C7BC319629CBF00CE445C /* Dialog.m */; };
+		5F8D80D319878099006F0C07 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F8D80D119878099006F0C07 /* Default-568h@2x.png */; };
+		5F8D80D419878099006F0C07 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F8D80D219878099006F0C07 /* Default@2x.png */; };
 		5F92374C192C3F8B00170DDB /* InvestmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F92374B192C3F8B00170DDB /* InvestmentsViewController.m */; };
 		5F92374F192C4E1000170DDB /* InvestmentAmountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F92374E192C4E1000170DDB /* InvestmentAmountViewController.m */; };
 		5F923752192C55D300170DDB /* InvestmentHorizonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F923751192C55D300170DDB /* InvestmentHorizonViewController.m */; };
@@ -157,6 +160,7 @@
 		5FDC8E9F19177A4000B36EE9 /* MobilePhoneEasyPaySuccViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC8E9E19177A4000B36EE9 /* MobilePhoneEasyPaySuccViewController.m */; };
 		5FE7DA4F19400F62006D071E /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE7DA4E19400F62006D071E /* FirstViewController.m */; };
 		5FEF2EF41946ADA900F8501D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEF2EF31946ADA900F8501D /* MBProgressHUD.m */; };
+		5FF008F919C1B1F400AFADA5 /* AgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF008F819C1B1F400AFADA5 /* AgreementViewController.m */; };
 		5FF69ED119108CBB0010A6C2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FF69ED019108CBB0010A6C2 /* Foundation.framework */; };
 		5FF69ED319108CBB0010A6C2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FF69ED219108CBB0010A6C2 /* CoreGraphics.framework */; };
 		5FF69ED519108CBB0010A6C2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FF69ED419108CBB0010A6C2 /* UIKit.framework */; };
@@ -206,6 +210,7 @@
 /* Begin PBXFileReference section */
 		5F0064C6195BC81D00E542BA /* Remind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Remind.h; sourceTree = "<group>"; };
 		5F0064C7195BC81D00E542BA /* Remind.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Remind.m; sourceTree = "<group>"; };
+		5F0319421989F0560055C93A /* setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setting@2x.png"; sourceTree = "<group>"; };
 		5F15069E194948010085A8EA /* menuEnjoyFrivateFinance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menuEnjoyFrivateFinance@2x.png"; sourceTree = "<group>"; };
 		5F15069F194948010085A8EA /* menuFinancialMarkets@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menuFinancialMarkets@2x.png"; sourceTree = "<group>"; };
 		5F1506A0194948010085A8EA /* menuIndex@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menuIndex@2x.png"; sourceTree = "<group>"; };
@@ -365,6 +370,8 @@
 		5F8B942019664E5D00596691 /* ShuMiDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShuMiDetailViewController.m; sourceTree = "<group>"; };
 		5F8C7BC219629CBF00CE445C /* Dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dialog.h; sourceTree = "<group>"; };
 		5F8C7BC319629CBF00CE445C /* Dialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dialog.m; sourceTree = "<group>"; };
+		5F8D80D119878099006F0C07 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		5F8D80D219878099006F0C07 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		5F92374A192C3F8B00170DDB /* InvestmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvestmentsViewController.h; sourceTree = "<group>"; };
 		5F92374B192C3F8B00170DDB /* InvestmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvestmentsViewController.m; sourceTree = "<group>"; };
 		5F92374D192C4E1000170DDB /* InvestmentAmountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvestmentAmountViewController.h; sourceTree = "<group>"; };
@@ -441,6 +448,8 @@
 		5FE7DA4E19400F62006D071E /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		5FEF2EF21946ADA900F8501D /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		5FEF2EF31946ADA900F8501D /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		5FF008F719C1B1F400AFADA5 /* AgreementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgreementViewController.h; sourceTree = "<group>"; };
+		5FF008F819C1B1F400AFADA5 /* AgreementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgreementViewController.m; sourceTree = "<group>"; };
 		5FF69ECD19108CBB0010A6C2 /* eggworks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eggworks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FF69ED019108CBB0010A6C2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5FF69ED219108CBB0010A6C2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -685,6 +694,7 @@
 		5F2EE1BB19209FBA00FBBF75 /* FinancialMarket */ = {
 			isa = PBXGroup;
 			children = (
+				5F0319421989F0560055C93A /* setting@2x.png */,
 				5F63CF7E192485E1005B38FE /* screening */,
 				5F63CF7819248323005B38FE /* search_right_btn@2x.png */,
 				5F26DABB19233AE70004837F /* jssy_input@2x.png */,
@@ -808,6 +818,8 @@
 				5F8B942019664E5D00596691 /* ShuMiDetailViewController.m */,
 				5F47D1A8196A36AE000E8D67 /* AboutViewController.h */,
 				5F47D1A9196A36AE000E8D67 /* AboutViewController.m */,
+				5FF008F719C1B1F400AFADA5 /* AgreementViewController.h */,
+				5FF008F819C1B1F400AFADA5 /* AgreementViewController.m */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -1186,6 +1198,8 @@
 		5FF69F101910A2660010A6C2 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				5F8D80D119878099006F0C07 /* Default-568h@2x.png */,
+				5F8D80D219878099006F0C07 /* Default@2x.png */,
 				5F1506AE194990D40085A8EA /* logo@2x.png */,
 				5F15069D194947E40085A8EA /* menu */,
 				5F5C1362192F2E9B0075ED6E /* Account */,
@@ -1348,6 +1362,7 @@
 				5F26DADE192362DC0004837F /* index_lcjs_a.png in Resources */,
 				5F5394BA1915EAFD00351AFC /* cancel_btn_bg@2x.png in Resources */,
 				5FC871E519653FCE00E43998 /* shumi_plug_resources.bundle.zip in Resources */,
+				5F0319431989F0560055C93A /* setting@2x.png in Resources */,
 				5F5394BF1915EAFD00351AFC /* n_right_menu@2x.png in Resources */,
 				5F1506B3194995810085A8EA /* IndexAccount@2x.png in Resources */,
 				5F63CF81192485F7005B38FE /* search_input_confi.png in Resources */,
@@ -1373,6 +1388,8 @@
 				5F9EF42A192B50F500A2D98A /* okBtnSmall@2x.png in Resources */,
 				5F26DAD31923617F0004837F /* index_sjwy@2x.png in Resources */,
 				5F1506A3194948010085A8EA /* menuFinancialMarkets@2x.png in Resources */,
+				5F8D80D419878099006F0C07 /* Default@2x.png in Resources */,
+				5F8D80D319878099006F0C07 /* Default-568h@2x.png in Resources */,
 				5F2A72C41918C9F7004DEC61 /* down_btn@2x.png in Resources */,
 				5F2673D8191B2739003A27F4 /* Alixpay.bundle in Resources */,
 				5F26DAC5192358BD0004837F /* car_insurance@2x.png in Resources */,
@@ -1471,6 +1488,7 @@
 				5F63CF8619248B87005B38FE /* ScreeningItem.m in Sources */,
 				5FC8718D1965082200E43998 /* RemindTableViewCell.m in Sources */,
 				5FC871DF19653FCE00E43998 /* unzip.c in Sources */,
+				5FF008F919C1B1F400AFADA5 /* AgreementViewController.m in Sources */,
 				5FB932D819624EF30080C2E8 /* RemindTable.m in Sources */,
 				5F63CF7D19248462005B38FE /* ScreeningMainPageViewController.m in Sources */,
 				5F5C130E192DED8E0075ED6E /* RemindViewController.m in Sources */,
@@ -1543,7 +1561,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1561,6 +1580,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1581,7 +1601,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1592,6 +1613,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1605,7 +1627,6 @@
 					"armv7,",
 					armv7s,
 				);
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: chen gang (T4594TABM3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: chen gang (T4594TABM3)";
@@ -1620,7 +1641,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "98DC744A-2DF3-4BA8-9169-C6BE39040148";
+				PROVISIONING_PROFILE = "9B23BB47-8B61-4C39-A685-DE99B52EBC97";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -1635,7 +1656,6 @@
 					"armv7,",
 					armv7s,
 				);
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: chen gang (T4594TABM3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: chen gang (T4594TABM3)";
@@ -1649,7 +1669,7 @@
 					"$(PROJECT_DIR)/eggworks/libs",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "98DC744A-2DF3-4BA8-9169-C6BE39040148";
+				PROVISIONING_PROFILE = "9B23BB47-8B61-4C39-A685-DE99B52EBC97";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;

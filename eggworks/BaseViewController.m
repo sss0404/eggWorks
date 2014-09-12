@@ -165,9 +165,9 @@
     } else if(index == 1) {
         FinancialMarketMainViewController * financalMarketMainVC = [[[FinancialMarketMainViewController alloc] init] autorelease];
         [self.navigationController pushViewController:financalMarketMainVC animated:YES];
-    } else if (index == 2) {
-        [self phoneEasySelected];
     } else if (index == 3) {
+//        [self phoneEasySelected];
+    } else if (index == 2) {
         if (account.length == 0) {
             LoginViewController * loginVC = [[[LoginViewController alloc] init] autorelease];
             loginVC.resultCode = @"3";

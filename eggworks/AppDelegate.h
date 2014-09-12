@@ -18,8 +18,11 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain) UINavigationController * rootView;
+@property (nonatomic, retain) NSDictionary * suMiInfo;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+
+-(void)getSuMiInfoFromServer;
 
 @end

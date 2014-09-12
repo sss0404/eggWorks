@@ -34,7 +34,7 @@
     [super viewDidLoad];
     self.title = @"设置";
     
-    self.funcArray = @[@"修改登录密码",@"关于理财集市",@"退出登录"];
+    self.funcArray = @[@"修改登录密码",@"关于盘算",@"退出登录"];
     
     self.tableView = [[[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame] autorelease];
 //    _tableView.backgroundColor = [UIColor redColor];
@@ -92,7 +92,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [self.navigationController popToRootViewControllerAnimated:YES];
-    } else if([func isEqualToString:@"关于理财集市"]) {
+    } else if([func isEqualToString:@"关于盘算"]) {
         AboutViewController * about = [[[AboutViewController alloc] init] autorelease];
         [self.navigationController pushViewController:about animated:YES];
     }

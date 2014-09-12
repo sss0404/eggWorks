@@ -30,10 +30,10 @@
     [super viewDidLoad];
     self.title = @"确认信息";
     self.view.backgroundColor = [UIColor whiteColor];
-    float ios7_d_height = 0;
-    if (IOS7) {
-        ios7_d_height = IOS7_HEIGHT;
-    }
+//    float ios7_d_height = 0;
+//    if (IOS7) {
+//        ios7_d_height = IOS7_HEIGHT;
+//    }
     float appHeight = [[UIScreen mainScreen] applicationFrame].size.height;
     UIView * aVeiw = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, appHeight)] autorelease];
     [self.view addSubview:aVeiw];
