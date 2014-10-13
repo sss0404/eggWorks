@@ -39,6 +39,8 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [_financialProductss removeAllObjects];
+    [self getEnjoyPrivateFinanceProductsWithPage:1];
 }
 
 - (void)viewDidLoad
@@ -71,7 +73,7 @@
     _tableView.dataSource = self;
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
-    [self getEnjoyPrivateFinanceProductsWithPage:1];
+//    [self getEnjoyPrivateFinanceProductsWithPage:1];
 }
 
 

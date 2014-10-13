@@ -355,13 +355,14 @@
         [self.navigationController pushViewController:loginVC animated:YES];
         return;
     }
+    
     //检查是否绑定 数米sdk
-    if ([self isBind]) {
+//    if ([self isBind]) {
         [self buy];
-    } else {
-//        [NotificationCenter addObserver:self selector:nil name:@"onNotification" object:nil];
-        [ShuMi_Plug_Function userIdentityVrification:self.navigationController];
-    }
+//    } else {
+////        [NotificationCenter addObserver:self selector:nil name:@"onNotification" object:nil];
+//        [ShuMi_Plug_Function userIdentityVrification:self.navigationController];
+//    }
 }
 
 //申购
@@ -369,10 +370,15 @@
 {
     NSString * type =  _financialProduct.type;
     if ([type isEqualToString:@"CashFund"]) {//采用数米基金sdk支付
-        [ShuMi_Plug_Function subscribeAndPurchaseFund:[_productInfo objectForKey:@"vendor_product_code"]
-                                             fundName:[_productInfo objectForKey:@"name"]
-                                            buyAction:@"P"
-                                 parentViewController:self.navigationController];
+        if ([self isBind]) {
+            [ShuMi_Plug_Function subscribeAndPurchaseFund:[_productInfo objectForKey:@"vendor_product_code"]
+                                                 fundName:[_productInfo objectForKey:@"name"]
+                                                buyAction:@"P"
+                                     parentViewController:self.navigationController];
+        } else {//如果没有绑定则绑定
+            [ShuMi_Plug_Function userIdentityVrification:self.navigationController];
+        }
+        
     } else {
         PaymentPageViewController * paymentPageVC = [[[PaymentPageViewController alloc] init] autorelease];
         [self.navigationController pushViewController:paymentPageVC animated:YES];

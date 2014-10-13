@@ -110,18 +110,18 @@
     
     self.agress = [[[CheckBox alloc] initWithFrame:CGRectMake(55, 297+ios7_d_height, 70, 30)] autorelease];
     [_agress setCheck:YES];
+    _agress.hidden = YES;
     _agress.title.text = @"我同意";
     _agress.title.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:_agress];
     
-    //服务条款
-    UIButton * termsBtn = [[[UIButton alloc] initWithFrame:CGRectMake(90,290+ios7_d_height,200, 30 )] autorelease];
-    [termsBtn setTitle:@"彩蛋财富用户使用协议" forState:UIControlStateNormal];
-    [termsBtn setFont:[UIFont systemFontOfSize:14.5]];
-    [termsBtn setTitleColor:[UIColor colorWithRed:.38 green:.76 blue:.98 alpha:1] forState:UIControlStateNormal];
-//    termsBtn.backgroundColor = [UIColor redColor];
-    [termsBtn addTarget:self action:@selector(termsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:termsBtn];
+//    //服务条款
+//    UIButton * termsBtn = [[[UIButton alloc] initWithFrame:CGRectMake(90,290+ios7_d_height,200, 30 )] autorelease];
+//    [termsBtn setTitle:@"彩蛋财富用户使用协议" forState:UIControlStateNormal];
+//    [termsBtn setFont:[UIFont systemFontOfSize:14.5]];
+//    [termsBtn setTitleColor:[UIColor colorWithRed:.38 green:.76 blue:.98 alpha:1] forState:UIControlStateNormal];
+//    [termsBtn addTarget:self action:@selector(termsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:termsBtn];
     
     UIButton * loginBtn = [[[UIButton  alloc] initWithFrame:CGRectMake(20, 330+ios7_d_height, 280, 40)] autorelease];
     loginBtn.backgroundColor = [UIColor redColor];
@@ -129,6 +129,14 @@
     [loginBtn addTarget:self action:@selector(registerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginBtn];
     
+    
+    //隐私声明
+    UIButton * termsBtn = [[[UIButton alloc] initWithFrame:CGRectMake(50,380+ios7_d_height,200, 30 )] autorelease];
+    [termsBtn setTitle:@"用户信息使用与保护声明" forState:UIControlStateNormal];
+    [termsBtn setFont:[UIFont systemFontOfSize:14.5]];
+    [termsBtn setTitleColor:[UIColor colorWithRed:.38 green:.76 blue:.98 alpha:1] forState:UIControlStateNormal];
+    [termsBtn addTarget:self action:@selector(termsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:termsBtn];
 }
 
 -(void)termsBtnClick:(id) sender

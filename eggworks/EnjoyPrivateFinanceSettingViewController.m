@@ -13,6 +13,7 @@
 #import "Utils.h"
 #import "LoginViewController.h"
 #import "BankChoiceViewController.h"
+#import "MyAlertView.h"
 
 #define CITY_SELECT @"CitySelecteViewController"                    //城市选择
 #define INVESTMENT_AMOUNT_SELECT @"InvestmentAmountViewController"  //投资金额
@@ -193,7 +194,16 @@
                                          productTypes:productTypes
                                              callback:^(id data) {
                                              BOOL success = [[data objectForKey:@"success"] boolValue];
-                                                     Show_msg(@"提示", success ? @"定制成功":@"定制失败");
+//                                                     Show_msg(@"提示", success ? @"定制成功":@"定制失败");
+                                                 
+                                                 MyAlertView * alertView = [[MyAlertView alloc] init];
+                                                 [alertView showMessage:success ? @"定制成功":@"定制失败"
+                                                              withTitle:@"提示"
+                                                     withCancelBtnTitle:@"确定"
+                                                           withBtnClick:^(NSInteger buttonIndex) {
+                                                     [self.navigationController popViewControllerAnimated:YES];
+                                                 }
+                                                      otherButtonTitles:nil];
                                           } withView:self.view];
     
 }
